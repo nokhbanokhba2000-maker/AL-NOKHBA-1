@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نخبة | NOKHBA - خيرات سيوة ومطروح</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { font-family: 'Cairo', sans-serif; direction: rtl; }
+        :root {
+            --primary: #2d5a27;
+            --secondary: #4a7c42;
+            --gold: #c8a951;
+            --cream: #faf8f0;
+            --dark: #1a1a1a;
+        }
+        .hero-gradient { background: linear-gradient(135deg, #1a3a15 0%, #2d5a27 50%, #1a3a15 100%); }
+        .gold-gradient { background: linear-gradient(135deg, #c8a951 0%, #b8860b 50%, #c8a951 100%); }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; } 50% { transform: translateY(-20px) rotate(180deg); opacity: 1; } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        
+        .fade-in { animation: fadeIn 0.6s ease forwards; }
+        .slide-up { animation: slideUp 0.7s ease forwards; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .card-hover { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        
+        .hidden-section { display: none !important; }
+        .section-active { display: block; animation: fadeIn 0.5s ease; }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #2d5a27, #4a7c42); border-radius: 4px; }
+        
+        .product-card { position: relative; overflow: hidden; }
+        .product-card img { transition: transform 0.5s ease; }
+        .product-card:hover img { transform: scale(1.1); }
+        
+        .badge-discount { position: absolute; top: 10px; left: 10px; background: #ef4444; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; z-index: 10; }
+        .badge-new { position: absolute; top: 10px; right: 10px; background: var(--primary); color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; z-index: 10; }
+        
+        /* Admin Styles */
+        .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .product-form { background: white; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .product-table { width: 100%; border-collapse: collapse; }
+        .product-table th, .product-table td { padding: 0.75rem; text-align: right; border-bottom: 1px solid #e5e7eb; }
+        .product-table th { background: var(--primary); color: white; }
+        .product-table tr:hover { background: #f9fafb; }
+        
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 2rem; border-radius: 1rem; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; }
+        
+        .category-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .cat-olive { background: #d1fae5; color: #065f46; }
+        .cat-herbs { background: #fef3c7; color: #92400e; }
+        .cat-soap { background: #fce7f3; color: #9d174d; }
+        .cat-dates { background: #fed7aa; color: #9a3412; }
+        .cat-oils { background: #e0e7ff; color: #3730a3; }
+        .cat-salt { background: #cffafe; color: #155e75; }
+        .cat-honey { background: #fef9c3; color: #854d0e; }
+        .cat-spices { background: #fee2e2; color: #991b1b; }
+        .cat-dried { background: #ffedd5; color: #c2410c; }
+        .cat-tea { background: #dcfce7; color: #166534; }
+        .cat-cosmetics { background: #fce7f3; color: #9d174d; }
+        .cat-other { background: #f3f4f6; color: #374151; }
+    </style>
+</head>
+<body class="bg-[var(--cream)] text-[var(--dark)]">
+    
+    <!-- ════════════════ STORE MODE ========================== -->
+    <div id="storeMode" class="section-active">
+        
+        <!-- Header -->
+        <header class="hero-gradient text-white sticky top-0 z-50 shadow-lg">
+            <div class="container mx-auto px-4 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 gold-gradient rounded-full flex items-center justify-center text-white font-bold text-xl">N</div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gradient">نخبة</h1>
+                            <p class="text-xs text-gray-300">خيرات سيوة ومطروح</p>
+                        </div>
+                    </div>
+                    
+                    <nav class="hidden lg:flex items-center gap-6">
+                        <a href="#home" class="hover:text-yellow-400 transition font-medium">الرئيسية</a>
+                        <a href="#categories" class="hover:text-yellow-400 transition font-medium">الأقسام</a>
+                        <a href="#products" class="hover:text-yellow-400 transition font-medium">المنتجات</a>
+                        <a href="#about" class="hover:text-yellow-400 transition font-medium">من نحن</a>
+                        <a href="#contact" class="hover:text-yellow-400 transition font-medium">تواصل معنا</a>
+                    </nav>
+                    
+                    <div class="flex items-center gap-4">
+                        <button onclick="toggleCart()" class="relative p-2 hover:bg-white/20 rounded-full transition">
+                            <i class="fas fa-shopping-cart text-xl"></i>
+                            <span id="cartCount" class="absolute -top-1 -right-1 bg-yellow-500 text-black text-sm w-5 h-5 rounded-full flex items-center justify-center font-bold hidden">0</span>
+                        </button>
+                        <button onclick="showAdminPanel()" class="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-lg font-bold transition text-sm">
+                            <i class="fas fa-cog ml-2"></i>إدارة
+                        </button>
+                        <button class="lg:hidden" onclick="toggleMobileMenu()">
+                            <i class="fas fa-bars text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mobile Menu -->
+                <div id="mobileMenu" class="hidden lg:hidden mt-4 pb-4">
+                    <a href="#home" class="block py-2 hover:text-yellow-400">الرئيسية</a>
+                    <a href="#categories" class="block py-2 hover:text-yellow-400">الأقسام</a>
+                    <a href="#products" class="block py-2 hover:text-yellow-400">المنتجات</a>
+                    <a href="#about" class="block py-2 hover:text-yellow-400">من نحن</a>
+                    <a href="#contact" class="block py-2 hover:text-yellow-400">تواصل معنا</a>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Hero Section -->
+        <section id="home" class="hero-gradient text-white py-20">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2 space-y-6 fade-in">
+                        <span class="inline-block bg-yellow-500/20 text-yellow-300 px-4 py-2 rounded-full text-sm">أصلي ١٠٠٪ من سيوة</span>
+                        <h2 class="text-5xl font-bold leading-tight">اكتشف خيرات<br><span class="text-yellow-400">سيوة ومطروح</span></h2>
+                        <p class="text-gray-300 text-lg">أفضل زيت زيتون بكر من مطروح وافضل زيوت تساقط الشعر. منتجات طبيعية ١٠٠٪ من قلب الواحات البحرية</p>
+                        <div class="flex gap-4 flex-wrap">
+                            <a href="#products" class="gold-gradient text-black px-8 py-4 rounded-full font-bold hover:shadow-lg hover:scale-105 transition inline-flex items-center gap-2">
+                                <i class="fas fa-shopping-bag"></i>تسوق الآن
+                            </a>
+                            <a href="https://wa.me/201023696962" target="_blank" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-bold transition inline-flex items-center gap-2">
+                                <i class="fab fa-whatsapp text-2xl"></i>واتساب
+                            </a>
+                        </div>
+                        <div class="flex items-center gap-8 pt-4">
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-yellow-400">+25</p>
+                                <p class="text-sm text-gray-400">سنة خبرة</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-yellow-400">100%</p>
+                                <p class="text-sm text-gray-400">طبيعي</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-yellow-400">4.9</p>
+                                <p class="text-sm text-gray-400">تقييم العملاء</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 relative">
+                        <div class="w-80 h-80 mx-auto bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center animate-float neon-glow">
+                            <i class="fas fa-leaf text-9xl text-white"></i>
+                        </div>
+                        <div class="absolute -bottom-4 -left-4 bg-white text-gray-800 p-4 rounded-xl shadow-lg">
+                            <p class="font-bold text-primary">✨ طبيعي ١٠٠٪</p>
+                            <p class="text-sm text-gray-500">بدون مواد حافظة</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Categories -->
+        <section id="categories" class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12 text-primary">أقسامنا المميزة</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4" id="categoriesGrid">
+                    <!-- Categories will be loaded dynamically -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Products -->
+        <section id="products" class="py-16 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                    <div>
+                        <h2 class="text-3xl font-bold text-primary" id="sectionTitle">منتجاتنا الطبيعية</h2>
+                        <p class="text-gray-600 mt-2">منتجات طبيعية من سيوة ومطروح بأعلى جودة</p>
+                    </div>
+                    <div class="flex gap-4 flex-wrap">
+                        <input type="text" id="searchInput" placeholder="ابحث عن منتج..." class="px-4 py-2 rounded-lg border focus:ring-2 focus:ring-green-500 outline-none" onkeyup="searchProducts()">
+                        <select id="categoryFilter" class="px-4 py-2 rounded-lg border focus:ring-2 focus:ring-green-500 outline-none" onchange="filterProducts()">
+                            <option value="">كل الأقسام</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Products will be loaded here -->
+                </div>
+                
+                <div id="loadMoreBtn" class="text-center mt-12">
+                    <button onclick="loadMoreProducts()" class="bg-primary hover:bg-green-800 text-white px-8 py-3 rounded-full font-bold transition">
+                        <i class="fas fa-plus ml-2"></i>عرض المزيد
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- About -->
+        <section id="about" class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h2 class="text-3xl font-bold text-primary mb-8">لماذا تختار نخبة؟</h2>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-8">
+                        نخبة هي وجهتك الأولى للمنتجات الطبيعية الأصيلة من سيوة ومطروح. نقدم لكم أجود أنواع زيت الزيتون البكر الممتاز، الأعشاب الطبية، والصابون الطبيعي المصنع يدوياُ بأعلى معايير الجودة. منتجاتنا ١٠٠٪ طبيعية بدون إضافات كيميائية.
+                    </p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12">
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-4">
+                                <i class="fas fa-truck text-2xl text-green-600"></i>
+                            </div>
+                            <h4 class="font-bold">شحن سريع</h4>
+                            <p class="text-sm text-gray-500">٣-٤ أيام</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                                <i class="fas fa-check-circle text-2xl text-blue-600"></i>
+                            </div>
+                            <h4 class="font-bold">جودة عالية</h4>
+                            <p class="text-sm text-gray-500">منتجات أصلية</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto bg-yellow-100 rounded-full flex items-center justify-center mb-4">
+                                <i class="fas fa-leaf text-2xl text-yellow-600"></i>
+                            </div>
+                            <h4 class="font-bold">طبيعي ١٠٠٪</h4>
+                            <p class="text-sm text-gray-500">بدون كيماويات</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center mb-4">
+                                <i class="fas fa-headset text-2xl text-red-600"></i>
+                            </div>
+                            <h4 class="font-bold">دعم فني</h4>
+                            <p class="text-sm text-gray-500">٢٤/٧</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact -->
+        <section id="contact" class="py-16 hero-gradient text-white">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h2 class="text-3xl font-bold mb-8">تواصل معنا</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <a href="https://wa.me/201023696962" target="_blank" class="bg-white/10 glass rounded-xl p-6 hover:bg-white/20 transition">
+                            <i class="fab fa-whatsapp text-4xl text-green-400 mb-4"></i>
+                            <h4 class="font-bold text-xl">واتساب</h4>
+                            <p class="text-gray-300">01023696962</p>
+                        </a>
+                        <div class="bg-white/10 glass rounded-xl p-6">
+                            <i class="fas fa-university text-4xl text-blue-400 mb-4"></i>
+                            <h4 class="font-bold text-xl">إنستا باي</h4>
+                            <p class="text-gray-300">NOKHBA_Store</p>
+                        </div>
+                        <div class="bg-white/10 glass rounded-xl p-6">
+                            <i class="fas fa-map-marker-alt text-4xl text-red-400 mb-4"></i>
+                            <h4 class="font-bold text-xl">العنوان</h4>
+                            <p class="text-gray-300">مرسى مطروح، مصر</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-white py-12">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 gold-gradient rounded-full flex items-center justify-center font-bold">N</div>
+                            <div>
+                                <h3 class="font-bold text-xl">نخبة</h3>
+                                <p class="text-xs text-gray-400">خيرات سيوة</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm">منتجات طبيعية أصيلة من قلب الواحات البحرية</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4">روابط سريعة</h4>
+                        <ul class="space-y-2 text-gray-400">
+                            <li><a href="#home" class="hover:text-yellow-400 transition">الرئيسية</a></li>
+                            <li><a href="#products" class="hover:text-yellow-400 transition">المنتجات</a></li>
+                            <li><a href="#about" class="hover:text-yellow-400 transition">من نحن</a></li>
+                            <li><a href="#contact" class="hover:text-yellow-400 transition">تواصل معنا</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4">الأقسام</h4>
+                        <ul class="space-y-2 text-gray-400">
+                            <li><a href="#" onclick="filterByCategory('olive')" class="hover:text-yellow-400 transition">زيت الزيتون</a></li>
+                            <li><a href="#" onclick="filterByCategory('oils')" class="hover:text-yellow-400 transition">الزيوت العطرية</a></li>
+                            <li><a href="#" onclick="filterByCategory('soap')" class="hover:text-yellow-400 transition">الصابون الطبيعي</a></li>
+                            <li><a href="#" onclick="filterByCategory('dates')" class="hover:text-yellow-400 transition">التمور</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4">طرق الدفع</h4>
+                        <div class="space-y-3 text-sm text-gray-400">
+                            <div class="flex items-center gap-2">
+                                <i class="fab fa-whatsapp text-green-500 text-xl"></i>
+                                <span>واتساب: <strong class="text-white">01023696962</strong></span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-university text-blue-500 text-xl"></i>
+                                <span>إنستا باي: NOKHBA_Store</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-money-bill-wave text-yellow-500 text-xl"></i>
+                                <span>الدفع عند الاستلام</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
+                    <p>© 2025 نخبة | NOKHBA - جميع الحقوق محفوظة</p>
+                </div>
+            </div>
+        </footer>
+        
+        <!-- Shopping Cart Modal -->
+        <div id="cartModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-primary">سلة التسوق</h3>
+                    <button onclick="toggleCart()" class="text-gray-500 hover:text-red-500"><i class="fas fa-times text-xl"></i></button>
+                </div>
+                <div id="cartItems" class="p-6">
+                    <p class="text-gray-500 text-center py-8">السلة فارغة</p>
+                </div>
+                <div class="p-6 border-t bg-gray-50">
+                    <div class="flex justify-between mb-4 text-lg font-bold">
+                        <span>الإجمالي:</span>
+                        <span id="cartTotal" class="text-green-600">0 ج.م</span>
+                    </div>
+                    <button onclick="checkout()" class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-bold transition">
+                        <i class="fab fa-whatsapp ml-2"></i>طلب عبر واتساب
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ════════════════ ADMIN PANEL ======================== -->
+    <div id="adminMode" class="hidden-section min-h-screen bg-gray-100">
+        
+        <header class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="container mx-auto px-4 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <button onclick="showStore()" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg transition">
+                            <i class="fas fa-arrow-right ml-2"></i>العودة للمتجر
+                        </button>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 gold-gradient rounded-full flex items-center justify-center text-white font-bold">N</div>
+                            <div>
+                                <h1 class="font-bold text-lg">لوحة تحكم المنتجات</h1>
+                                <p class="text-xs text-gray-500">إدارة مخزون نخبة</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <button onclick="exportData()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+                            <i class="fas fa-download ml-2"></i>تصدير
+                        </button>
+                        <button onclick="showStore()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition">
+                            <i class="fas fa-store ml-2"></i>عرض المتجر
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <main class="container mx-auto px-4 py-8">
+            
+            <div class="admin-stats mb-8">
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">إجمالي المنتجات</p>
+                            <p id="totalProducts" class="text-3xl font-bold text-primary">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-box text-green-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">متوفر</p>
+                            <p id="availableProducts" class="text-3xl font-bold text-green-600">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check-circle text-blue-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">نفذت الكمية</p>
+                            <p id="outOfStock" class="text-3xl font-bold text-red-600">0</p>
+                        </div>
+                        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-times-circle text-red-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">الفئات</p>
+                            <p id="totalCategories" class="text-3xl font-bold text-yellow-600">12</p>
+                        </div>
+                        <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-tags text-yellow-600 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-plus-circle text-green-600"></i>
+                    إضافة منتج جديد
+                </h2>
+                <form id="productForm" onsubmit="handleAddProduct(event)" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">اسم المنتج *</label>
+                        <input type="text" id="productName" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">القسم *</label>
+                        <select id="productCategory" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                            <option value="olive">زيت الزيتون</option>
+                            <option value="offers">العروض والخصومات</option>
+                            <option value="hair_oils">زيوت الشعر</option>
+                            <option value="soap">صابون العناية بالبشرة</option>
+                            <option value="cosmetics">مستحضرات التجميل</option>
+                            <option value="dates">تمر</option>
+                            <option value="products">منتجاتنا</option>
+                            <option value="spices">التوابل والبهارات</option>
+                            <option value="olives">زيتون سيوي</option>
+                            <option value="natural_oils">زيوت طبيعية</option>
+                            <option value="honey">عسل نحل والطحينة</option>
+                            <option value="tea">شاي الزردة والبن</option>
+                            <option value="nuts">لب ومكسرات</option>
+                            <option value="henna">حنة وأعشاب الشعر</option>
+                            <option value="herbs">الأعشاب والبذور العلاجية</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">السعر (ج.م) *</label>
+                        <input type="number" id="productPrice" required min="0" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">السعر قبل الخصم</label>
+                        <input type="number" id="productOldPrice" min="0" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">نسبة الخصم (%)</label>
+                        <input type="number" id="productDiscount" min="0" max="100" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">الوزن / الحجم</label>
+                        <input type="text" id="productWeight" placeholder="مثال: 1 كيلو" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                    </div>
+                    <div class="lg:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">رابط الصورة</label>
+                        <input type="url" id="productImage" placeholder="https://example.com/image.jpg" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                    </div>
+                    <div class="flex items-end">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" id="productAvailable" checked class="w-5 h-5 text-green-600 rounded focus:ring-green-500">
+                            <span class="font-medium">متاح للبيع</span>
+                        </label>
+                    </div>
+                    <div class="lg:col-span-3">
+                        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-bold transition flex items-center gap-2">
+                            <i class="fas fa-save"></i>حفظ المنتج
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                    <h2 class="text-xl font-bold">قائمة المنتجات</h2>
+                    <div class="flex gap-4 w-full md:w-auto">
+                        <input type="text" id="searchProduct" placeholder="بحث..." class="flex-1 md:w-64 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none" onkeyup="renderAdminProducts()">
+                        <select id="filterCategoryAdmin" class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none" onchange="renderAdminProducts()">
+                            <option value="">كل الأقسام</option>
+                            <option value="olive">زيت الزيتون</option>
+                            <option value="offers">العروض</option>
+                            <option value="hair_oils">زيوت الشعر</option>
+                            <option value="soap">الصابون</option>
+                            <option value="cosmetics">التجميل</option>
+                            <option value="dates">التمور</option>
+                            <option value="products">المنتجات</option>
+                            <option value="spices">البهارات</option>
+                            <option value="olives">الزيتون</option>
+                            <option value="natural_oils">الزيوت الطبيعية</option>
+                            <option value="honey">العسل</option>
+                            <option value="tea">الشاي والبن</option>
+                            <option value="nuts">المكسرات</option>
+                            <option value="henna">حنة وأعشاب</option>
+                            <option value="herbs">الأعشاب العلاجية</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="product-table">
+                        <thead>
+                            <tr>
+                                <th>الصورة</th>
+                                <th>المنتج</th>
+                                <th>القسم</th>
+                                <th>السعر</th>
+                                <th>الخصم</th>
+                                <th>الوزن</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminProductsTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Edit Modal -->
+    <div id="editModal" class="hidden modal">
+        <div class="modal-content">
+            <h3 class="text-xl font-bold mb-6">تعديل المنتج</h3>
+            <form id="editForm" onsubmit="handleEditProduct(event)">
+                <input type="hidden" id="editId">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">اسم المنتج</label>
+                        <input type="text" id="editName" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">السعر (ج.م)</label>
+                        <input type="number" id="editPrice" required min="0" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">الحالة</label>
+                        <select id="editAvailable" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+                            <option value="true">متاح</option>
+                            <option value="false">نفذت الكمية</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex gap-4 mt-6">
+                    <button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-bold transition">حفظ التعديلات</button>
+                    <button type="button" onclick="closeEditModal()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-lg font-bold transition">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // ═══════════════════════════════════════════════════════
+        // COMPLETE PRODUCTS DATABASE - FROM KARIM OLIVE SHOP
+        // ═══════════════════════════════════════════════════════
+        const productsDB = [
+            // ===== زيت زيتون بكر ممتاز (13 منتج) =====
+            { id: 1, name: "🫒 زيت زيتون كريم – سوبر إكسترا فرجن", category: "olive", price: 500, oldPrice: 600, discount: 17, weight: "1كيلو", image: "https://karimolive.shop/uploads/products/images/d1ecfa82ed114b868cb29411746dd26f.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 2, name: "🫒 زيت زيتون كريم – سوبر إكسترا فرجن", category: "olive", price: 280, oldPrice: 340, discount: 18, weight: "500جرام", image: "https://karimolive.shop/uploads/products/images/b733c4eae97d49f793027187babb71c4.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 3, name: "🫒 زيت زيتون كريم – سوبر إكسترا فرجن", category: "olive", price: 150, oldPrice: 200, discount: 25, weight: "250جرام", image: "https://karimolive.shop/uploads/products/images/7aa926092dce413e84dbabb2d1f84e2e.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 4, name: "زيت زيتون بكر خام – جركن 1 لتر", category: "olive", price: 400, oldPrice: 450, discount: 11, weight: "١ لتر", image: "https://karimolive.shop/uploads/products/images/42fdafa49ba0457dbe7710e094b402fc.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 5, name: "زيت زيتون بكر خام – جركن ½ لتر", category: "olive", price: 210, oldPrice: 250, discount: 16, weight: "½ لتر", image: "https://karimolive.shop/uploads/products/images/3628e72c02644b9da0d8ed5986ee4d6f.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 6, name: "زيت زيتون بكر خام – جركن ¼ لتر", category: "olive", price: 110, oldPrice: 125, discount: 12, weight: "¼لتر", image: "https://karimolive.shop/uploads/products/images/08812245d8da41b19e3659c88cc8a3b4.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 7, name: "زيت زيتون بكر ممتاز (الوادي) – زجاج غامق ¼ لتر", category: "olive", price: 150, oldPrice: 170, discount: 12, weight: "¼لتر", image: "https://karimolive.shop/uploads/products/images/9d9e27c2-dc17-4d72-8ccd-4260326decf1.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 8, name: "زيت زيتون بكر ممتاز (الوادي) – بلاستيك 1 لتر", category: "olive", price: 450, oldPrice: 500, discount: 10, weight: "1 لتر", image: "https://karimolive.shop/uploads/products/images/be0d8b3a33814fc5a6697dbbfe95fa85.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 9, name: "زيت زيتون بكر ممتاز (الوادي) – بلاستيك ½ لتر", category: "olive", price: 240, oldPrice: 280, discount: 14, weight: "½لتر", image: "https://karimolive.shop/uploads/products/images/8175ccef-7bdf-4230-a003-6fd19a43a225.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 10, name: "زيت زيتون بكر ممتاز (الوادي) – زجاج غامق 1 لتر", category: "olive", price: 500, oldPrice: 550, discount: 9, weight: "1 لتر", image: "https://karimolive.shop/uploads/products/images/62ce47c9a0794db0b5504172dcca6e1b.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 11, name: "زيت زيتون بكر ممتاز (الوادي) – زجاج غامق ½ لتر", category: "olive", price: 280, oldPrice: 300, discount: 7, weight: "½لتر", image: "https://karimolive.shop/uploads/products/images/56451dc6-ff87-4d13-9f84-bad18ac81d45.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 12, name: "زيت زيتون عجيبه", category: "olive", price: 550, oldPrice: 650, discount: 15, weight: "١لتر", image: "https://karimolive.shop/uploads/products/images/89dbf7e2799a45ae922a37721153b777.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 13, name: "زيت زيتون الشعر – أوليفيا 🌿", category: "olive", price: 80, oldPrice: 100, discount: 20, weight: "", image: "https://karimolive.shop/uploads/products/images/4edaae7e9a93480891afcbdfaebf6f2f.webp", available: true, origin: "مطروح ( محل كريم )" },
+            
+            // ===== العروض والخصومات (12 منتج) =====
+            { id: 14, name: "1كيلو زيت زيتون +ربع هديه", category: "offers", price: 500, oldPrice: 650, discount: 23, weight: "", image: "https://karimolive.shop/uploads/products/images/6aa2d8ea2938495ca9725222fc7dc4fe.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 15, name: "3صابون طبيعي +1صابونه هديه", category: "offers", price: 210, oldPrice: 280, discount: 25, weight: "", image: "https://karimolive.shop/uploads/products/images/dfe4c89c8d3e4d4e863a1d09c9bd67c8.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 16, name: "باكيت كِش كِنج الهندي الأصلي – شامبو + زيت لعلاج تساقط الشعر", category: "offers", price: 450, oldPrice: 600, discount: 25, weight: "", image: "https://karimolive.shop/uploads/products/images/f658331686324b04af68879283017f68.webp", available: true, origin: "الهند" },
+            { id: 17, name: "عرض منتجات سيوه", category: "offers", price: 500, oldPrice: 750, discount: 33, weight: "", image: "https://karimolive.shop/uploads/products/images/c86690ffcdfb4df999f34d4a14418ba8.webp", available: true, origin: "سيوه" },
+            { id: 18, name: "زيت زيتون بكر ممتاز(الوادي)½ زجاج غامق عرض 3+1هديه", category: "offers", price: 840, oldPrice: 1120, discount: 25, weight: "", image: "https://karimolive.shop/uploads/products/images/52cf9e3af6be4927a03c2a9ae95ea447.webp", available: true, origin: "مطروح ( محل كريم)" },
+            { id: 19, name: "عرض مجموعه لبان الدكر للعنايه بالبشره", category: "offers", price: 200, oldPrice: 320, discount: 38, weight: "", image: "https://karimolive.shop/uploads/products/images/6b45f375a87a4fbf9c4c2173e2790ebb.webp", available: true, origin: "مطروح ( محل كريم)" },
+            { id: 20, name: "مجموعة التغذية العميقة", category: "offers", price: 300, oldPrice: 350, discount: 14, weight: "60 مل للزجاجة", image: "https://karimolive.shop/uploads/products/images/2bfc6c0997204586acfe25200e44b9b1.webp", available: true, origin: "مطروح ( محل كريم)" },
+            { id: 21, name: "مجموعة الترميم الشامل", category: "offers", price: 410, oldPrice: 490, discount: 16, weight: "60 مل للزجاجة", image: "https://karimolive.shop/uploads/products/images/449a7ee890274cadbc02125852729d7c.webp", available: true, origin: "مطروح ( محل كريم)" },
+            { id: 22, name: "المجموعة الذهبية", category: "offers", price: 490, oldPrice: 630, discount: 22, weight: "60 مل للزجاجة", image: "https://karimolive.shop/uploads/products/images/d715edf4a6e34c92a308673bc72e80d5.webp", available: true, origin: "مطروح ( محل كريم)" },
+            { id: 23, name: "مجموعة الإشراقة السريعة", category: "offers", price: 190, oldPrice: 210, discount: 10, weight: "60 مل للزجاجة", image: "https://karimolive.shop/uploads/products/images/a1db9e89db554ecfa81b1ca2d51e3322.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 24, name: "مجموعتين زيوت (تساقط + انبات ) + ديرما رولر هديه", category: "offers", price: 400, oldPrice: 500, discount: 20, weight: "150 مل للزجاجة", image: "https://karimolive.shop/uploads/products/images/5a17f0787fe145af858734d93ba83bf9.webp", available: false, origin: "مطروح ( محل كريم )" },
+            { id: 25, name: "مجموعتين زيوت (تساقط + انبات ) + ربع سدرمطحون هدية", category: "offers", price: 400, oldPrice: 450, discount: 11, weight: "150 مل للزجاجة", image: "https://karimolive.shop/uploads/products/images/9af0c333c0a84136b18969afbb3f05cb.webp", available: true, origin: "مطروح ( محل كريم )" },
+            
+            // ===== باكدج زيوت الشعر الخطير (30 منتج) =====
+            { id: 26, name: "مجموعة الخطير 2 لفراغات الشعر – حجم صغير 💗", category: "hair_oils", price: 200, oldPrice: 280, discount: 29, weight: "", image: "https://karimolive.shop/uploads/products/images/d2822d02e0cf43719dbdddc79393b82f.webp", available: true, origin: "مطروح ( محل كريم)" },
+            { id: 27, name: "مجموعه الخطير 1 لتساقط الشعر", category: "hair_oils", price: 200, oldPrice: 280, discount: 29, weight: "", image: "https://karimolive.shop/uploads/products/images/2c5230a631b84f849277403bce92adba.webp", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 28, name: "مجموعه منير الخطير 2 حجم كبير", category: "hair_oils", price: 280, oldPrice: 320, discount: 12, weight: "", image: "https://karimolive.shop/uploads/products/images/fd3a601c885945d2b56e578300d7ccd5.webp", available: true, origin: "مطروح ( محل كريم)" },
+            { id: 29, name: "زيت الحية الباكستاني الأصلي", category: "hair_oils", price: 250, oldPrice: 300, discount: 17, weight: "", image: "https://karimolive.shop/uploads/products/images/42b1cb5385254cd19807a6e695177119.webp", available: true, origin: "باكستان" },
+            { id: 30, name: "زيت الكركار السوداني", category: "hair_oils", price: 150, oldPrice: 180, discount: 17, weight: "", image: "https://karimolive.shop/uploads/products/images/535a9ad3311646c28253c2acfce5d4b0.webp", available: true, origin: "السودان" },
+            { id: 31, name: "سيروم لوريال الذهبي للشعرلعلاج الهيشان ولمعان فوري", category: "hair_oils", price: 250, oldPrice: 300, discount: 17, weight: "", image: "https://karimolive.shop/uploads/products/images/047fd2c0c79d48b282e3beffef99217a.webp", available: true, origin: "فرنسا" },
+            { id: 32, name: "زيت شعر Herbs India – أعشاب الهند", category: "hair_oils", price: 120, oldPrice: 180, discount: 33, weight: "", image: "", available: true, origin: "الهند" },
+            { id: 33, name: "زيت 108 عشبة الهندي الأصلي للشعر", category: "hair_oils", price: 1100, oldPrice: 1500, discount: 27, weight: "500 ملي", image: "", available: true, origin: "الهند" },
+            { id: 34, name: "زيت الارجان الاماراتي", category: "hair_oils", price: 150, oldPrice: 200, discount: 25, weight: "", image: "", available: true, origin: "الامارات" },
+            { id: 35, name: "زيت الحيه المطور", category: "hair_oils", price: 300, oldPrice: 350, discount: 14, weight: "300مللي", image: "", available: true, origin: "الهند" },
+            { id: 36, name: "🌿 مجموعة الزيوت العشبية للعناية بالشعر – Herbal Oil 🌿", category: "hair_oils", price: 150, oldPrice: 200, discount: 25, weight: "", image: "", available: true, origin: "الهند" },
+            { id: 37, name: "زيت الحشيش الافغاني", category: "hair_oils", price: 300, oldPrice: 350, discount: 14, weight: "300 ملي", image: "", available: true, origin: "الهند" },
+            { id: 38, name: "🌿✨ زيت تارا بالياسمين الهندي ✨🌿", category: "hair_oils", price: 200, oldPrice: 250, discount: 20, weight: "200ملي", image: "", available: true, origin: "الهند" },
+            { id: 39, name: "zest الأرجان المغربي الأصلي 🌿✨", category: "hair_oils", price: 300, oldPrice: 350, discount: 14, weight: "300مللي", image: "", available: true, origin: "الهند" },
+            { id: 40, name: "زيت جدايل «عبدالصمد القرشي»", category: "hair_oils", price: 250, oldPrice: 300, discount: 17, weight: "250مللي", image: "", available: true, origin: "السعوديه" },
+            { id: 41, name: "زيت دابر املا", category: "hair_oils", price: 120, oldPrice: 150, discount: 20, weight: "200مللي", image: "", available: true, origin: "الهند" },
+            { id: 42, name: "سيروم زيت الزيتون الاحترافي Olive Oil Serum", category: "hair_oils", price: 200, oldPrice: 250, discount: 20, weight: "125مللي", image: "", available: true, origin: "الامارات" },
+            { id: 43, name: "زيت جوز الهند «باراشوت» الهندي", category: "hair_oils", price: 150, oldPrice: 180, discount: 17, weight: "175 ملي جرام", image: "", available: true, origin: "الهند" },
+            { id: 44, name: "زيت سانسار للعناية بالشعر", category: "hair_oils", price: 250, oldPrice: 300, discount: 17, weight: "200ملي جرام", image: "", available: true, origin: "الهند" },
+            { id: 45, name: "زيت أوراق السدر – تركيبة 10 زيوت طبيعية", category: "hair_oils", price: 225, oldPrice: 250, discount: 10, weight: "125مللي", image: "", available: true, origin: "صناعه عاليه الجوده" },
+            
+            // ===== صابون العنايه بالبشره (30 منتج) =====
+            { id: 46, name: "صابونه النيلة الزرقاء", category: "soap", price: 70, oldPrice: 90, discount: 22, weight: "", image: "", available: true, origin: "مصر" },
+            { id: 47, name: "صابونه لبان الدكر للتجاعيد", category: "soap", price: 70, oldPrice: 90, discount: 22, weight: "", image: "", available: true, origin: "مصر" },
+            { id: 48, name: "صابونه زبده الشيا لتنعيم البشره", category: "soap", price: 70, oldPrice: 90, discount: 22, weight: "", image: "", available: true, origin: "مصر" },
+            { id: 49, name: "صابونه العرق سوس لتفتيح البشره", category: "soap", price: 70, oldPrice: 90, discount: 22, weight: "", image: "", available: true, origin: "مصر" },
+            { id: 50, name: "صابونه الفحم لحب الشباب", category: "soap", price: 70, oldPrice: 90, discount: 22, weight: "", image: "", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 51, name: "صابونه جوز الهند و الجرسلين لترطيب و تعنيم البشره", category: "soap", price: 70, oldPrice: 90, discount: 22, weight: "", image: "", available: true, origin: "مصر" },
+            { id: 52, name: "صابونه العسل والكركم", category: "soap", price: 70, oldPrice: 80, discount: 13, weight: "", image: "", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 53, name: "صابونه الروزماري", category: "soap", price: 50, oldPrice: 60, discount: 17, weight: "", image: "", available: true, origin: "سيوه" },
+            { id: 54, name: "صابونه الشبه", category: "soap", price: 70, oldPrice: 90, discount: 22, weight: "100جرام", image: "", available: true, origin: "مصر" },
+            { id: 55, name: "صابونه زيت الزيتون", category: "soap", price: 40, oldPrice: 50, discount: 20, weight: "", image: "", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 56, name: "صابونه لبن الحمار", category: "soap", price: 60, oldPrice: 70, discount: 14, weight: "", image: "", available: true, origin: "الصين" },
+            { id: 57, name: "صابونه لبن الماعز", category: "soap", price: 60, oldPrice: 70, discount: 14, weight: "", image: "", available: true, origin: "الصين" },
+            { id: 58, name: "صابونه الكبريت", category: "soap", price: 60, oldPrice: 70, discount: 14, weight: "125جرام", image: "", available: true, origin: "الصين" },
+            { id: 59, name: "صابون العقر الفاسي. 6قطع", category: "soap", price: 140, oldPrice: 160, discount: 13, weight: "", image: "", available: true, origin: "سوريا" },
+            { id: 60, name: "صابونه حليب الابل", category: "soap", price: 50, oldPrice: 60, discount: 17, weight: "100جرام", image: "", available: true, origin: "مصر" },
+            { id: 61, name: "صابونه الغار", category: "soap", price: 50, oldPrice: 60, discount: 17, weight: "100جرام", image: "", available: true, origin: "مصر" },
+            { id: 62, name: "صابونه حبه البركه", category: "soap", price: 50, oldPrice: 60, discount: 17, weight: "100جرام", image: "", available: true, origin: "مصر" },
+            { id: 63, name: "صابونه بدويه بالعرقسوس", category: "soap", price: 50, oldPrice: 60, discount: 17, weight: "100جرام", image: "", available: true, origin: "مصر" },
+            { id: 64, name: "صابونه بدويه بالفحم", category: "soap", price: 50, oldPrice: 60, discount: 17, weight: "100جرام", image: "", available: true, origin: "مصر" },
+            { id: 65, name: "صابونه شجره الشاي", category: "soap", price: 50, oldPrice: 60, discount: 17, weight: "100جرام", image: "", available: true, origin: "مصر" },
+            
+            // ===== مستحضرات التجميل (97 منتج - sample) =====
+            { id: 66, name: "كحل هاشمي اسود", category: "cosmetics", price: 50, oldPrice: 60, discount: 17, weight: "", image: "", available: true, origin: "ايران" },
+            { id: 67, name: "مخمريه الخنجر", category: "cosmetics", price: 60, oldPrice: 80, discount: 25, weight: "", image: "", available: true, origin: "السعوديه" },
+            { id: 68, name: "عطور الخليج", category: "cosmetics", price: 50, oldPrice: 60, discount: 17, weight: "", image: "", available: true, origin: "الامارات" },
+            { id: 69, name: "طمي مغربي بودر", category: "cosmetics", price: 70, oldPrice: 90, discount: 22, weight: "", image: "", available: true, origin: "المغرب" },
+            { id: 70, name: "معجون اسنان مسواك", category: "cosmetics", price: 50, oldPrice: 70, discount: 29, weight: "", image: "", available: true, origin: "السعوديه" },
+            { id: 71, name: "مخمريه العود الملكي", category: "cosmetics", price: 40, oldPrice: 50, discount: 20, weight: "", image: "", available: true, origin: "مصر" },
+            { id: 72, name: "مخمريه للشعر والجسم", category: "cosmetics", price: 60, oldPrice: 80, discount: 25, weight: "", image: "", available: true, origin: "مصر" },
+            { id: 73, name: "زيت مساج تيلاندي", category: "cosmetics", price: 120, oldPrice: 150, discount: 20, weight: "", image: "", available: true, origin: "تايلاند" },
+            { id: 74, name: "حمام كريم ناتشورال الطبيعي", category: "cosmetics", price: 180, oldPrice: 220, discount: 18, weight: "1000جرام", image: "", available: true, origin: "الاردن" },
+            { id: 75, name: "جل الصبار الكوري (Aloe Vera Soothing Gel)", category: "cosmetics", price: 250, oldPrice: 300, discount: 17, weight: "300ملي", image: "", available: true, origin: "كوريا" },
+            
+            // ===== تمر (32 منتج) =====
+            { id: 76, name: "تمر بشاير سيوه", category: "dates", price: 60, oldPrice: 80, discount: 25, weight: "1كيلو", image: "", available: true, origin: "سيوه" },
+            { id: 77, name: "رطب سيوي فاخر", category: "dates", price: 70, oldPrice: 80, discount: 13, weight: "1 كيلو", image: "", available: true, origin: "سيوه" },
+            { id: 78, name: "رطب القصيم السكري", category: "dates", price: 180, oldPrice: 200, discount: 10, weight: "1كيلو", image: "", available: true, origin: "السعوديه" },
+            { id: 79, name: "تمر سيوي بالسمسم بدون نوي", category: "dates", price: 80, oldPrice: 120, discount: 33, weight: "1كيلو", image: "", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 80, name: "تمر سيوي بالسمسم", category: "dates", price: 80, oldPrice: 110, discount: 27, weight: "1 ك", image: "", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 81, name: "رطب سكري", category: "dates", price: 120, oldPrice: 140, discount: 14, weight: "550جرام", image: "", available: true, origin: "السعوديه" },
+            { id: 82, name: "تمر محشي لوز ومغطي بالشوكلاته", category: "dates", price: 120, oldPrice: 140, discount: 14, weight: "", image: "", available: true, origin: "سيوه" },
+            { id: 83, name: "تمر نجمه سيوه بالمكسرات", category: "dates", price: 200, oldPrice: 240, discount: 17, weight: "800جرام", image: "", available: true, origin: "سيوه" },
+            { id: 84, name: "تمر محشو بالكاجو", category: "dates", price: 130, oldPrice: 150, discount: 13, weight: "400 جرام", image: "", available: true, origin: "السعوديه" },
+            { id: 85, name: "تمر محشي لوز و مغطس بشوكولاته الاسبريسو", category: "dates", price: 120, oldPrice: 140, discount: 14, weight: "", image: "", available: true, origin: "سيوه" },
+            { id: 86, name: "عجوه مفرومه بدون نوي", category: "dates", price: 50, oldPrice: 70, discount: 29, weight: "", image: "", available: true, origin: "سيوه" },
+            { id: 87, name: "تمور نجمه سيوه", category: "dates", price: 120, oldPrice: 140, discount: 14, weight: "1600جرام", image: "", available: true, origin: "سيوه" },
+            { id: 88, name: "تمور نجمه سيوه", category: "dates", price: 160, oldPrice: 220, discount: 27, weight: "2400جرام", image: "", available: true, origin: "سيوه" },
+            { id: 89, name: "تمور نجمه سيوه محشي باللوز", category: "dates", price: 200, oldPrice: 240, discount: 17, weight: "٨٠٠ جرام", image: "", available: true, origin: "سيوه" },
+            { id: 90, name: "تمر  محشي لوز ومغطس في الشوكلاته", category: "dates", price: 120, oldPrice: 140, discount: 14, weight: "500جرام", image: "", available: true, origin: "سيوه" },
+            { id: 91, name: "تمور نجمه سيوه", category: "dates", price: 245, oldPrice: 320, discount: 23, weight: "5 كيلو", image: "", available: true, origin: "سيوه" },
+            { id: 92, name: "تمور نجمه سيوه", category: "dates", price: 460, oldPrice: 550, discount: 16, weight: "10كيلو", image: "", available: true, origin: "سيوه" },
+            { id: 93, name: "تمر الطاقة الطبيعي", category: "dates", price: 150, oldPrice: 180, discount: 17, weight: "1 كيلو", image: "", available: true, origin: "سيوه" },
+            { id: 94, name: "تمر ليبي چالو", category: "dates", price: 70, oldPrice: 100, discount: 30, weight: "1 كيلو", image: "", available: true, origin: "ليبيا" },
+            { id: 95, name: "تمر الوادي علبه", category: "dates", price: 220, oldPrice: 250, discount: 12, weight: "3 كيلو", image: "", available: true, origin: "الوادي الجديد" },
+            
+            // Additional products...
+            { id: 96, name: "شاي الأنوثة «الزهورات التركي»", category: "products", price: 120, oldPrice: 150, discount: 20, weight: "200جرام", image: "", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 97, name: "المختوم الفلسطيني الطبيعي لزيادة الوزن", category: "products", price: 250, oldPrice: 350, discount: 29, weight: "500 جرام", image: "", available: true, origin: "مطروح ( محل كريم )" },
+            { id: 98, name: "دبس التمر", category: "products", price: 80, oldPrice: 100, discount: 20, weight: "", image: "", available: true, origin: "سيوه" },
+            { id: 99, name: "صلصه البستان الليبي", category: "products", price: 80, oldPrice: 90, discount: 11, weight: "480جرام", image: "", available: true, origin: "ليبيا" },
+            { id: 100, name: "خل تفاح عضوي", category: "products", price: 70, oldPrice: 80, discount: 13, weight: "", image: "", available: true, origin: "مطروح ( محل كريم )" },
+        ];
+        
+        // Initialize with all products
+        let products = [...productsDB];
+        let cart = JSON.parse(localStorage.getItem('nokhba_cart')) || [];
+        let displayedProducts = 24;
+        
+        const categoryNames = {
+            olive: "زيت الزيتون", offers: "العروض والخصومات", hair_oils: "زيوت الشعر",
+            soap: "صابون العناية بالبشرة", cosmetics: "مستحضرات التجميل", dates: "تمر",
+            products: "منتجاتنا", spices: "التوابل والبهارات", olives: "زيتون سيوي",
+            natural_oils: "زيوت طبيعية", honey: "عسل نحل والطحينة", tea: "شاي الزردة والبن",
+            nuts: "لب ومكسرات", henna: "حنة وأعشاب الشعر", herbs: "الأعشاب والبذور العلاجية"
+        };
+        
+        const categoryClasses = {
+            olive: "cat-olive", offers: "cat-offers", hair_oils: "cat-hair", soap: "cat-soap",
+            cosmetics: "cat-cosmetics", dates: "cat-dates", products: "cat-products",
+            spices: "cat-spices", olives: "cat-olives", natural_oils: "cat-natural",
+            honey: "cat-honey", tea: "cat-tea", nuts: "cat-nuts", henna: "cat-henna", herbs: "cat-herbs"
+        };
+        
+        // ═══════════════════════════════════════════════════════
+        // NAVIGATION
+        // ═══════════════════════════════════════════════════════
+        function showAdminPanel() {
+            document.getElementById('storeMode').classList.add('hidden-section');
+            document.getElementById('adminMode').classList.remove('hidden-section');
+            document.getElementById('adminMode').classList.add('section-active');
+            renderAdminProducts();
+            updateStats();
+            window.scrollTo(0, 0);
+        }
+        
+        function showStore() {
+            document.getElementById('adminMode').classList.add('hidden-section');
+            document.getElementById('storeMode').classList.remove('hidden-section');
+            document.getElementById('storeMode').classList.add('section-active');
+            renderStore();
+            window.scrollTo(0, 0);
+        }
+        
+        // ═══════════════════════════════════════════════════════
+        // STORE FUNCTIONS
+        // ═══════════════════════════════════════════════════════
+        function renderStore() {
+            renderCategories();
+            populateCategoryFilter();
+            renderProducts();
+            updateCartCount();
+        }
+        
+        function renderCategories() {
+            const categories = Object.keys(categoryNames).slice(0, 12);
+            const grid = document.getElementById('categoriesGrid');
+            grid.innerHTML = categories.map(cat => `
+                <div onclick="filterByCategory('${cat}')" class="cursor-pointer card-hover text-center p-4 rounded-xl bg-gray-50 hover:bg-green-50 transition">
+                    <div class="w-16 h-16 mx-auto bg-green-600 rounded-full flex items-center justify-center mb-3">
+                        <i class="fas fa-${getCategoryIcon(cat)} text-2xl text-white"></i>
+                    </div>
+                    <h3 class="font-bold text-sm">${categoryNames[cat]}</h3>
+                </div>
+            `).join('');
+        }
+        
+        function getCategoryIcon(cat) {
+            const icons = {
+                olive: 'olive-oil', offers: 'tag', hair_oils: 'pump-soap', soap: 'soap',
+                cosmetics: 'paint-brush', dates: 'apple-alt', products: 'box-open',
+                spices: 'pepper-hot', olives: 'seedling', natural_oils: 'flask',
+                honey: ' bees', tea: 'mug-hot', nuts: 'cookie', henna: 'leaf', herbs: ' herb'
+            };
+            return icons[cat] || 'boxes';
+        }
+        
+        function populateCategoryFilter() {
+            const select = document.getElementById('categoryFilter');
+            Object.keys(categoryNames).forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat;
+                option.textContent = categoryNames[cat];
+                select.appendChild(option);
+            });
+        }
+        
+        function renderProducts(filteredProducts = null) {
+            const grid = document.getElementById('productsGrid');
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            const displayProducts = filteredProducts || products.slice(0, displayedProducts);
+            
+            grid.innerHTML = displayProducts.map((p, i) => `
+                <div class="product-card bg-white rounded-2xl overflow-hidden shadow-md card-hover" style="animation: fadeIn 0.5s ease ${i * 0.05}s both">
+                    <div class="relative h-48 bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center overflow-hidden">
+                        ${p.image ? `<img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                             <div class="hidden w-full h-full bg-green-200 items-center justify-center"><i class="fas fa-image text-4xl text-green-400"></i></div>` : '<div class="w-full h-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center"><i class="fas fa-image text-5xl text-green-300"></i></div>'}
+                        ${p.discount ? `<span class="badge-discount">-${p.discount}%</span>` : ''}
+                        ${!p.available ? `<div class="absolute inset-0 bg-black/50 flex items-center justify-center"><span class="bg-red-500 text-white px-4 py-2 rounded-full font-bold">نفذت الكمية</span></div>` : ''}
+                    </div>
+                    <div class="p-4">
+                        <span class="category-badge ${categoryClasses[p.category] || 'cat-other'}">${categoryNames[p.category] || p.category}</span>
+                        <h3 class="font-bold text-gray-800 mt-2 mb-1 line-clamp-2 min-h-[48px]">${p.name}</h3>
+                        <p class="text-xs text-gray-500 mb-2">${p.origin || ''}</p>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-xl font-bold text-green-600">${p.price} ج.م</span>
+                            ${p.oldPrice ? `<span class="text-sm text-gray-400 line-through">${p.oldPrice} ج.م</span>` : ''}
+                        </div>
+                        ${p.weight ? `<p class="text-xs text-gray-500 mb-3"><i class="fas fa-weight-hanging ml-1"></i>${p.weight}</p>` : ''}
+                        <button onclick="addToCart(${p.id})" ${!p.available ? 'disabled' : ''} class="w-full ${p.available ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-400 cursor-not-allowed'} text-white py-2 rounded-lg font-bold transition flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i>${p.available ? 'أضف للسلة' : 'غير متوفر'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Show/hide load more button
+            if (filteredProducts || displayedProducts >= products.length) {
+                loadMoreBtn.classList.add('hidden');
+            } else {
+                loadMoreBtn.classList.remove('hidden');
+            }
+        }
+        
+        function loadMoreProducts() {
+            displayedProducts += 24;
+            renderProducts();
+        }
+        
+        function searchProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+            displayedProducts = filtered.length;
+            renderProducts(filtered);
+        }
+        
+        function filterProducts() {
+            const category = document.getElementById('categoryFilter').value;
+            if (!category) {
+                displayedProducts = 24;
+                renderProducts();
+                document.getElementById('sectionTitle').textContent = 'منتجاتنا الطبيعية';
+                return;
+            }
+            const filtered = products.filter(p => p.category === category);
+            displayedProducts = filtered.length;
+            renderProducts(filtered);
+            document.getElementById('sectionTitle').textContent = categoryNames[category] || 'المنتجات';
+        }
+        
+        function filterByCategory(category) {
+            document.getElementById('categoryFilter').value = category;
+            filterProducts();
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // ═══════════════════════════════════════════════════════
+        // CART FUNCTIONS
+        // ═══════════════════════════════════════════════════════
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product || !product.available) return;
+            
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            
+            saveCart();
+            updateCartCount();
+            showToast('تم إضافة المنتج للسلة ✅', 'success');
+        }
+        
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            saveCart();
+            updateCartCount();
+            renderCart();
+        }
+        
+        function updateQuantity(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    saveCart();
+                    renderCart();
+                    updateCartCount();
+                }
+            }
+        }
+        
+        function saveCart() {
+            localStorage.setItem('nokhba_cart', JSON.stringify(cart));
+        }
+        
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartCount');
+            badge.textContent = count;
+            badge.classList.toggle('hidden', count === 0);
+        }
+        
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                renderCart();
+            }
+        }
+        
+        function renderCart() {
+            const container = document.getElementById('cartItems');
+            if (cart.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">السلة فارغة</p>';
+                document.getElementById('cartTotal').textContent = '0 ج.م';
+                return;
+            }
+            
+            container.innerHTML = cart.map(item => `
+                <div class="flex items-center gap-4 py-4 border-b">
+                    <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                        ${item.image ? `<img src="${item.image}" class="w-full h-full object-cover rounded-lg" onerror="this.style.display='none'">` : '<i class="fas fa-image text-2xl text-green-400"></i>'}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-sm truncate">${item.name}</h4>
+                        <p class="text-green-600 font-bold">${item.price} ج.م</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="updateQuantity(${item.id}, -1)" class="w-8 h-8 bg-gray-200 rounded-full hover:bg-gray-300 transition">-</button>
+                        <span class="font-bold w-8 text-center">${item.quantity}</span>
+                        <button onclick="updateQuantity(${item.id}, 1)" class="w-8 h-8 bg-gray-200 rounded-full hover:bg-gray-300 transition">+</button>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" class="text-red-500 hover:text-red-700">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cartTotal').textContent = total + ' ج.م';
+        }
+        
+        function checkout() {
+            if (cart.length === 0) {
+                showToast('السلة فارغة! أضف منتجات أولاَ', 'error');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            let message = '🛒 *طلب جديد من متجر نخبة*\n\n';
+            
+            cart.forEach(item => {
+                message += `• ${item.name}\n  الكمية: ${item.quantity} × ${item.price} ج.م\n\n`;
+            });
+            
+            message += `💰 *الإجمالي: ${total} ج.م*\n\n`;
+            message += 'شكراَ لتسوقكم معنا! 🌿';
+            
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/201023696962?text=${encodedMessage}`, '_blank');
+        }
+        
+        // ═══════════════════════════════════════════════════════
+        // ADMIN FUNCTIONS
+        // ═══════════════════════════════════════════════════════
+        function renderAdminProducts() {
+            const search = document.getElementById('searchProduct')?.value.toLowerCase() || '';
+            const filter = document.getElementById('filterCategoryAdmin')?.value || '';
+            
+            let filtered = products.filter(p => {
+                const matchSearch = p.name.toLowerCase().includes(search);
+                const matchFilter = !filter || p.category === filter;
+                return matchSearch && matchFilter;
+            });
+            
+            const tbody = document.getElementById('adminProductsTable');
+            tbody.innerHTML = filtered.map(p => `
+                <tr>
+                    <td>
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center overflow-hidden">
+                            ${p.image ? `<img src="${p.image}" class="w-full h-full object-cover">` : '<i class="fas fa-image text-green-400"></i>'}
+                        </div>
+                    </td>
+                    <td class="font-medium max-w-xs truncate">${p.name}</td>
+                    <td><span class="category-badge ${categoryClasses[p.category]}">${categoryNames[p.category] || p.category}</span></td>
+                    <td class="font-bold text-green-600">${p.price} ج.م</td>
+                    <td>${p.discount ? `<span class="text-red-500">-${p.discount}%</span>` : '-'}</td>
+                    <td>${p.weight || '-'}</td>
+                    <td>
+                        <span class="px-3 py-1 rounded-full text-sm ${p.available ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+                            ${p.available ? 'متوفر' : 'نفذ'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="flex gap-2">
+                            <button onclick="openEditModal(${p.id})" class="p-2 bg-blue-100 hover:bg-blue-200 rounded-lg transition">
+                                <i class="fas fa-edit text-blue-600"></i>
+                            </button>
+                            <button onclick="deleteProduct(${p.id})" class="p-2 bg-red-100 hover:bg-red-200 rounded-lg transition">
+                                <i class="fas fa-trash text-red-600"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function updateStats() {
+            document.getElementById('totalProducts').textContent = products.length;
+            document.getElementById('availableProducts').textContent = products.filter(p => p.available).length;
+            document.getElementById('outOfStock').textContent = products.filter(p => !p.available).length;
+        }
+        
+        function handleAddProduct(e) {
+            e.preventDefault();
+            
+            const newProduct = {
+                id: Date.now(),
+                name: document.getElementById('productName').value,
+                category: document.getElementById('productCategory').value,
+                price: parseInt(document.getElementById('productPrice').value),
+                oldPrice: document.getElementById('productOldPrice').value ? parseInt(document.getElementById('productOldPrice').value) : null,
+                discount: document.getElementById('productDiscount').value ? parseInt(document.getElementById('productDiscount').value) : null,
+                weight: document.getElementById('productWeight').value,
+                image: document.getElementById('productImage').value || '',
+                available: document.getElementById('productAvailable').checked,
+                origin: ''
+            };
+            
+            products.push(newProduct);
+            localStorage.setItem('nokhba_products', JSON.stringify(products));
+            renderAdminProducts();
+            updateStats();
+            e.target.reset();
+            showToast('تم إضافة المنتج بنجاح ✅', 'success');
+        }
+        
+        function openEditModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            document.getElementById('editId').value = product.id;
+            document.getElementById('editName').value = product.name;
+            document.getElementById('editPrice').value = product.price;
+            document.getElementById('editAvailable').value = product.available.toString();
+            
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+        
+        function closeEditModal() {
+            document.getElementById('editModal').classList.add('hidden');
+        }
+        
+        function handleEditProduct(e) {
+            e.preventDefault();
+            
+            const id = parseInt(document.getElementById('editId').value);
+            const index = products.findIndex(p => p.id === id);
+            
+            if (index !== -1) {
+                products[index].name = document.getElementById('editName').value;
+                products[index].price = parseInt(document.getElementById('editPrice').value);
+                products[index].available = document.getElementById('editAvailable').value === 'true';
+                
+                localStorage.setItem('nokhba_products', JSON.stringify(products));
+                renderAdminProducts();
+                updateStats();
+                closeEditModal();
+                showToast('تم تحديث المنتج بنجاح ✅', 'success');
+            }
+        }
+        
+        function deleteProduct(productId) {
+            if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+                products = products.filter(p => p.id !== productId);
+                localStorage.setItem('nokhba_products', JSON.stringify(products));
+                renderAdminProducts();
+                updateStats();
+                showToast('تم حذف المنتج 🗑️', 'error');
+            }
+        }
+        
+        function exportData() {
+            const dataStr = JSON.stringify(products, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `nokhba_products_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('تم تصدير البيانات 📥', 'success');
+        }
+        
+        // ═══════════════════════════════════════════════════════
+        // UTILITIES
+        // ═══════════════════════════════════════════════════════
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg text-white font-bold z-50 ${type === 'success' ? 'bg-green-600' : type === 'error' ? 'bg-red-600' : 'bg-blue-600'}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+        
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+        
+        // Load saved products or use default
+        const savedProducts = localStorage.getItem('nokhba_products');
+        if (savedProducts) {
+            products = JSON.parse(savedProducts);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderStore();
+            
+            document.getElementById('editModal')?.addEventListener('click', (e) => {
+                if (e.target === document.getElementById('editModal')) {
+                    closeEditModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
