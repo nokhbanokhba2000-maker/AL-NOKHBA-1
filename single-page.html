@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نخبة | NOKHBA - خيرات سيوة ومطروح</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { font-family: 'Cairo', sans-serif; direction: rtl; }
+        :root {
+            --primary: #2d5a27;
+            --secondary: #4a7c42;
+            --gold: #c8a951;
+            --cream: #faf8f0;
+            --dark: #1a1a1a;
+        }
+        
+        [data-theme="dark"] {
+            --cream: #1a1a1a;
+            --dark: #faf8f0;
+            --primary: #4a7c42;
+        }
+        
+        .hero-gradient { background: linear-gradient(135deg, #1a3a15 0%, #2d5a27 50%, #1a3a15 100%); }
+        .gold-gradient { background: linear-gradient(135deg, #c8a951 0%, #b8860b 50%, #c8a951 100%); }
+        
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        
+        .fade-in { animation: fadeIn 0.6s ease forwards; }
+        .slide-up { animation: slideUp 0.7s ease forwards; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-pulse-slow { animation: pulse 2s ease-in-out infinite; }
+        .animate-spin-slow { animation: spin 2s linear infinite; }
+        
+        /* Effects */
+        .glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .neon-glow { box-shadow: 0 0 20px rgba(200, 169, 81, 0.5), 0 0 40px rgba(200, 169, 81, 0.3); }
+        .text-gradient { background: linear-gradient(135deg, #c8a951, #b8860b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Cards */
+        .card-hover { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #2d5a27, #4a7c42); border-radius: 4px; }
+        
+        /* Preloader */
+        .preloader { position: fixed; inset: 0; background: white; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
+        .preloader.hidden { opacity: 0; pointer-events: none; }
+        
+        /* Toast */
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: #2d5a27; color: white; padding: 16px 32px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 60; transition: transform 0.4s ease; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        
+        /* Modal */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 50; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { transform: scale(0.8); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        
+        /* Cookie Banner */
+        .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; background: white; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 40; transform: translateY(100%); transition: transform 0.5s ease; }
+        .cookie-banner.show { transform: translateY(0); }
+        
+        /* Back to Top */
+        .back-to-top { position: fixed; bottom: 30px; right: 30px; z-index: 100; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .back-to-top.visible { opacity: 1; visibility: visible; }
+        
+        /* Particles */
+        .particle { position: absolute; width: 6px; height: 6px; background: rgba(200, 169, 81, 0.6); border-radius: 50%; animation: float 6s infinite ease-in-out; }
+        
+        /* Dark Mode */
+        body.dark-mode { background: var(--dark); color: var(--cream); }
+        body.dark-mode .bg-white, body.dark-mode .bg-cream { background: #2d2d2d !important; color: white; }
+        body.dark-mode .text-dark { color: white; }
+        body.dark-mode header { background: #1a1a1a !important; }
+        
+        /* Ripple Effect */
+        .ripple { position: relative; overflow: hidden; }
+        .ripple::after { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: rgba(255,255,255,0.3); border-radius: 50%; transform: translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
+        .ripple:active::after { width: 200px; height: 200px; }
+    </style>
+</head>
+<body class="bg-cream text-dark">
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="text-center">
+            <div class="spinner w-16 h-16 border-4 border-gray-200 border-t-primary rounded-full animate-spin-slow mx-auto mb-4"></div>
+            <p class="text-2xl font-bold text-primary">نخبة</p>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle ml-2"></i>
+        <span id="toastMessage">تمت الإضافة للسلة</span>
+    </div>
+
+    <!-- Back to Top -->
+    <button class="back-to-top bg-primary text-white w-12 h-12 rounded-full shadow-lg hover:bg-secondary transition-all" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-40 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-4">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3">
+                    <div class="w-12 h-12 gold-gradient rounded-full flex items-center justify-center animate-pulse-slow">
+                        <i class="fas fa-leaf text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-primary">نخبة</h1>
+                        <p class="text-xs text-gray-500">NOKHBA | خيرات سيوة ومطروح</p>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="#home" class="text-primary font-semibold border-b-2 border-primary pb-1">الرئيسية</a>
+                    <a href="#products" class="text-gray-600 hover:text-primary font-medium transition">المنتجات</a>
+                    <a href="#reviews" class="text-gray-600 hover:text-primary font-medium transition">آراء العملاء</a>
+                    <a href="#contact" class="text-gray-600 hover:text-primary font-medium transition">تواصل معنا</a>
+                </nav>
+
+                <!-- Right Icons -->
+                <div class="flex items-center gap-4">
+                    <!-- Theme Toggle -->
+                    <button id="themeToggle" class="theme-toggle p-2 hover:bg-gray-100 rounded-full transition">
+                        <i class="fas fa-moon text-xl text-primary" id="themeIcon"></i>
+                    </button>
+                    
+                    <!-- Cart Button -->
+                    <button id="cartBtn" class="relative p-2 hover:bg-gray-100 rounded-full transition">
+                        <i class="fas fa-shopping-cart text-xl text-primary"></i>
+                        <span id="cartCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+                    </button>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuBtn" class="md:hidden p-2 hover:bg-gray-100 rounded-full transition">
+                        <i class="fas fa-bars text-xl text-primary"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient text-white py-20 md:py-32 relative overflow-hidden">
+        <!-- Floating Particles -->
+        <div class="particle" style="top: 20%; right: 10%;"></div>
+        <div class="particle" style="top: 60%; right: 20%; animation-delay: 1s;"></div>
+        <div class="particle" style="top: 30%; right: 70%; animation-delay: 2s;"></div>
+        <div class="particle" style="top: 70%; right: 80%; animation-delay: 3s;"></div>
+        
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <div class="mb-6 inline-flex items-center gap-2 glass px-6 py-2 rounded-full fade-in">
+                <i class="fas fa-certificate text-yellow-400"></i>
+                <span class="font-semibold">جودة مضمونة من الصحراء الغربية</span>
+            </div>
+            <h2 class="text-5xl md:text-7xl font-bold mb-4 fade-in text-gradient">نخبة</h2>
+            <p class="text-2xl md:text-3xl text-yellow-300 font-semibold mb-6 fade-in">خيرات سيوة ومطروح</p>
+            <p class="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-10 fade-in">أجود أنواع زيت الزيتون الطبيعي والبهارات العطرة من قلب الصحراء الغربية</p>
+            
+            <!-- Stats -->
+            <div class="flex flex-wrap justify-center gap-8 md:gap-16 mb-10 fade-in">
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-bold text-yellow-400">٢٥+</div>
+                    <div class="text-sm md:text-base text-gray-300">سنه خبرة</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-bold text-yellow-400">١٠٠٪</div>
+                    <div class="text-sm md:text-base text-gray-300">منتجات طبيعية</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl md:text-5xl font-bold text-yellow-400">٤.٩/٥</div>
+                    <div class="text-sm md:text-base text-gray-300">تقييم العملاء</div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4 fade-in">
+                <a href="#products" class="gold-gradient text-white px-10 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 inline-block neon-glow ripple">
+                    <i class="fas fa-shopping-bag ml-2"></i>تسوق الآن
+                </a>
+                <a href="#contact" class="border-2 border-white text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-primary transition-all duration-300 inline-block ripple">
+                    <i class="fas fa-phone ml-2"></i>تواصل معنا
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search & Filter Section -->
+    <section class="py-8 bg-white shadow-sm sticky top-16 z-30" id="search-section">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex flex-col md:flex-row gap-4">
+                    <!-- Search Input -->
+                    <div class="flex-1 relative">
+                        <input type="text" id="searchInput" placeholder="ابحث عن منتج..." class="w-full border-2 border-gray-200 rounded-full py-3 px-6 pr-12 focus:border-primary outline-none transition">
+                        <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    
+                    <!-- Category Filter -->
+                    <select id="categoryFilter" class="border-2 border-gray-200 rounded-full py-3 px-6 focus:border-primary outline-none bg-white cursor-pointer">
+                        <option value="">جميع الفئات</option>
+                        <option value="olive">زيت زيتون</option>
+                        <option value="hair">زيوت الشعر</option>
+                        <option value="soap">صابون طبيعي</option>
+                        <option value="offers">العروض</option>
+                        <option value="spices">بهارات وتوابل</option>
+                    </select>
+                    
+                    <!-- Sort -->
+                    <select id="sortFilter" class="border-2 border-gray-200 rounded-full py-3 px-6 focus:border-primary outline-none bg-white cursor-pointer">
+                        <option value="">ترتيب حسب</option>
+                        <option value="price-low">السعر: الأقل أولاً</option>
+                        <option value="price-high">السعر: الأعلى أولاً</option>
+                        <option value="discount">الخصم الأكبر</option>
+                        <option value="newest">الأحدث</option>
+                    </select>
+                </div>
+                
+                <!-- Quick Categories -->
+                <div class="flex flex-wrap gap-2 mt-4 justify-center">
+                    <button class="category-btn active bg-primary text-white px-4 py-2 rounded-full text-sm font-medium transition" data-category="all">الكل</button>
+                    <button class="category-btn bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-200 transition" data-category="olive">زيت زيتون</button>
+                    <button class="category-btn bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-200 transition" data-category="hair">زيوت الشعر</button>
+                    <button class="category-btn bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-200 transition" data-category="soap">صابون</button>
+                    <button class="category-btn bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-200 transition" data-category="offers">عروض</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-16 bg-cream">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-3">منتجاتنا الطبيعية</h2>
+                <div class="w-24 h-1 gold-gradient mx-auto rounded-full"></div>
+                <p class="text-gray-500 mt-4" id="resultsCount">عرض ١٢ منتج</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="productsGrid">
+                <!-- Products will be loaded dynamically -->
+            </div>
+            
+            <!-- Load More -->
+            <div class="text-center mt-12">
+                <button id="loadMoreBtn" class="border-2 border-primary text-primary px-10 py-3 rounded-full font-bold hover:bg-primary hover:text-white transition-all duration-300 ripple">
+                    <i class="fas fa-plus ml-2"></i>عرض المزيد
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-3">آراء عملائنا</h2>
+                <p class="text-gray-500">ماذا يقول عملاؤنا الكرام عن منتجاتنا الطبيعية</p>
+                <div class="w-24 h-1 gold-gradient mx-auto rounded-full mt-3"></div>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="reviewsGrid">
+                <!-- Reviews will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-cream">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center p-6 bg-white rounded-2xl card-hover">
+                    <div class="w-20 h-20 gold-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-truck text-white text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-primary mb-2">شحن سريع</h3>
+                    <p class="text-gray-500 text-sm">توصيل خلال 3-4 أيام لجميع المحافظات</p>
+                </div>
+                <div class="text-center p-6 bg-white rounded-2xl card-hover">
+                    <div class="w-20 h-20 gold-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-leaf text-white text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-primary mb-2">منتجات طبيعية 100%</h3>
+                    <p class="text-gray-500 text-sm">خالية من المواد الكيميائية والمواد الحافظة</p>
+                </div>
+                <div class="text-center p-6 bg-white rounded-2xl card-hover">
+                    <div class="w-20 h-20 gold-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-medal text-white text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-primary mb-2">جودة عالية</h3>
+                    <p class="text-gray-500 text-sm">منتجات مختارة بعناية من أفضل المصادر</p>
+                </div>
+                <div class="text-center p-6 bg-white rounded-2xl card-hover">
+                    <div class="w-20 h-20 gold-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-headset text-white text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-primary mb-2">دعم فني 24/7</h3>
+                    <p class="text-gray-500 text-sm">فريق دعم متاح على مدار الساعة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 hero-gradient text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-3">تواصل معنا</h2>
+                    <p class="text-gray-200">نسعد بتواصلكم معنا لأي استفسار أو طلب</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Contact Info -->
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4 glass p-4 rounded-xl">
+                            <div class="w-12 h-12 gold-gradient rounded-full flex items-center justify-center">
+                                <i class="fas fa-phone text-white"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-300 text-sm">اتصل بنا</p>
+                                <p class="font-bold text-lg">01000709753</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-4 glass p-4 rounded-xl">
+                            <div class="w-12 h-12 gold-gradient rounded-full flex items-center justify-center">
+                                <i class="fab fa-whatsapp text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-300 text-sm">واتساب</p>
+                                <p class="font-bold text-lg">https://wa.me/201023696962</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-4 glass p-4 rounded-xl">
+                            <div class="w-12 h-12 gold-gradient rounded-full flex items-center justify-center">
+                                <i class="fas fa-map-marker-alt text-white"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-300 text-sm">العنوان</p>
+                                <p class="font-bold text-lg">مرسي مطروح، مصر</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Social Media -->
+                        <div class="flex gap-4 pt-4">
+                            <a href="#" class="w-12 h-12 glass rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                                <i class="fab fa-facebook-f text-xl"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 glass rounded-full flex items-center justify-center hover:bg-pink-600 transition">
+                                <i class="fab fa-instagram text-xl"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 glass rounded-full flex items-center justify-center hover:bg-sky-500 transition">
+                                <i class="fab fa-x-twitter text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Form -->
+                    <form id="contactForm" class="space-y-4">
+                        <div>
+                            <input type="text" placeholder="الاسم الكامل" required class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:border-yellow-400">
+                        </div>
+                        <div>
+                            <input type="email" placeholder="البريد الإلكتروني" required class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:border-yellow-400">
+                        </div>
+                        <div>
+                            <textarea placeholder="رسالتك..." rows="4" required class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:border-yellow-400 resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full gold-gradient text-white py-3 rounded-xl font-bold hover:opacity-90 transition ripple">
+                            <i class="fas fa-paper-plane ml-2"></i>إرسال الرسالة
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 gold-gradient rounded-full flex items-center justify-center">
+                            <i class="fas fa-leaf text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">نخبة</h3>
+                            <p class="text-xs text-gray-400">NOKHBA | خيرات سيوة ومطروح</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">أجود المنتجات الطبيعية من قلب الصحراء الغربية</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-yellow-400">روابط سريعة</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#home" class="hover:text-white transition">الرئيسية</a></li>
+                        <li><a href="#products" class="hover:text-white transition">المنتجات</a></li>
+                        <li><a href="#reviews" class="hover:text-white transition">آراء العملاء</a></li>
+                        <li><a href="#contact" class="hover:text-white transition">تواصل معنا</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-yellow-400">الفئات</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">زيت الزيتون</a></li>
+                        <li><a href="#" class="hover:text-white transition">زيوت الشعر</a></li>
+                        <li><a href="#" class="hover:text-white transition">الصابون الطبيعي</a></li>
+                        <li><a href="#" class="hover:text-white transition">البهارات والتوابل</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-yellow-400">النشرة البريدية</h4>
+                    <p class="text-gray-400 text-sm mb-4">اشترك ليصلك كل جديد</p>
+                    <div class="flex gap-2">
+                        <input type="email" placeholder="بريدك الإلكتروني" class="flex-1 px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-primary">
+                        <button class="gold-gradient px-4 py-2 rounded-lg hover:opacity-90 transition">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h4 class="font-bold text-yellow-400 mb-4"><i class="fas fa-credit-card ml-2"></i>طرق الدفع</h4>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-center gap-3 bg-gray-800 px-4 py-3 rounded-lg">
+                                <i class="fab fa-whatsapp text-green-500 text-2xl"></i>
+                                <div>
+                                    <p class="text-gray-400">الواتساب للطلب</p>
+                                    <p class="font-bold text-lg">01023696962</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 bg-gray-800 px-4 py-3 rounded-lg">
+                                <i class="fas fa-university text-blue-500 text-2xl"></i>
+                                <div>
+                                    <p class="text-gray-400">التحويل البنكي (إنستا باي)</p>
+                                    <p class="font-bold text-lg">NOKHBA_Store</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-yellow-400 mb-4"><i class="fas fa-info-circle ml-2"></i>معلومات مهمة</h4>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check text-green-500 mt-1"></i>
+                                <span>الدفع عند الاستلام متاح لجميع المحافظات</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check text-green-500 mt-1"></i>
+                                <span>توصيل خلال 3-4 أيام عمل</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check text-green-500 mt-1"></i>
+                                <span>إمكانية الاستبدال خلال 7 أيام</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-center text-gray-500 text-sm pt-6 border-t border-gray-700">
+                    <p>© 2026 نخبة | NOKHBA - جميع الحقوق محفوظة</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/201023696962" target="_blank" class="fixed bottom-6 left-6 z-50 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110 animate-bounce">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal-overlay">
+        <div class="modal-content bg-white w-full max-w-md h-full absolute left-0 top-0 shadow-2xl overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b p-4 flex items-center justify-between z-10">
+                <h3 class="text-xl font-bold text-primary">عربة التسوق</h3>
+                <button id="closeCart" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition">
+                    <i class="fas fa-times text-gray-500"></i>
+                </button>
+            </div>
+            <div class="p-4">
+                <div id="emptyCart" class="text-center py-16">
+                    <i class="fas fa-shopping-cart text-6xl text-gray-200 mb-4"></i>
+                    <p class="text-gray-500 text-lg">العربة فارغة</p>
+                    <a href="#products" class="inline-block mt-4 bg-primary text-white px-6 py-2 rounded-full hover:bg-secondary transition">تسوق الآن</a>
+                </div>
+                <div id="cartItems" class="hidden space-y-4"></div>
+            </div>
+            <div class="sticky bottom-0 bg-white border-t p-4" id="cartFooter" style="display:none;">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-gray-600">المجموع:</span>
+                    <span class="text-2xl font-bold text-primary" id="cartTotal">0 ج.م</span>
+                </div>
+                <a href="https://wa.me/201023696962?text=أرغب في طلب منتجات من متجر نخبة" target="_blank" class="block w-full bg-green-500 text-white text-center py-3 rounded-full font-bold hover:bg-green-600 transition">
+                    <i class="fab fa-whatsapp ml-2"></i>اطلب عبر واتساب
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie Banner -->
+    <div id="cookieBanner" class="cookie-banner p-4">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3 text-gray-700">
+                <i class="fas fa-cookie-bite text-3xl text-yellow-500"></i>
+                <p>نستخدم ملفات تعريف الارتباط لتحسين تجربتك</p>
+            </div>
+            <div class="flex gap-3">
+                <button id="acceptCookies" class="bg-primary text-white px-6 py-2 rounded-full font-bold hover:bg-secondary transition">موافق</button>
+                <button id="declineCookies" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-full font-bold hover:bg-gray-300 transition">رفض</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== PRODUCTS DATA ==========
+        const allProducts = [
+            { id: 1, name: "🫒 زيت زيتون سوبر إكسترا فرجن 1 كيلو", category: "olive", price: 500, oldPrice: 600, discount: 17, weight: "1 كيلو", image: "https://karimolive.shop/uploads/products/images/d1ecfa82ed114b868cb29411746dd26f.webp", available: true },
+            { id: 2, name: "🫒 زيت زيتون سوبر إكسترا فرجن 500 جرام", category: "olive", price: 280, oldPrice: 340, discount: 18, weight: "500 جرام", image: "https://karimolive.shop/uploads/products/images/b733c4eae97d49f793027187babb71c4.webp", available: true },
+            { id: 3, name: "🫒 زيت زيتون سوبر إكسترا فرجن 250 جرام", category: "olive", price: 150, oldPrice: 200, discount: 25, weight: "250 جرام", image: "https://karimolive.shop/uploads/products/images/7aa926092dce413e84dbabb2d1f84e2e.webp", available: true },
+            { id: 4, name: "زيت زيتون بكر خام جركن 1 لتر", category: "olive", price: 400, oldPrice: 450, discount: 11, weight: "1 لتر", image: "https://karimolive.shop/uploads/products/images/42fdafa49ba0457dbe7710e094b402fc.webp", available: true },
+            { id: 5, name: "زيت زيتون بكر خام جركن ½ لتر", category: "olive", price: 210, oldPrice: 250, discount: 16, weight: "½ لتر", image: "https://karimolive.shop/uploads/products/images/3628e72c02644b9da0d8ed5986ee4d6f.webp", available: true },
+            { id: 6, name: "زيت زيتون عجيبه ١ لتر", category: "olive", price: 550, oldPrice: 650, discount: 15, weight: "١ لتر", image: "https://karimolive.shop/uploads/products/images/89dbf7e2799a45ae922a37721153b777.webp", available: true },
+            { id: 7, name: "مجموعة الخطير لتساقط الشعر", category: "hair", price: 200, oldPrice: 280, discount: 29, weight: "", image: "https://karimolive.shop/uploads/products/images/2c5230a631b84f849277403bce92adba.webp", available: true },
+            { id: 8, name: "زيت الحية الباكستاني الأصلي", category: "hair", price: 250, oldPrice: 300, discount: 17, weight: "", image: "https://karimolive.shop/uploads/products/images/42b1cb5385254cd19807a6e695177119.webp", available: true },
+            { id: 9, name: "زيت الكركar السوداني", category: "hair", price: 150, oldPrice: 180, discount: 17, weight: "", image: "https://karimolive.shop/uploads/products/images/535a9ad3311646c28253c2acfce5d4b0.webp", available: true },
+            { id: 10, name: "المجموعة الذهبية", category: "offers", price: 490, oldPrice: 630, discount: 22, weight: "60 مل", image: "https://karimolive.shop/uploads/products/images/d715edf4a6e34c92a308673bc72e80d5.webp", available: true },
+            { id: 11, name: "مجموعة الترميم الشامل", category: "offers", price: 410, oldPrice: 490, discount: 16, weight: "60 مل", image: "https://karimolive.shop/uploads/products/images/449a7ee890274cadbc02125852729d7c.webp", available: true },
+            { id: 12, name: "مجموعة التغذية العميقة", category: "offers", price: 300, oldPrice: 350, discount: 14, weight: "60 مل", image: "https://karimolive.shop/uploads/products/images/2bfc6c0997204586acfe25200e44b9b1.webp", available: true },
+            { id: 13, name: "صابون طبيعي بالزعتر", category: "soap", price: 50, oldPrice: 70, discount: 29, weight: "", image: "https://karimolive.shop/uploads/products/images/dfe4c89c8d3e4d4e863a1d09c9bd67c8.webp", available: true },
+            { id: 14, name: "تمر سيناري فاخر", category: "spices", price: 120, oldPrice: 150, discount: 20, weight: "1 كيلو", image: "https://karimolive.shop/uploads/products/images/c86690ffcdfb4df999f34d4a14418ba8.webp", available: true },
+            { id: 15, name: "عسل نحل طبيعي", category: "spices", price: 350, oldPrice: 400, discount: 13, weight: "1 كيلو", image: "https://karimolive.shop/uploads/categories/1763798154796.webp", available: true },
+            { id: 16, name: "حبّة البركة السوداء", category: "spices", price: 80, oldPrice: 100, discount: 20, weight: "250 جرام", image: "https://karimolive.shop/uploads/categories/1763608018696.webp", available: true },
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('nokhba_cart') || '[]');
+        let currentCategory = 'all';
+        let displayedCount = 8;
+
+        // ========== INITIALIZE ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hide preloader
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 1500);
+
+            // Render products
+            renderProducts();
+            updateCartUI();
+
+            // Show cookie banner
+            setTimeout(() => {
+                if (!localStorage.getItem('cookiesAccepted')) {
+                    document.getElementById('cookieBanner').classList.add('show');
+                }
+            }, 3000);
+
+            // Initialize event listeners
+            initEventListeners();
+        });
+
+        // ========== EVENT LISTENERS ==========
+        function initEventListeners() {
+            // Theme Toggle
+            const themeToggle = document.getElementById('themeToggle');
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeIcon').classList.replace('fa-moon', 'fa-sun');
+            }
+            
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const icon = document.getElementById('themeIcon');
+                if (document.body.classList.contains('dark-mode')) {
+                    icon.classList.replace('fa-moon', 'fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    icon.classList.replace('fa-sun', 'fa-moon');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+
+            // Cart Modal
+            document.getElementById('cartBtn').addEventListener('click', () => {
+                document.getElementById('cartModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            document.getElementById('closeCart').addEventListener('click', closeCart);
+            document.getElementById('cartOverlay').addEventListener('click', closeCart);
+            
+            function closeCart() {
+                document.getElementById('cartModal').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Search
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                searchProducts(e.target.value);
+            });
+
+            // Category Filter
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.category-btn').forEach(b => {
+                        b.classList.remove('active', 'bg-primary', 'text-white');
+                        b.classList.add('bg-gray-100', 'text-gray-600');
+                    });
+                    btn.classList.add('active', 'bg-primary', 'text-white');
+                    btn.classList.remove('bg-gray-100', 'text-gray-600');
+                    currentCategory = btn.dataset.category;
+                    renderProducts();
+                });
+            });
+
+            // Sort
+            document.getElementById('sortFilter').addEventListener('change', (e) => {
+                sortProducts(e.target.value);
+            });
+
+            // Load More
+            document.getElementById('loadMoreBtn').addEventListener('click', loadMore);
+
+            // Back to top visibility
+            window.addEventListener('scroll', () => {
+                const backToTop = document.querySelector('.back-to-top');
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+
+                // Navbar effect
+                const navbar = document.getElementById('navbar');
+                if (window.pageYOffset > 50) {
+                    navbar.classList.add('shadow-lg');
+                } else {
+                    navbar.classList.remove('shadow-lg');
+                }
+            });
+
+            // Cookie Consent
+            document.getElementById('acceptCookies').addEventListener('click', () => {
+                localStorage.setItem('cookiesAccepted', 'true');
+                document.getElementById('cookieBanner').classList.remove('show');
+            });
+
+            document.getElementById('declineCookies').addEventListener('click', () => {
+                localStorage.setItem('cookiesAccepted', 'declined');
+                document.getElementById('cookieBanner').classList.remove('show');
+            });
+
+            // Contact Form
+            document.getElementById('contactForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                showToast('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً');
+                e.target.reset();
+            });
+        }
+
+        // ========== PRODUCT FUNCTIONS ==========
+        function renderProducts(filter = '', category = currentCategory) {
+            const grid = document.getElementById('productsGrid');
+            let filtered = allProducts;
+            
+            if (category !== 'all') {
+                filtered = filtered.filter(p => p.category === category);
+            }
+            
+            if (filter) {
+                filtered = filtered.filter(p => p.name.includes(filter));
+            }
+
+            const toShow = filtered.slice(0, displayedCount);
+            
+            grid.innerHTML = toShow.map(product => `
+                <div class="bg-white rounded-2xl shadow-md overflow-hidden card-hover ${product.available ? '' : 'opacity-75'}">
+                    <div class="relative overflow-hidden">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-52 object-cover hover:scale-105 transition-transform duration-500">
+                        ${product.discount ? `<span class="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full animate-pulse-slow">خصم ${product.discount}%</span>` : ''}
+                        ${!product.available ? `<div class="absolute inset-0 bg-black/60 flex items-center justify-center"><span class="bg-red-600 text-white px-6 py-2 rounded-full font-bold">نفذت الكمية</span></div>` : ''}
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-primary text-sm mb-2 line-clamp-2 min-h-[2.5rem]">${product.name}</h3>
+                        <div class="flex items-center gap-2 text-xs text-gray-400 mb-3">
+                            ${product.weight ? `<span><i class="fas fa-weight-hanging ml-1"></i>${product.weight}</span>` : ''}
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <div>
+                                <span class="text-primary font-bold text-lg">${product.price} ج.م</span>
+                                ${product.oldPrice ? `<span class="text-gray-400 line-through text-sm mr-2">${product.oldPrice} ج.م</span>` : ''}
+                            </div>
+                            ${product.available ? `
+                                <button onclick="addToCart(${product.id})" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-full text-sm font-bold transition ripple">
+                                    <i class="fas fa-cart-plus"></i> أضف
+                                </button>
+                            ` : `
+                                <button disabled class="bg-gray-300 text-gray-500 px-4 py-2 rounded-full text-sm font-bold cursor-not-allowed">غير متوفر</button>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Update results count
+            document.getElementById('resultsCount').textContent = `عرض ${filtered.length} منتج`;
+
+            // Show/hide load more button
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            if (filtered.length <= displayedCount) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'inline-block';
+            }
+        }
+
+        function searchProducts(query) {
+            renderProducts(query.toLowerCase());
+        }
+
+        function sortProducts(sortType) {
+            let sorted = [...allProducts];
+            
+            switch(sortType) {
+                case 'price-low':
+                    sorted.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    sorted.sort((a, b) => b.price - a.price);
+                    break;
+                case 'discount':
+                    sorted.sort((a, b) => b.discount - a.discount);
+                    break;
+                case 'newest':
+                    sorted.sort((a, b) => b.id - a.id);
+                    break;
+            }
+            
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = sorted.map(product => `
+                <div class="bg-white rounded-2xl shadow-md overflow-hidden card-hover">
+                    <div class="relative overflow-hidden">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-52 object-cover hover:scale-105 transition-transform duration-500">
+                        ${product.discount ? `<span class="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">${product.discount}% خصم</span>` : ''}
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-primary text-sm mb-2">${product.name}</h3>
+                        <div class="flex items-center justify-between mt-auto">
+                            <div>
+                                <span class="text-primary font-bold text-lg">${product.price} ج.م</span>
+                                ${product.oldPrice ? `<span class="text-gray-400 line-through text-sm mr-2">${product.oldPrice} ج.م</span>` : ''}
+                            </div>
+                            <button onclick="addToCart(${product.id})" class="bg-primary text-white px-4 py-2 rounded-full text-sm hover:bg-secondary transition">
+                                <i class="fas fa-cart-plus"></i> أضف
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadMore() {
+            displayedCount += 4;
+            renderProducts();
+        }
+
+        // ========== CART FUNCTIONS ==========
+        function addToCart(productId) {
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            
+            localStorage.setItem('nokhba_cart', JSON.stringify(cart));
+            updateCartUI();
+            showToast(`تمت إضافة "${product.name}" للسلة`);
+            
+            // Animate cart icon
+            const badge = document.getElementById('cartCount');
+            badge.classList.add('animate-bounce');
+            setTimeout(() => badge.classList.remove('animate-bounce'), 500);
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('nokhba_cart', JSON.stringify(cart));
+            updateCartUI();
+            renderCartItems();
+        }
+
+        function updateQty(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+            
+            item.qty += delta;
+            if (item.qty <= 0) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            localStorage.setItem('nokhba_cart', JSON.stringify(cart));
+            updateCartUI();
+            renderCartItems();
+        }
+
+        function updateCartUI() {
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            
+            document.getElementById('cartCount').textContent = count;
+            document.getElementById('cartTotal').textContent = total.toLocaleString('ar-EG') + ' ج.م';
+            
+            const emptyCart = document.getElementById('emptyCart');
+            const cartItems = document.getElementById('cartItems');
+            const cartFooter = document.getElementById('cartFooter');
+            
+            if (cart.length === 0) {
+                emptyCart.classList.remove('hidden');
+                cartItems.classList.add('hidden');
+                cartFooter.style.display = 'none';
+            } else {
+                emptyCart.classList.add('hidden');
+                cartItems.classList.remove('hidden');
+                cartFooter.style.display = 'block';
+            }
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById('cartItems');
+            container.innerHTML = cart.map(item => `
+                <div class="flex gap-4 bg-cream rounded-xl p-4">
+                    <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm text-primary line-clamp-2">${item.name}</h4>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="font-bold text-primary">${item.price} ج.م</span>
+                            <div class="flex items-center gap-2">
+                                <button onclick="updateQty(${item.id}, -1)" class="w-7 h-7 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition">-</button>
+                                <span class="font-bold">${item.qty}</span>
+                                <button onclick="updateQty(${item.id}, 1)" class="w-7 h-7 rounded-full bg-primary text-white hover:bg-secondary flex items-center justify-center transition">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-500 transition self-start">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // ========== UTILITY FUNCTIONS ==========
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Expose functions globally
+        window.addToCart = addToCart;
+        window.removeFromCart = removeFromCart;
+        window.updateQty = updateQty;
+    </script>
+</body>
+</html>

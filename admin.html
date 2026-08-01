@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم المنتجات | نخبة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { font-family: 'Cairo', sans-serif; }
+        body { direction: rtl; }
+        .fade-in { animation: fadeIn 0.5s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .slide-in { animation: slideIn 0.4s ease forwards; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #2d5a27, #4a7c42); border-radius: 10px; }
+        
+        /* Glass Effect */
+        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        
+        /* Input Focus */
+        .input-focus:focus { border-color: #2d5a27; box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1); }
+        
+        /* Card Hover */
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        /* Toast Animation */
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: #2d5a27; color: white; padding: 16px 32px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; transition: transform 0.4s ease; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .toast.error { background: #dc2626; }
+        .toast.success { background: #16a34a; }
+        
+        /* Modal */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 50; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { transform: scale(0.9); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast flex items-center gap-3">
+        <i class="fas fa-check-circle text-xl"></i>
+        <span id="toastMessage">تم الحفظ بنجاح</span>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-green-600 to-green-800 rounded-full flex items-center justify-center">
+                        <i class="fas fa-leaf text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800">لوحة تحكم المنتجات</h1>
+                        <p class="text-xs text-gray-500">متجر نخبة | NOKHBA</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="/single-page.html" target="_blank" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium">
+                        <i class="fas fa-eye ml-2"></i>معاينة الموقع
+                    </a>
+                    <button onclick="exportProducts()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm font-medium">
+                        <i class="fas fa-download ml-2"></i>تصدير البيانات
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-xl p-4 card-hover border-r-4 border-green-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">إجمالي المنتجات</p>
+                        <p class="text-2xl font-bold text-gray-800" id="totalProducts">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-box text-green-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-4 card-hover border-r-4 border-blue-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">متوفر</p>
+                        <p class="text-2xl font-bold text-gray-800" id="availableProducts">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-check text-blue-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-4 card-hover border-r-4 border-red-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">نفذت الكمية</p>
+                        <p class="text-2xl font-bold text-gray-800" id="outOfStock">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-times text-red-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-4 card-hover border-r-4 border-yellow-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">فئات</p>
+                        <p class="text-2xl font-bold text-gray-800" id="totalCategories">12</p>
+                    </div>
+                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-tags text-yellow-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Product Form -->
+        <div class="bg-white rounded-2xl shadow-sm mb-8 overflow-hidden">
+            <div class="bg-gradient-to-l from-green-600 to-green-700 px-6 py-4">
+                <h2 class="text-white font-bold text-lg flex items-center gap-2">
+                    <i class="fas fa-plus-circle"></i>
+                    إضافة منتج جديد
+                </h2>
+            </div>
+            
+            <div class="p-6">
+                <form id="productForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Product Name -->
+                    <div class="lg:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">اسم المنتج *</label>
+                        <input type="text" id="productName" required placeholder="مثال: 🫒 زيت زيتون بكر ممتاز ١ لتر" 
+                            class="w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition outline-none">
+                    </div>
+                    
+                    <!-- Category -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">الفئة *</label>
+                        <select id="productCategory" required class="w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition outline-none bg-white">
+                            <option value="">اختر الفئة</option>
+                            <option value="olive">🫒 زيت الزيتون</option>
+                            <option value="hair">💆‍♀️ زيوت الشعر</option>
+                            <option value="soap">🧼 الصابون الطبيعي</option>
+                            <option value="offers">🏷️ العروض والخصومات</option>
+                            <option value="spices">🌶️ التوابل والبهارات</option>
+                            <option value="dates">🌴 التمور</option>
+                            <option value="nuts">🥜 المكسرات واللب</option>
+                            <option value="cosmetics">💄 مستحضرات التجميل</option>
+                            <option value="honey">🍯 العسل</option>
+                            <option value="tea">🍵 الشاي والبن</option>
+                            <option value="herbs">🌿 الأعشاب العلاجية</option>
+                            <option value="zaytoun">🫒 الزيتون المخلل</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Price -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">السعر الحالي (ج.م) *</label>
+                        <div class="relative">
+                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">ج.م</span>
+                            <input type="number" id="productPrice" required min="0" placeholder="0" 
+                                class="w-full pr-12 pl-4 py-3 border border-gray-200 rounded-xl input-focus transition outline-none">
+                        </div>
+                    </div>
+                    
+                    <!-- Old Price -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">السعر قبل الخصم (ج.م)</label>
+                        <div class="relative">
+                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">ج.م</span>
+                            <input type="number" id="productOldPrice" min="0" placeholder="اختياري" 
+                                class="w-full pr-12 pl-4 py-3 border border-gray-200 rounded-xl input-focus transition outline-none">
+                        </div>
+                    </div>
+                    
+                    <!-- Discount -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">نسبة الخصم (%)</label>
+                        <div class="relative">
+                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">%</span>
+                            <input type="number" id="productDiscount" min="0" max="100" placeholder="اختياري" 
+                                class="w-full pr-12 pl-4 py-3 border border-gray-200 rounded-xl input-focus transition outline-none">
+                        </div>
+                    </div>
+                    
+                    <!-- Weight -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">الوزن / الحجم</label>
+                        <input type="text" id="productWeight" placeholder="مثال: ١ كيلو أو ٢٥٠ جرام" 
+                            class="w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition outline-none">
+                    </div>
+                    
+                    <!-- Image URL -->
+                    <div class="lg:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">رابط صورة المنتج</label>
+                        <input type="url" id="productImage" placeholder="https://example.com/image.jpg" 
+                            class="w-full px-4 py-3 border border-gray-200 rounded-xl input-focus transition outline-none">
+                        <p class="text-xs text-gray-500 mt-1">اتركه فارغاً لاستخدام صورة افتراضية</p>
+                    </div>
+                    
+                    <!-- Status -->
+                    <div class="flex items-end">
+                        <label class="flex items-center gap-3 cursor-pointer bg-gray-50 px-4 py-3 rounded-xl w-full">
+                            <input type="checkbox" id="productAvailable" checked class="w-5 h-5 text-green-600 rounded focus:ring-green-500">
+                            <div>
+                                <span class="font-medium text-gray-700">متوفر للبيع</span>
+                                <p class="text-xs text-gray-500">أزل العلامة إذا نفذت الكمية</p>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="lg:col-span-3 flex gap-3 pt-4 border-t">
+                        <button type="submit" class="flex-1 bg-gradient-to-l from-green-600 to-green-700 text-white py-3 rounded-xl font-bold hover:shadow-lg transition flex items-center justify-center gap-2">
+                            <i class="fas fa-save"></i>
+                            حفظ المنتج
+                        </button>
+                        <button type="button" onclick="resetForm()" class="px-6 bg-gray-100 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-200 transition">
+                            <i class="fas fa-redo ml-2"></i>
+                            إعادة تعيين
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Products List -->
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b flex items-center justify-between">
+                <h2 class="font-bold text-lg text-gray-800">قائمة المنتجات</h2>
+                <div class="flex gap-2">
+                    <input type="text" id="searchProduct" placeholder="بحث..." 
+                        class="px-4 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-green-500">
+                    <select id="filterCategory" class="px-4 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-green-500 bg-white">
+                        <option value="">جميع الفئات</option>
+                        <option value="olive">زيت الزيتون</option>
+                        <option value="hair">زيوت الشعر</option>
+                        <option value="soap">صابون</option>
+                        <option value="offers">عروض</option>
+                        <option value="spices">بهارات</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500">#</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500">المنتج</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500">الفئة</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500">السعر</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500">الخصم</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500">الحالة</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500">إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody" class="divide-y divide-gray-100">
+                        <!-- Products will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="emptyState" class="hidden py-12 text-center">
+                <i class="fas fa-box-open text-5xl text-gray-300 mb-4"></i>
+                <p class="text-gray-500">لا توجد منتجات بعد</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div class="bg-gradient-to-l from-green-600 to-green-700 px-6 py-4 rounded-t-2xl">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-white font-bold text-lg">تعديل المنتج</h3>
+                    <button onclick="closeEditModal()" class="text-white/80 hover:text-white">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-6">
+                <form id="editForm" class="space-y-4">
+                    <input type="hidden" id="editId">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">اسم المنتج</label>
+                        <input type="text" id="editName" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-green-500 outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">السعر</label>
+                            <input type="number" id="editPrice" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-green-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">الخصم %</label>
+                            <input type="number" id="editDiscount" min="0" max="100" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-green-500 outline-none">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">حالة التوفر</label>
+                        <select id="editAvailable" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-green-500 outline-none bg-white">
+                            <option value="true">متوفر</option>
+                            <option value="false">نفذت الكمية</option>
+                        </select>
+                    </div>
+                    <div class="flex gap-3 pt-4">
+                        <button type="submit" class="flex-1 bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition">
+                            <i class="fas fa-save ml-2"></i>حفظ التعديلات
+                        </button>
+                        <button type="button" onclick="closeEditModal()" class="px-6 bg-gray-100 text-gray-700 py-3 rounded-xl hover:bg-gray-200 transition">
+                            إلغاء
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== DATA MANAGEMENT ==========
+        let products = JSON.parse(localStorage.getItem('nokhba_products')) || [
+            { id: 1, name: "🫒 زيت زيتون سوبر إكسترا فرجن 1 كيلو", category: "olive", price: 500, oldPrice: 600, discount: 17, weight: "1 كيلو", image: "", available: true },
+            { id: 2, name: "صابون طبيعي بالزعتر", category: "soap", price: 45, oldPrice: 60, discount: 25, weight: "250 جرام", image: "", available: true },
+            { id: 3, name: "تمر سيناري فاخر", category: "dates", price: 120, oldPrice: null, discount: null, weight: "1 كيلو", image: "", available: true },
+        ];
+        
+        let editingId = null;
+
+        // ========== INIT ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            updateStats();
+            
+            // Search
+            document.getElementById('searchProduct').addEventListener('input', renderProducts);
+            document.getElementById('filterCategory').addEventListener('change', renderProducts);
+            
+            // Form Submit
+            document.getElementById('productForm').addEventListener('submit', handleAddProduct);
+            
+            // Edit Form Submit
+            document.getElementById('editForm').addEventListener('submit', handleEditProduct);
+        });
+
+        // ========== ADD PRODUCT ==========
+        function handleAddProduct(e) {
+            e.preventDefault();
+            
+            const newProduct = {
+                id: Date.now(),
+                name: document.getElementById('productName').value,
+                category: document.getElementById('productCategory').value,
+                price: parseInt(document.getElementById('productPrice').value),
+                oldPrice: document.getElementById('productOldPrice').value ? parseInt(document.getElementById('productOldPrice').value) : null,
+                discount: document.getElementById('productDiscount').value ? parseInt(document.getElementById('productDiscount').value) : null,
+                weight: document.getElementById('productWeight').value,
+                image: document.getElementById('productImage').value || '',
+                available: document.getElementById('productAvailable').checked
+            };
+            
+            products.push(newProduct);
+            saveProducts();
+            renderProducts();
+            updateStats();
+            resetForm();
+            showToast('تم إضافة المنتج بنجاح ✅', 'success');
+        }
+
+        // ========== RENDER PRODUCTS ==========
+        function renderProducts() {
+            const search = document.getElementById('searchProduct').value.toLowerCase();
+            const filter = document.getElementById('filterCategory').value;
+            
+            let filtered = products.filter(p => {
+                const matchSearch = p.name.toLowerCase().includes(search);
+                const matchFilter = !filter || p.category === filter;
+                return matchSearch && matchFilter;
+            });
+            
+            const tbody = document.getElementById('productsTableBody');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (filtered.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            
+            emptyState.classList.add('hidden');
+            
+            tbody.innerHTML = filtered.map((p, idx) => `
+                <tr class="hover:bg-gray-50 transition fade-in" style="animation-delay: ${idx * 0.05}s">
+                    <td class="px-6 py-4 text-sm text-gray-500">${idx + 1}</td>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                            ${p.image ? `<img src="${p.image}" class="w-10 h-10 rounded-lg object-cover" onerror="this.src='https://via.placeholder.com/40'">` : '<div class="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center"><i class="fas fa-image text-gray-400"></i></div>'}
+                            <span class="font-medium text-gray-800">${p.name}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs">${getCategoryName(p.category)}</span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-gray-800">${p.price} ج.م</span>
+                            ${p.oldPrice ? `<span class="text-sm text-gray-400 line-through">${p.oldPrice}</span>` : ''}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        ${p.discount ? `<span class="px-2 py-1 bg-red-100 text-red-600 rounded text-xs font-bold">${p.discount}%</span>` : '<span class="text-gray-400">-</span>'}
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="px-3 py-1 rounded-full text-xs font-medium ${p.available ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+                            ${p.available ? 'متوفر' : 'نفذ'}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex items-center gap-2">
+                            <button onclick="editProduct(${p.id})" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="تعديل">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteProduct(${p.id})" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="حذف">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // ========== EDIT PRODUCT ==========
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            
+            editingId = id;
+            document.getElementById('editId').value = id;
+            document.getElementById('editName').value = product.name;
+            document.getElementById('editPrice').value = product.price;
+            document.getElementById('editDiscount').value = product.discount || '';
+            document.getElementById('editAvailable').value = product.available.toString();
+            
+            document.getElementById('editModal').classList.add('active');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('active');
+            editingId = null;
+        }
+
+        function handleEditProduct(e) {
+            e.preventDefault();
+            
+            const index = products.findIndex(p => p.id === editingId);
+            if (index === -1) return;
+            
+            products[index].name = document.getElementById('editName').value;
+            products[index].price = parseInt(document.getElementById('editPrice').value);
+            products[index].discount = document.getElementById('editDiscount').value ? parseInt(document.getElementById('editDiscount').value) : null;
+            products[index].available = document.getElementById('editAvailable').value === 'true';
+            
+            saveProducts();
+            renderProducts();
+            updateStats();
+            closeEditModal();
+            showToast('تم تعديل المنتج بنجاح ✅', 'success');
+        }
+
+        // ========== DELETE PRODUCT ==========
+        function deleteProduct(id) {
+            if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) return;
+            
+            products = products.filter(p => p.id !== id);
+            saveProducts();
+            renderProducts();
+            updateStats();
+            showToast('تم حذف المنتج ❌', 'error');
+        }
+
+        // ========== HELPERS ==========
+        function getCategoryName(cat) {
+            const names = {
+                olive: 'زيت زيتون',
+                hair: 'زيوت شعر',
+                soap: 'صابون',
+                offers: 'عروض',
+                spices: 'بهارات',
+                dates: 'تمور',
+                nuts: 'مكسرات',
+                cosmetics: 'تجميل',
+                honey: 'عسل',
+                tea: 'شاي',
+                herbs: 'أعشاب',
+                zaytoun: 'زيتون مخلل'
+            };
+            return names[cat] || cat;
+        }
+
+        function saveProducts() {
+            localStorage.setItem('nokhba_products', JSON.stringify(products));
+        }
+
+        function updateStats() {
+            document.getElementById('totalProducts').textContent = products.length;
+            document.getElementById('availableProducts').textContent = products.filter(p => p.available).length;
+            document.getElementById('outOfStock').textContent = products.filter(p => !p.available).length;
+        }
+
+        function resetForm() {
+            document.getElementById('productForm').reset();
+            document.getElementById('productAvailable').checked = true;
+        }
+
+        function exportProducts() {
+            const dataStr = JSON.stringify(products, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `nokhba-products-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('تم تصدير البيانات ✅', 'success');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const icon = toast.querySelector('i');
+            document.getElementById('toastMessage').textContent = message;
+            
+            toast.className = `toast ${type} flex items-center gap-3`;
+            icon.className = type === 'success' ? 'fas fa-check-circle text-xl' : 'fas fa-exclamation-circle text-xl';
+            
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Close modal on outside click
+        document.getElementById('editModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeEditModal();
+        });
+    </script>
+</body>
+</html>

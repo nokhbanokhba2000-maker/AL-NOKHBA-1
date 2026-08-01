@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نخبة | NOKHBA - النسخة التجريبية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+        .fade-in { animation: fadeIn 0.6s ease forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .slide-up { animation: slideUp 0.7s ease forwards; opacity: 0; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-900 via-green-700 to-yellow-600 min-h-screen text-white">
+    
+    <!-- Hero Section -->
+    <div class="container mx-auto px-4 py-16">
+        <div class="text-center mb-12 fade-in">
+            <div class="inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm px-8 py-4 rounded-full mb-6">
+                <i class="fas fa-leaf text-yellow-400 text-3xl"></i>
+                <span class="text-2xl font-bold">نخبة | NOKHBA</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-6">🌐 موقعك جاهز</h1>
+            <p class="text-2xl text-green-100 mb-8">اختر طريقة المعاينة المفضلة لديك</p>
+        </div>
+
+        <!-- Preview Methods -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            
+            <!-- Method 1 -->
+            <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:-translate-y-2">
+                <div class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <i class="fas fa-folder-open text-green-900 text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-4 text-center">الطريقة الأسهل</h2>
+                <p class="text-green-100 text-center mb-6">افتح الملف مباشرة في المتصفح بدون خادم</p>
+                <div class="bg-black/30 rounded-xl p-4 mb-4">
+                    <code class="text-sm text-yellow-300 break-all">
+                        /mnt/workspace/projects/nokhba/index.html
+                    </code>
+                </div>
+                <button onclick="copyPath()" class="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-green-900 font-bold py-3 px-6 rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2">
+                    <i class="fas fa-copy"></i>
+                    نسخ المسار
+                </button>
+            </div>
+
+            <!-- Method 2 -->
+            <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:-translate-y-2">
+                <div class="w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <i class="fas fa-server text-white text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-4 text-center">الخادم المحلي</h2>
+                <p class="text-green-100 text-center mb-6">شغل خادم محلي للوصول الكامل للموقع</p>
+                <div class="bg-black/30 rounded-xl p-4 mb-4">
+                    <pre class="text-sm text-green-300 overflow-x-auto">
+cd /mnt/workspace/projects/nokhba
+python3 -m http.server 8000</pre>
+                </div>
+                <p class="text-center text-yellow-300 font-bold">
+                    <i class="fas fa-globe ml-2"></i>
+                    localhost:8000
+                </p>
+            </div>
+
+            <!-- Method 3 -->
+            <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:-translate-y-2">
+                <div class="w-20 h-20 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <i class="fas fa-file-code text-white text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-4 text-center">ملفات المشروع</h2>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3 bg-black/20 px-4 py-3 rounded-lg">
+                        <i class="fas fa-html5 text-orange-500 text-xl"></i>
+                        <span class="font-mono">index.html</span>
+                        <span class="mr-auto text-xs text-gray-400">65 KB</span>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black/20 px-4 py-3 rounded-lg">
+                        <i class="fas fa-html5 text-blue-500 text-xl"></i>
+                        <span class="font-mono">products.html</span>
+                        <span class="mr-auto text-xs text-gray-400">56 KB</span>
+                    </div>
+                </div>
+                <div class="mt-6 pt-4 border-t border-white/20">
+                    <p class="text-sm text-green-200 text-center">
+                        <i class="fas fa-info-circle ml-1"></i>
+                        موقع متكامل بـ 20+ تأثير حركي
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Features Grid -->
+        <div class="max-w-4xl mx-auto mt-16 bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 slide-up">
+            <h2 class="text-3xl font-bold mb-8 text-center">✨ مميزات الموقع</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="text-center group hover:scale-110 transition-transform">
+                    <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg group-hover:shadow-green-500/50 transition-shadow">
+                        <i class="fas fa-mobile-alt text-white text-2xl"></i>
+                    </div>
+                    <p class="font-semibold">تصميم متجاوب</p>
+                </div>
+                <div class="text-center group hover:scale-110 transition-transform">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg group-hover:shadow-blue-500/50 transition-shadow">
+                        <i class="fas fa-shopping-cart text-white text-2xl"></i>
+                    </div>
+                    <p class="font-semibold">عربة تسوق</p>
+                </div>
+                <div class="text-center group hover:scale-110 transition-transform">
+                    <div class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg group-hover:shadow-yellow-500/50 transition-shadow">
+                        <i class="fas fa-palette text-white text-2xl"></i>
+                    </div>
+                    <p class="font-semibold">20+ تأثير حركي</p>
+                </div>
+                <div class="text-center group hover:scale-110 transition-transform">
+                    <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg group-hover:shadow-green-500/50 transition-shadow">
+                        <i class="fab fa-whatsapp text-white text-2xl"></i>
+                    </div>
+                    <p class="font-semibold">واتساب عائم</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="max-w-2xl mx-auto mt-12 text-center slide-up">
+            <p class="text-green-200 mb-4">📁 الملفات موجودة في:</p>
+            <code class="bg-black/30 px-6 py-3 rounded-xl text-yellow-300 font-mono">
+                /mnt/workspace/projects/nokhba/
+            </code>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-16 text-green-200 text-sm slide-up">
+            <p>© 2026 نخبة | NOKHBA - جميع الحقوق محفوظة</p>
+            <p class="mt-2">تم التطوير بواسطة Agnes AI Assistant</p>
+        </div>
+    </div>
+
+    <script>
+        function copyPath() {
+            const path = '/mnt/workspace/projects/nokhba/index.html';
+            navigator.clipboard.writeText(path).then(() => {
+                const btn = event.target.closest('button');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> تم النسخ!';
+                btn.classList.add('bg-green-500');
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.remove('bg-green-500');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

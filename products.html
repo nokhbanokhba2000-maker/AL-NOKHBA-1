@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منتجات نخبة | نخبة للمنتجات الطبيعية من سيوة ومطروح</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2d5a27',
+                        secondary: '#4a7c42',
+                        accent: '#c8a951',
+                        gold: '#b8860b',
+                        cream: '#faf8f0',
+                        dark: '#1a1a1a'
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Cairo', sans-serif; }
+        body { direction: rtl; }
+        
+        /* Hero Gradient */
+        .hero-gradient { background: linear-gradient(135deg, #1a3a15 0%, #2d5a27 50%, #1a3a15 100%); }
+        .gold-gradient { background: linear-gradient(135deg, #c8a951 0%, #b8860b 50%, #c8a951 100%); }
+        
+        /* Card Hover Effects */
+        .card-hover { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(0,0,0,0.15); }
+        
+        /* Category Cards */
+        .category-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s ease;
+        }
+        .category-card:hover::before { left: 100%; }
+        .category-card:hover { transform: translateY(-12px) scale(1.02); }
+        .category-card img { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .category-card:hover img { transform: scale(1.15); }
+        
+        /* Discount Badge */
+        .discount-badge { animation: pulse 2s infinite; }
+        @keyframes pulse { 
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            50% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+        }
+        
+        /* Scrollbar」
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #2d5a27, #4a7c42); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(to bottom, #1a3a15, #2d5a27); }
+        
+        /* Fade In Animations */
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; opacity: 0; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(30px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        /* Slide Up Animation */
+        .slide-up { animation: slideUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(60px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        /* Cart Badge Bounce */
+        .cart-badge { animation: cartBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+        @keyframes cartBounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Ripple Effect on Buttons */
+        .btn-ripple { position: relative; overflow: hidden; }
+        .btn-ripple::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        .btn-ripple:active::after { width: 200px; height: 200px; }
+        
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(200, 169, 81, 0.6);
+            border-radius: 50%;
+            animation: float 8s infinite ease-in-out;
+        }
+        .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; top: 60%; animation-delay: 1s; width: 4px; height: 4px; }
+        .particle:nth-child(3) { left: 70%; top: 30%; animation-delay: 2s; width: 8px; height: 8px; }
+        .particle:nth-child(4) { left: 80%; top: 70%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 50%; top: 10%; animation-delay: 4s; width: 5px; height: 5px; }
+        .particle:nth-child(6) { left: 30%; top: 80%; animation-delay: 5s; width: 7px; height: 7px; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateY(-40px) rotate(180deg); opacity: 1; }
+        }
+        
+        /* Shimmer Effect for Loading */
+        .shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        /* Rotate On Hover */
+        .rotate-hover:hover i { transform: rotate(360deg); transition: transform 0.6s ease; }
+        .rotate-hover i { transition: transform 0.6s ease; }
+        
+        /* Glow Effect */
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(45, 90, 39, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(45, 90, 39, 0.3); }
+            to { box-shadow: 0 0 30px rgba(45, 90, 39, 0.6), 0 0 40px rgba(200, 169, 81, 0.4); }
+        }
+        
+        /* Scale In Animation */
+        .scale-in { animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; opacity: 0; }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Flip Card Effect */
+        .flip-card { perspective: 1000px; }
+        .flip-card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card:hover .flip-card-inner { transform: rotateY(10deg) rotateX(5deg); }
+        
+        /* Typing Effect */
+        .typing { border-left: 2px solid #c8a951; padding-left: 5px; animation: blink 1s infinite; }
+        @keyframes blink {
+            0%, 100% { border-color: #c8a951; }
+            50% { border-color: transparent; }
+        }
+        
+        /* Wave Animation for Icons */
+        .wave { display: inline-block; animation: wave 1.5s infinite; transform-origin: 70% 70%; }
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg); }
+            75% { transform: rotate(15deg); }
+        }
+        
+        /* Magnetic Button Effect */
+        .magnetic-btn {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Section Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Stagger Children */
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(4) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(5) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(6) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(7) { transition-delay: 0.7s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(8) { transition-delay: 0.8s; opacity: 1; transform: translateY(0); }
+        
+        /* Progress Bar Animation */
+        .progress-fill {
+            animation: fillBar 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            transform-origin: right;
+            transform: scaleX(0);
+        }
+        @keyframes fillBar {
+            to { transform: scaleX(1); }
+        }
+        
+        /* Hover Lift */
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        
+        /* Color Transition */
+        .color-transition {
+            transition: all 0.4s ease;
+        }
+        .color-transition:hover {
+            color: #c8a951;
+            transform: scale(1.1);
+        }
+        
+        /* Navbar Scroll Effect */
+        .navbar-scrolled {
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding-top: 0.5rem !important;
+            padding-bottom: 0.5rem !important;
+        }
+        
+        /* Smooth Scroll Behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Image Zoom on Hover */
+        .img-zoom {
+            overflow: hidden;
+        }
+        .img-zoom img {
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .img-zoom:hover img {
+            transform: scale(1.2);
+        }
+        
+        /* Gradient Text Animation */
+        .gradient-text {
+            background: linear-gradient(90deg, #c8a951, #b8860b, #c8a951);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+        
+        /* Border Animation */
+        .border-animation {
+            position: relative;
+        }
+        .border-animation::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #c8a951, #b8860b);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .border-animation:hover::after {
+            width: 100%;
+        }
+        
+        /* Tilt Effect */
+        .tilt-effect {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+        }
+        .tilt-effect:hover {
+            transform: perspective(1000px) rotateX(5deg) rotateY(5deg);
+        }
+        
+        /* Skeleton Loading */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Neon Glow Button */
+        .neon-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .neon-btn:hover {
+            box-shadow: 0 0 20px rgba(200, 169, 81, 0.6), 0 0 40px rgba(200, 169, 81, 0.4), 0 0 60px rgba(200, 169, 81, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Elastic Bounce */
+        .elastic-bounce {
+            animation: elasticBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        @keyframes elasticBounce {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Slide In From Left */
+        .slide-in-left {
+            animation: slideInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* Slide In From Right */
+        .slide-in-right {
+            animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* Rotate In */
+        .rotate-in {
+            animation: rotateIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+            opacity: 0;
+        }
+        @keyframes rotateIn {
+            from { opacity: 0; transform: rotate(-180deg) scale(0.5); }
+            to { opacity: 1; transform: rotate(0deg) scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-cream text-dark">
+
+    <!-- Top Banner -->
+    <div class="gold-gradient text-white py-2 px-4 text-center text-sm font-semibold">
+        <p>أفضل زيت زيتون بكر من مطروح وافضل زيوت تساقط الشعر
+            <a href="#" class="underline ml-2 hover:text-yellow-200 transition">تسوق الآن</a>
+        </p>
+    </div>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/201023696962" target="_blank" class="fixed bottom-6 left-6 z-50 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-40">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-4">
+                <a href="/" class="flex items-center gap-3">
+                    <div class="w-12 h-12 gold-gradient rounded-full flex items-center justify-center">
+                        <i class="fas fa-leaf text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-primary">نخبة</h1>
+                        <p class="text-xs text-gray-500">NOKHBA | خيرات سيوة ومطروح</p>
+                    </div>
+                </a>
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="/" class="text-gray-600 hover:text-primary font-medium transition">الرئيسية</a>
+                    <a href="/products.html" class="text-primary font-semibold border-b-2 border-primary pb-1">المنتجات</a>
+                    <a href="/#customer-reviews" class="text-gray-600 hover:text-primary font-medium transition">اراء عملائنا الكرام</a>
+                    <a href="https://play.google.com/store/apps/details?id=shop.karim.olive" target="_blank" class="text-gray-600 hover:text-primary font-medium transition">حمّل تطبيق نخبة</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <button id="cartBtn" class="relative p-2 hover:bg-gray-100 rounded-full transition">
+                        <i class="fas fa-shopping-cart text-xl text-primary"></i>
+                        <span id="cartCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+                    </button>
+                    <button id="mobileMenuBtn" class="md:hidden p-2 hover:bg-gray-100 rounded-full transition">
+                        <i class="fas fa-bars text-xl text-primary"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+            <div class="container mx-auto px-4 py-4 flex flex-col gap-4">
+                <a href="/" class="text-gray-600 font-medium py-2 border-b border-gray-100">الرئيسية</a>
+                <a href="/products.html" class="text-primary font-semibold py-2 border-b border-gray-100">المنتجات</a>
+                <a href="/#customer-reviews" class="text-gray-600 font-medium py-2 border-b border-gray-100">اراء عملائنا الكرام</a>
+                <a href="https://play.google.com/store/apps/details?id=shop.karim.olive" target="_blank" class="text-gray-600 font-medium py-2">حمّل تطبيق نخبة</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb Categories -->
+    <div class="bg-white border-b overflow-x-auto">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center gap-2 py-3 text-sm min-w-max">
+                <a href="/" class="text-gray-500 hover:text-primary transition">الرئيسية</a>
+                <i class="fas fa-chevron-left text-gray-400 text-xs"></i>
+                <span class="text-primary font-semibold">المنتجات</span>
+            </div>
+            <div class="flex items-center gap-1 pb-3">
+                <span class="text-gray-400 text-sm">‹</span>
+                <button class="category-pill active px-4 py-2 rounded-full text-sm font-medium" data-category="all">كل المنتجات</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium text-gray-600" data-category="olive">زيت زيتون بكر ممتاز</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium text-gray-600" data-category="offers">العروض والخصومات</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium text-gray-600" data-category="hair">باكدج زيوت الشعر الخطير 😍</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium text-gray-600" data-category="soap">صابون العناية بالبشره</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium text-gray-600" data-category="cosmetics">مستحضرات التجميل</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium text-gray-600" data-category="dates">تمر</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium text-gray-600" data-category="matrouh">منتجاتنا🥰</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium text-gray-600" data-category="spices">التوابل والبهارات</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium text-gray-600" data-category="natural-oils">زيوت طبيعية</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium text-gray-600" data-category="zaytoun">زيتون سيوي</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium text-gray-600" data-category="honey">عسل نحل والطحينه الخام</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium text-gray-600" data-category="tea">شاي الزرده والبن</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium text-gray-600" data-category="nuts">لب ومكسرات مطروح</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium text-gray-600" data-category="henna">الحنه و أعشاب الشعر</button>
+                <button class="category-pill px-4 py-2 rounded-full text-sm font-medium text-gray-600" data-category="herbs">الأعشاب والبذور العلاجية</button>
+                <span class="text-gray-400 text-sm">›</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search & Filters Bar -->
+    <section class="bg-white py-6 border-b">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl mx-auto">
+                <div class="relative">
+                    <input type="text" id="searchInput" placeholder="ابحث في منتجاتنا الطبيعية..." class="w-full border-2 border-gray-200 rounded-full py-3 px-6 pr-12 focus:border-primary transition text-right">
+                    <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                </div>
+                <p class="text-center text-gray-500 text-sm mt-2">اكتب اسم المنتج للبحث في مجموعتنا الكاملة</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <main class="py-12" id="main-content">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-3">منتجاتنا الطبيعية من سيوة ومطروح</h2>
+                <p class="text-gray-500 max-w-3xl mx-auto">زيت زيتون بكر ممتاز، زيتون مخلل، بهارات عضوية، ومنتجات طبيعية مختارة بعناية لأعلى جودة بأفضل سعر</p>
+                <p class="text-gray-600 mt-2 font-medium">نخبة هو متجرك الأول لأجود المنتجات الطبيعية المستخرجة من واحات سيوة ومطروح. نوصل لجميع أنحاء مصر بأسرع وقت ممكن.</p>
+            </div>
+
+            <!-- Filter Results Count -->
+            <div class="flex items-center justify-between mb-6">
+                <p class="text-gray-500" id="resultsCount">عرض جميع المنتجات (١٢)</p>
+                <select class="border border-gray-200 rounded-lg px-4 py-2 text-sm focus:border-primary outline-none">
+                    <option>الترتيب: الأكثر مبيعاً</option>
+                    <option>السعر: من الأقل للأعلى</option>
+                    <option>السعر: من الأعلى للأقل</option>
+                    <option>الأحدث</option>
+                </select>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="productsGrid">
+                <!-- Products will be injected by JS -->
+            </div>
+
+            <!-- Load More -->
+            <div class="text-center mt-12">
+                <button class="border-2 border-primary text-primary px-10 py-3 rounded-full font-bold hover:bg-primary hover:text-white transition-all duration-300">
+                    عرض المزيد من المنتجات
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 gold-gradient rounded-full flex items-center justify-center">
+                            <i class="fas fa-leaf text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">نخبة</h3>
+                            <p class="text-xs text-gray-400">NOKHBA | خيرات سيوة ومطروح</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">أجود المنتجات الطبيعية من قلب الصحراء الغربية</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-yellow-400">روابط سريعة</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/" class="hover:text-white transition">الرئيسية</a></li>
+                        <li><a href="/products.html" class="hover:text-white transition">المنتجات</a></li>
+                        <li><a href="#" class="hover:text-white transition">سياسة الشحن</a></li>
+                        <li><a href="#" class="hover:text-white transition">سياسة الاسترجاع</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-yellow-400">المنتجات</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">زيوت الزيتون</a></li>
+                        <li><a href="#" class="hover:text-white transition">الزيتون المخلل</a></li>
+                        <li><a href="#" class="hover:text-white transition">البهارات والأعشاب</a></li>
+                        <li><a href="#" class="hover:text-white transition">زيوت الشعر</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-yellow-400">تواصل معنا</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><i class="fas fa-phone ml-2 text-yellow-400"></i>01000709753</li>
+                        <li><i class="fas fa-map-marker-alt ml-2 text-yellow-400"></i>مرسي مطروح، مصر</li>
+                    </ul>
+                    <div class="flex gap-4 mt-4">
+                        <a href="https://www.facebook.com/kareim154" target="_blank" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://wa.me/201023696962" target="_blank" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-green-600 transition"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/karimoliveshop/" target="_blank" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/Karim_sirry" target="_blank" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-sky-600 transition"><i class="fab fa-x-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2026 نخبة. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="hidden fixed inset-0 z-50 flex justify-end">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" id="cartOverlay"></div>
+        <div class="relative bg-white w-full max-w-md h-full shadow-2xl slide-up overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b p-4 flex items-center justify-between z-10">
+                <h3 class="text-xl font-bold text-primary">عربة التسوق</h3>
+                <button id="closeCart" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition"><i class="fas fa-times text-gray-500"></i></button>
+            </div>
+            <div class="p-4">
+                <div id="emptyCart" class="text-center py-16">
+                    <i class="fas fa-shopping-cart text-6xl text-gray-200 mb-4"></i>
+                    <p class="text-gray-500 text-lg">العربة فارغة</p>
+                    <a href="/" class="inline-block mt-4 bg-primary text-white px-6 py-2 rounded-full hover:bg-secondary transition">تسوق الآن</a>
+                </div>
+                <div id="cartItems" class="hidden space-y-4"></div>
+            </div>
+            <div class="sticky bottom-0 bg-white border-t p-4" id="cartFooter" style="display:none;">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-gray-600">المجموع:</span>
+                    <span class="text-2xl font-bold text-primary" id="cartTotal">0.00 ج.م</span>
+                </div>
+                <a href="https://wa.me/201023696962?text=أرغب في طلب منتجات من متجر نخبة" target="_blank" class="block w-full bg-green-500 text-white text-center py-3 rounded-full font-bold hover:bg-green-600 transition">
+                    <i class="fab fa-whatsapp ml-2"></i>تابع الي تفاصيل الشحن
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== ALL PRODUCTS ==========
+        const allProducts = [
+            // === زيت زيتون بكر ممتاز ===
+            {
+                id: 101, category: "olive",
+                name: "🫒 زيت زيتون نخبة – سوبر إكسترا فرجن",
+                nameEn: "Olive Oil Super Extra Virgin",
+                image: "https://karimolive.shop/uploads/products/images/d1ecfa82ed114b868cb29411746dd26f.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "1كيلو",
+                price: 500, oldPrice: 600, discount: 17,
+                available: true, rating: 5.0, reviews: 0
+            },
+            {
+                id: 102, category: "olive",
+                name: "🫒 زيت زيتون نخبة – سوبر إكسترا فرجن",
+                image: "https://karimolive.shop/uploads/products/images/b733c4eae97d49f793027187babb71c4.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "500جرام",
+                price: 280, oldPrice: 340, discount: 18,
+                available: true
+            },
+            {
+                id: 103, category: "olive",
+                name: "🫒 زيت زيتون نخبة – سوبر إكسترا فرجن",
+                image: "https://karimolive.shop/uploads/products/images/7aa926092dce413e84dbabb2d1f84e2e.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "250جرام",
+                price: 150, oldPrice: 200, discount: 25,
+                available: true
+            },
+            {
+                id: 104, category: "olive",
+                name: "زيت زيتون بكر خام – جركن 1 لتر | مطروح",
+                image: "https://karimolive.shop/uploads/products/images/42fdafa49ba0457dbe7710e094b402fc.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "١ لتر",
+                price: 400, oldPrice: 450, discount: 11,
+                available: true
+            },
+            {
+                id: 105, category: "olive",
+                name: "زيت زيتون بكر خام – جركن ½ لتر | مطروح",
+                image: "https://karimolive.shop/uploads/products/images/3628e72c02644b9da0d8ed5986ee4d6f.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "½ لتر",
+                price: 210, oldPrice: 250, discount: 16,
+                available: true
+            },
+            {
+                id: 106, category: "olive",
+                name: "زيت زيتون بكر خام – جركن ¼ لتر | مطروح",
+                image: "https://karimolive.shop/uploads/products/images/08812245d8da41b19e3659c88cc8a3b4.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "¼لتر",
+                price: 110, oldPrice: 125, discount: 12,
+                available: true
+            },
+            {
+                id: 107, category: "olive",
+                name: "زيت زيتون بكر ممتاز (الوادي) – زجاج غامق ¼ لتر",
+                image: "https://karimolive.shop/uploads/products/images/9d9e27c2-dc17-4d72-8ccd-4260326decf1.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "¼لتر",
+                price: 150, oldPrice: 170, discount: 12,
+                available: true
+            },
+            {
+                id: 108, category: "olive",
+                name: "زيت زيتون بكر ممتاز (الوادي) – بلاستيك 1 لتر",
+                image: "https://karimolive.shop/uploads/products/images/be0d8b3a33814fc5a6697dbbfe95fa85.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "1 لتر",
+                price: 450, oldPrice: 500, discount: 10,
+                available: true
+            },
+            {
+                id: 109, category: "olive",
+                name: "زيت زيتون بكر ممتاز (الوادي) – بلاستيك ½ لتر",
+                image: "https://karimolive.shop/uploads/products/images/8175ccef-7bdf-4230-a003-6fd19a43a225.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "½لتر",
+                price: 240, oldPrice: 280, discount: 14,
+                available: true
+            },
+            {
+                id: 110, category: "olive",
+                name: "زيت زيتون بكر ممتاز (الوادي) – زجاج غامق 1 لتر",
+                image: "https://karimolive.shop/uploads/products/images/62ce47c9a0794db0b5504172dcca6e1b.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "1 لتر",
+                price: 500, oldPrice: 550, discount: 9,
+                available: true
+            },
+            {
+                id: 111, category: "olive",
+                name: "زيت زيتون بكر ممتاز (الوادي) – زجاج غامق ½ لتر",
+                image: "https://karimolive.shop/uploads/products/images/56451dc6-ff87-4d13-9f84-bad18ac81d45.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "½لتر",
+                price: 280, oldPrice: 300, discount: 7,
+                available: true
+            },
+            {
+                id: 112, category: "olive",
+                name: "زيت زيتون عجيبه",
+                image: "https://karimolive.shop/uploads/products/images/89dbf7e2799a45ae922a37721153b777.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "١لتر",
+                price: 550, oldPrice: 650, discount: 15,
+                available: true
+            },
+            {
+                id: 113, category: "olive",
+                name: "زيت زيتون الشعر – أوليفيا 🌿",
+                image: "https://karimolive.shop/uploads/products/images/4edaae7e9a93480891afcbdfaebf6f2f.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "",
+                price: 80, oldPrice: 100, discount: 20,
+                available: true
+            },
+            // === العروض والخصومات ===
+            {
+                id: 201, category: "offers",
+                name: "1كيلو زيت زيتون +ربع هديه",
+                image: "https://karimolive.shop/uploads/products/images/6aa2d8ea2938495ca9725222fc7dc4fe.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "",
+                price: 500, oldPrice: 650, discount: 23,
+                available: true
+            },
+            {
+                id: 202, category: "offers",
+                name: "3صابون طبيعي +1صابونه هديه",
+                image: "https://karimolive.shop/uploads/products/images/dfe4c89c8d3e4d4e863a1d09c9bd67c8.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "",
+                price: 210, oldPrice: 280, discount: 25,
+                available: true
+            },
+            {
+                id: 203, category: "offers",
+                name: "باكيت كِش كِنج الهندي الأصلي – شامبو + زيت",
+                image: "https://karimolive.shop/uploads/products/images/f658331686324b04af68879283017f68.webp",
+                origin: "من الهند",
+                weight: "",
+                price: 450, oldPrice: 600, discount: 25,
+                available: true
+            },
+            {
+                id: 204, category: "offers",
+                name: "عرض منتجات سيوه",
+                image: "https://karimolive.shop/uploads/products/images/c86690ffcdfb4df999f34d4a14418ba8.webp",
+                origin: "من سيوه",
+                weight: "",
+                price: 500, oldPrice: 750, discount: 33,
+                available: true
+            },
+            {
+                id: 205, category: "offers",
+                name: "زيت زيتون بكر ممتاز(الوادي)½ زجاج غامق عرض 3+1هديه",
+                image: "https://karimolive.shop/uploads/products/images/52cf9e3af6be4927a03c2a9ae95ea447.webp",
+                origin: "من مطروح ( محل نخبة)",
+                weight: "",
+                price: 840, oldPrice: 1120, discount: 25,
+                available: true
+            },
+            {
+                id: 206, category: "offers",
+                name: "عرض مجموعه لبان الدكر للعنايه بالبشره",
+                image: "https://karimolive.shop/uploads/products/images/6b45f375a87a4fbf9c4c2173e2790ebb.webp",
+                origin: "من مطروح ( محل نخبة)",
+                weight: "",
+                price: 200, oldPrice: 320, discount: 38,
+                available: true
+            },
+            {
+                id: 207, category: "offers",
+                name: "مجموعة التغذية العميقة",
+                image: "https://karimolive.shop/uploads/products/images/2bfc6c0997204586acfe25200e44b9b1.webp",
+                origin: "من مطروح ( محل نخبة)",
+                weight: "60 مل للزجاجة",
+                price: 300, oldPrice: 350, discount: 14,
+                available: true
+            },
+            {
+                id: 208, category: "offers",
+                name: "مجموعة الترميم الشامل",
+                image: "https://karimolive.shop/uploads/products/images/449a7ee890274cadbc02125852729d7c.webp",
+                origin: "من مطروح ( محل نخبة)",
+                weight: "60 مل للزجاجة",
+                price: 410, oldPrice: 490, discount: 16,
+                available: true
+            },
+            {
+                id: 209, category: "offers",
+                name: "المجموعة الذهبية",
+                image: "https://karimolive.shop/uploads/products/images/d715edf4a6e34c92a308673bc72e80d5.webp",
+                origin: "من مطروح ( محل نخبة)",
+                weight: "60 مل للزجاجة",
+                price: 490, oldPrice: 630, discount: 22,
+                available: true
+            },
+            {
+                id: 210, category: "offers",
+                name: "مجموعة الإشراقة السريعة",
+                image: "https://karimolive.shop/uploads/products/images/a1db9e89db554ecfa81b1ca2d51e3322.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "60 مل للزجاجة",
+                price: 190, oldPrice: 210, discount: 10,
+                available: true, rating: 5.0, reviews: 0
+            },
+            {
+                id: 211, category: "offers",
+                name: "مجموعتين زيوت (تساقط + انبات ) + ديرما رولر هديه",
+                image: "https://karimolive.shop/uploads/products/images/5a17f0787fe145af858734d93ba83bf9.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "150 مل للزجاجة",
+                price: 400, oldPrice: 500, discount: 20,
+                available: false
+            },
+            {
+                id: 212, category: "offers",
+                name: "مجموعتين زيوت (تساقط + انبات ) + ربع سدرمطحون هدية",
+                image: "https://karimolive.shop/uploads/products/images/9af0c333c0a84136b18969afbb3f05cb.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "150 مل للزجاجة",
+                price: 400, oldPrice: 450, discount: 11,
+                available: true
+            },
+            // === باكدج زيوت الشعر ===
+            {
+                id: 301, category: "hair",
+                name: "مجموعة الخطير 2 لفراغات الشعر – حجم صغير 💗",
+                image: "https://karimolive.shop/uploads/products/images/d2822d02e0cf43719dbdddc79393b82f.webp",
+                origin: "من مطروح ( محل نخبة)",
+                weight: "",
+                price: 200, oldPrice: 280, discount: 29,
+                available: true
+            },
+            {
+                id: 302, category: "hair",
+                name: "مجموعه الخطير 1 لتساقط الشعر",
+                image: "https://karimolive.shop/uploads/products/images/2c5230a631b84f849277403bce92adba.webp",
+                origin: "من مطروح ( محل نخبة )",
+                weight: "",
+                price: 200, oldPrice: 280, discount: 29,
+                available: true, rating: 4.0, reviews: 0
+            },
+            {
+                id: 303, category: "hair",
+                name: "مجموعه منير الخطير 2 حجم كبير",
+                image: "https://karimolive.shop/uploads/products/images/fd3a601c885945d2b56e578300d7ccd5.webp",
+                origin: "من مطروح ( محل نخبة)",
+                weight: "",
+                price: 280, oldPrice: 320, discount: 12,
+                available: true
+            },
+            {
+                id: 304, category: "hair",
+                name: "زيت الحية الباكستاني الأصلي",
+                image: "https://karimolive.shop/uploads/products/images/42b1cb5385254cd19807a6e695177119.webp",
+                origin: "من باكستان",
+                weight: "",
+                price: 250, oldPrice: 300, discount: 17,
+                available: true
+            },
+            {
+                id: 305, category: "hair",
+                name: "زيت الكركار السوداني",
+                image: "https://karimolive.shop/uploads/products/images/535a9ad3311646c28253c2acfce5d4b0.webp",
+                origin: "من السودان",
+                weight: "",
+                price: 150, oldPrice: 180, discount: 17,
+                available: true
+            },
+            {
+                id: 306, category: "hair",
+                name: "سيروم لوريال الذهبي للشعرلعلاج الهيشان ولمعان فوري",
+                image: "https://karimolive.shop/uploads/products/images/047fd2c0c79d48b282e3beffef99217a.webp",
+                origin: "من فرنسا",
+                weight: "",
+                price: 0, oldPrice: 0, discount: 17,
+                available: true
+            },
+        ];
+
+        // Additional best seller products from homepage
+        const bestSellers = [
+            { id: 518, category: "default", name: "البربرين", image: "https://karimolive.shop/uploads/products/images/4e015918ff0f4d328f326f8d541ee5b4.webp", description: "البربرين هو ثمار صغيرة حمراء زاهية، يتميز بمذاق يجمع بين الحلاوة والحموضة الخفيفة. يخفض سكر الدم ويحسن صحة القلب.", origin: "من الصين", weight: "100 جرام", price: 300, oldPrice: 400, discount: 25, available: true },
+        ];
+
+        // Append best seller to all products
+        allProducts.push(...bestSellers);
+
+        // ========== CART SYSTEM ==========
+        let cart = [];
+
+        function loadCart() {
+            const saved = localStorage.getItem('nokhba_cart');
+            if (saved) cart = JSON.parse(saved);
+            updateCartUI();
+        }
+
+        function saveCart() {
+            localStorage.setItem('nokhba_cart', JSON.stringify(cart));
+        }
+
+        function addToCart(product) {
+            if (!product.available) return;
+            const existing = cart.find(item => item.id === product.id);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            saveCart();
+            updateCartUI();
+            const badge = document.getElementById('cartCount');
+            badge.classList.add('cart-badge');
+            setTimeout(() => badge.classList.remove('cart-badge'), 500);
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            saveCart();
+            updateCartUI();
+            renderCartItems();
+        }
+
+        function updateQty(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) { removeFromCart(productId); return; }
+            saveCart();
+            updateCartUI();
+            renderCartItems();
+        }
+
+        function updateCartUI() {
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            document.getElementById('cartCount').textContent = count;
+            document.getElementById('cartTotal').textContent = total.toLocaleString('ar-EG') + ' ج.م';
+            const emptyCart = document.getElementById('emptyCart');
+            const cartItems = document.getElementById('cartItems');
+            const cartFooter = document.getElementById('cartFooter');
+            if (cart.length === 0) {
+                emptyCart.style.display = 'block';
+                cartItems.classList.add('hidden');
+                cartFooter.style.display = 'none';
+            } else {
+                emptyCart.style.display = 'none';
+                cartItems.classList.remove('hidden');
+                cartFooter.style.display = 'block';
+            }
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById('cartItems');
+            container.innerHTML = cart.map(item => `
+                <div class="flex gap-4 bg-cream rounded-xl p-4">
+                    <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm text-primary line-clamp-2">${item.name}</h4>
+                        <p class="text-gray-500 text-xs mt-1">${item.weight || item.origin || ''}</p>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="font-bold text-primary">${item.price} ج.م</span>
+                            <div class="flex items-center gap-2">
+                                <button onclick="updateQty(${item.id}, -1)" class="w-7 h-7 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-sm transition">-</button>
+                                <span class="font-bold text-sm w-6 text-center">${item.qty}</span>
+                                <button onclick="updateQty(${item.id}, 1)" class="w-7 h-7 rounded-full bg-primary hover:bg-secondary text-white flex items-center justify-center text-sm transition">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-500 transition self-start"><i class="fas fa-trash"></i></button>
+                </div>
+            `).join('');
+        }
+
+        // ========== RENDER PRODUCT CARD ==========
+        function renderProductCard(product) {
+            const stars = product.rating ? '<div class="flex items-center gap-1 mb-2">' + 
+                Array.from({length: 5}, (_, i) => `<i class="fas fa-star text-${product.rating >= 4.5 ? 'yellow' : 'gray'}-400 text-xs"></i>`).join('') +
+                `<span class="text-xs text-gray-400 mr-1">(${product.reviews || 0})</span></div>` : '';
+            
+            return `
+                <div class="bg-white rounded-2xl shadow-md overflow-hidden card-hover flex flex-col ${!product.available ? 'opacity-75' : ''}">
+                    <div class="relative overflow-hidden">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-52 object-cover hover:scale-105 transition-transform duration-500">
+                        ${product.discount ? `<span class="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full discount-badge">خصم ${product.discount}%</span>` : ''}
+                        ${!product.available ? `<div class="absolute inset-0 bg-black/60 flex items-center justify-center"><span class="bg-red-600 text-white px-6 py-2 rounded-full font-bold">نفذت الكمية</span></div>` : ''}
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col">
+                        <h3 class="font-bold text-primary text-sm mb-1 line-clamp-2 min-h-[2.5rem]">${product.name}</h3>
+                        ${stars}
+                        <p class="text-gray-500 text-xs mb-2 line-clamp-2 flex-1">${product.description || product.origin}</p>
+                        <div class="flex items-center gap-2 text-xs text-gray-400 mb-3">
+                            <span><i class="fas fa-map-marker-alt ml-1"></i>${product.origin || ''}</span>
+                            ${product.weight ? `<span class="mr-2">| <i class="fas fa-weight-hanging ml-1"></i>${product.weight}</span>` : ''}
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <div>
+                                <span class="text-primary font-bold text-lg">${product.price > 0 ? product.price + ' ج.م' : 'السعر عند الطلب'}</span>
+                                ${product.oldPrice && product.price > 0 ? `<span class="text-gray-400 line-through text-sm mr-2">${product.oldPrice} ج.م</span>` : ''}
+                            </div>
+                            ${product.available ? `
+                                <button onclick='addToCart(${JSON.stringify(product).replace(/'/g, "&#39;")})' class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-full text-sm font-bold transition flex items-center gap-2">
+                                    <i class="fas fa-cart-plus"></i> أضف للسلة
+                                </button>
+                            ` : `
+                                <button disabled class="bg-gray-300 text-gray-500 px-4 py-2 rounded-full text-sm font-bold cursor-not-allowed">غير متوفر</button>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ========== FILTER & SEARCH ==========
+        let currentCategory = 'all';
+
+        function getFilteredProducts() {
+            const search = document.getElementById('searchInput').value.trim().toLowerCase();
+            let filtered = allProducts;
+            
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(p => p.category === currentCategory);
+            }
+            
+            if (search) {
+                filtered = filtered.filter(p => 
+                    p.name.toLowerCase().includes(search) || 
+                    (p.description && p.description.toLowerCase().includes(search))
+                );
+            }
+            return filtered;
+        }
+
+        function renderProducts() {
+            const filtered = getFilteredProducts();
+            const container = document.getElementById('productsGrid');
+            container.innerHTML = filtered.map(renderProductCard).join('');
+            document.getElementById('resultsCount').textContent = `عرض جميع المنتجات (${filtered.length})`;
+        }
+
+        // Category pills click
+        document.querySelectorAll('.category-pill').forEach(pill => {
+            pill.addEventListener('click', () => {
+                document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                currentCategory = pill.dataset.category;
+                renderProducts();
+            });
+        });
+
+        // Search input
+        document.getElementById('searchInput').addEventListener('input', renderProducts);
+
+        // ========== CART MODAL ==========
+        document.getElementById('cartBtn').addEventListener('click', () => {
+            renderCartItems();
+            document.getElementById('cartModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        document.getElementById('closeCart').addEventListener('click', closeCart);
+        document.getElementById('cartOverlay').addEventListener('click', closeCart);
+
+        function closeCart() {
+            document.getElementById('cartModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // ========== MOBILE MENU ==========
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
+
+        // ========== SCROLL ANIMATIONS ==========
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCart();
+            renderProducts();
+
+            // Navbar scroll effect
+            const navbar = document.querySelector('header');
+            let lastScroll = 0;
+            
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll > 50) {
+                    navbar.classList.add('navbar-scrolled');
+                } else {
+                    navbar.classList.remove('navbar-scrolled');
+                }
+                
+                lastScroll = currentScroll;
+            });
+
+            // Product cards stagger animation
+            document.querySelectorAll('#productsGrid > div').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 50 + (index * 60));
+            });
+
+            // Category pills click effect
+            document.querySelectorAll('.category-pill').forEach(pill => {
+                pill.addEventListener('click', function() {
+                    this.classList.add('elastic-bounce');
+                    setTimeout(() => {
+                        this.classList.remove('elastic-bounce');
+                    }, 600);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

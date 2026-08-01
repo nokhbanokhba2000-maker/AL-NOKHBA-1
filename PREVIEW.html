@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معاينة موقع نخبة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+        .card { transition: all 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-900 via-green-700 to-yellow-600 min-h-screen text-white">
+    <div class="container mx-auto px-4 py-16">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full mb-6">
+                <i class="fas fa-leaf text-yellow-400 text-2xl"></i>
+                <span class="text-xl font-bold">نخبة | NOKHBA</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">🌐 موقعك جاهز للمعاينة</h1>
+            <p class="text-xl text-green-100">اختر طريقة العرض المفضلة لديك</p>
+        </div>
+
+        <!-- Preview Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            
+            <!-- Card 1 -->
+            <div class="card bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+                <div class="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-folder-open text-green-900 text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-3">الطريقة الأسهل</h2>
+                <p class="text-green-100 mb-4">افتح الملف مباشرة في المتصفح</p>
+                <code class="bg-black/30 px-3 py-2 rounded text-sm block mb-4">
+                    /mnt/workspace/projects/nokhba/index.html
+                </code>
+                <a href="#" onclick="copyPath(this)" class="block text-center bg-yellow-400 text-green-900 font-bold py-3 rounded-xl hover:bg-yellow-300 transition">
+                    <i class="fas fa-copy ml-2"></i>نسخ المسار
+                </a>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+                <div class="w-16 h-16 bg-blue-400 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-server text-white text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-3">خادم محلي</h2>
+                <p class="text-green-100 mb-4">شغل خادمًا محليًا على جهازك</p>
+                <pre class="bg-black/30 p-3 rounded text-sm overflow-x-auto">
+cd projects/nokhba
+python3 -m http.server 8000
+                </pre>
+                <p class="mt-3 text-sm text-green-200">ثم افتح: <strong class="text-yellow-300">localhost:8000</strong></p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+                <div class="w-16 h-16 bg-purple-400 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-code text-white text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold mb-3">ملفات المشروع</h2>
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3 bg-black/20 px-4 py-3 rounded-lg">
+                        <i class="fas fa-file-code text-blue-400"></i>
+                        <span class="font-mono text-sm">index.html</span>
+                        <span class="mr-auto text-xs text-gray-300">65 KB</span>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black/20 px-4 py-3 rounded-lg">
+                        <i class="fas fa-file-code text-green-400"></i>
+                        <span class="font-mono text-sm">products.html</span>
+                        <span class="mr-auto text-xs text-gray-300">56 KB</span>
+                    </div>
+                    <div class="flex items-center gap-3 bg-black/20 px-4 py-3 rounded-lg">
+                        <i class="fas fa-info-circle text-yellow-400"></i>
+                        <span class="font-mono text-sm">PREVIEW.md</span>
+                        <span class="mr-auto text-xs text-gray-300">تعليمات</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Features -->
+        <div class="max-w-4xl mx-auto mt-12 bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+            <h2 class="text-2xl font-bold mb-6 text-center">✨ مميزات الموقع</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="text-center">
+                    <i class="fas fa-mobile-alt text-3xl text-yellow-400 mb-2"></i>
+                    <p class="text-sm">تصميم متجاوب</p>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-shopping-cart text-3xl text-yellow-400 mb-2"></i>
+                    <p class="text-sm">عربة تسوق</p>
+                </div>
+                <div class="text-center">
+                    <i class="fas fa-palette text-3xl text-yellow-400 mb-2"></i>
+                    <p class="text-sm">20+ تأثير حركي</p>
+                </div>
+                <div class="text-center">
+                    <i class="fab fa-whatsapp text-3xl text-yellow-400 mb-2"></i>
+                    <p class="text-sm">زر واتساب عائم</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-8 text-green-200 text-sm">
+            <p>© 2026 نخبة | NOKHBA - جميع الحقوق محفوظة</p>
+        </div>
+    </div>
+
+    <script>
+        function copyPath(btn) {
+            const path = '/mnt/workspace/projects/nokhba/index.html';
+            navigator.clipboard.writeText(path).then(() => {
+                btn.innerHTML = '<i class="fas fa-check ml-2"></i>تم النسخ!';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-copy ml-2"></i>نسخ المسار';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

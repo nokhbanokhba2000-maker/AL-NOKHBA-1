@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="نخبة - خيرات سيوة ومطروح | أجود المنتجات الطبيعية من قلب الصحراء الغربية">
+    <title>نخبة | NOKHBA - خيرات سيوة ومطروح</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2d5a27',
+                        secondary: '#4a7c42',
+                        accent: '#c8a951',
+                        gold: '#b8860b',
+                        cream: '#faf8f0',
+                        dark: '#1a1a1a'
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Cairo', sans-serif; }
+        body { direction: rtl; }
+        
+        /* Theme Variables */
+        :root {
+            --primary: #2d5a27;
+            --secondary: #4a7c42;
+            --gold: #c8a951;
+            --cream: #faf8f0;
+            --dark: #1a1a1a;
+        }
+        
+        [data-theme="dark"] {
+            --cream: #1a1a1a;
+            --dark: #faf8f0;
+            --primary: #4a7c42;
+        }
+        
+        .hero-gradient { background: linear-gradient(135deg, #1a3a15 0%, #2d5a27 50%, #1a3a15 100%); }
+        .gold-gradient { background: linear-gradient(135deg, #c8a951 0%, #b8860b 50%, #c8a951 100%); }
+        
+        /* Card Hover Effects */
+        .card-hover { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(0,0,0,0.15); }
+        
+        /* Category Cards */
+        .category-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s ease;
+        }
+        .category-card:hover::before { left: 100%; }
+        .category-card:hover { transform: translateY(-12px) scale(1.02); }
+        .category-card img { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .category-card:hover img { transform: scale(1.15); }
+        
+        /* Discount Badge */
+        .discount-badge { animation: pulse 2s infinite; }
+        @keyframes pulse { 
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            50% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #2d5a27, #4a7c42); border-radius: 4px; }
+        
+        /* Animations */
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .slide-up { animation: slideUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .cart-badge { animation: cartBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+        @keyframes cartBounce { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
+        
+        .btn-ripple { position: relative; overflow: hidden; }
+        .btn-ripple::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 0; height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        .btn-ripple:active::after { width: 200px; height: 200px; }
+        
+        /* Floating Particles */
+        .particle {
+            position: absolute;
+            width: 6px; height: 6px;
+            background: rgba(200, 169, 81, 0.6);
+            border-radius: 50%;
+            animation: float 8s infinite ease-in-out;
+        }
+        .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; top: 60%; animation-delay: 1s; width: 4px; height: 4px; }
+        .particle:nth-child(3) { left: 70%; top: 30%; animation-delay: 2s; width: 8px; height: 8px; }
+        .particle:nth-child(4) { left: 80%; top: 70%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 50%; top: 10%; animation-delay: 4s; width: 5px; height: 5px; }
+        .particle:nth-child(6) { left: 30%; top: 80%; animation-delay: 5s; width: 7px; height: 7px; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateY(-40px) rotate(180deg); opacity: 1; }
+        }
+        
+        /* Shimmer Effect */
+        .shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        
+        /* Glow Effect */
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(45, 90, 39, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(45, 90, 39, 0.3); }
+            to { box-shadow: 0 0 30px rgba(45, 90, 39, 0.6), 0 0 40px rgba(200, 169, 81, 0.4); }
+        }
+        
+        /* Scale In Animation */
+        .scale-in { animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; opacity: 0; }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        
+        /* Flip Card Effect */
+        .flip-card { perspective: 1000px; }
+        .flip-card-inner { transition: transform 0.6s; transform-style: preserve-3d; }
+        .flip-card:hover .flip-card-inner { transform: rotateY(10deg) rotateX(5deg); }
+        
+        /* Wave Animation */
+        .wave { display: inline-block; animation: wave 1.5s infinite; transform-origin: 70% 70%; }
+        @keyframes wave { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-15deg); } 75% { transform: rotate(15deg); } }
+        
+        /* Section Reveal */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        /* Stagger Children */
+        .stagger-children > * { opacity: 0; transform: translateY(20px); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(4) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(5) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(6) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(7) { transition-delay: 0.7s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(8) { transition-delay: 0.8s; opacity: 1; transform: translateY(0); }
+        
+        /* Navbar Scroll Effect */
+        .navbar-scrolled { background: rgba(255, 255, 255, 0.98) !important; backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+        
+        /* Image Zoom */
+        .img-zoom { overflow: hidden; }
+        .img-zoom img { transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+        .img-zoom:hover img { transform: scale(1.2); }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(90deg, #c8a951, #b8860b, #c8a951);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+        
+        /* Neon Button */
+        .neon-btn {
+            position: relative; overflow: hidden; transition: all 0.3s ease;
+        }
+        .neon-btn:hover {
+            box-shadow: 0 0 20px rgba(200, 169, 81, 0.6), 0 0 40px rgba(200, 169, 81, 0.4), 0 0 60px rgba(200, 169, 81, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Elastic Bounce */
+        .elastic-bounce { animation: elasticBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+        @keyframes elasticBounce { 0% { transform: scale(0.8); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        
+        /* Back to Top */
+        .back-to-top {
+            position: fixed; bottom: 30px; right: 30px; z-index: 100;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+        }
+        .back-to-top.visible { opacity: 1; visibility: visible; }
+        
+        /* Quick View Modal */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 50;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content {
+            transform: scale(0.8); transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        
+        /* Preloader */
+        .preloader {
+            position: fixed; inset: 0; background: #fff; z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+        .preloader.hidden { opacity: 0; pointer-events: none; }
+        .spinner {
+            width: 60px; height: 60px; border: 4px solid #f3f3f3;
+            border-top: 4px solid #2d5a27; border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Cookie Banner */
+        .cookie-banner {
+            position: fixed; bottom: 0; left: 0; right: 0; background: white;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 40;
+            transform: translateY(100%); transition: transform 0.5s ease;
+        }
+        .cookie-banner.show { transform: translateY(0); }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
+            background: #2d5a27; color: white; padding: 16px 32px; border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 60; transition: transform 0.4s ease;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        
+        /* Theme Toggle */
+        .theme-toggle { cursor: pointer; transition: transform 0.3s ease; }
+        .theme-toggle:hover { transform: rotate(180deg); }
+    </style>
+</head>
+<body class="bg-cream text-dark">
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="text-center">
+            <div class="spinner mx-auto mb-4"></div>
+            <p class="text-primary font-bold text-xl">نخبة</p>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle ml-2"></i>
+        <span id="toastMessage">تمت الإضافة للسلة</span>
+    </div>
+
+    <!-- Top Banner -->
+    <div class="gold-gradient text-white py-2 px-4 text-center text-sm font-semibold">
+        <p>أفضل زيت زيتون بكر من مطروح وافضل زيوت تساقط الشعر
+            <a href="#products" class="underline ml-2 hover:text-yellow-200 transition">تسوق الآن</a>
+        </p>
+    </div>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/201023696962" target="_blank" class="fixed bottom-6 left-6 z-50 bg-green-500 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-all duration-300 hover:scale-110">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top bg-primary text-white w-12 h-12 rounded-full shadow-lg hover:bg-secondary transition-all duration-300 flex items-center justify-center">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-40" id="navbar">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-4">
+                <!-- Logo -->
+                <a href="/" class="flex items-center gap-3">
+                    <div class="w-12 h-12 gold-gradient rounded-full flex items-center justify-center">
+                        <i class="fas fa-leaf text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-primary">نخبة</h1>
+                        <p class="text-xs text-gray-500">NOKHBA | خيرات سيوة ومطروح</p>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="/" class="text-primary font-semibold border-b-2 border-primary pb-1">الرئيسية</a>
+                    <a href="/products.html" class="text-gray-600 hover:text-primary font-medium transition">المنتجات</a>
+                    <a href="#customer-reviews" class="text-gray-600 hover:text-primary font-medium transition">اراء عملائنا الكرام</a>
+                    <a href="https://play.google.com/store/apps/details?id=shop.karim.olive" target="_blank" class="text-gray-600 hover:text-primary font-medium transition">حمّل تطبيق نخبة</a>
+                </nav>
+
+                <!-- Right Icons -->
+                <div class="flex items-center gap-4">
+                    <!-- Theme Toggle -->
+                    <button id="themeToggle" class="theme-toggle p-2 hover:bg-gray-100 rounded-full transition">
+                        <i class="fas fa-moon text-xl text-primary" id="themeIcon"></i>
+                    </button>
+                    
+                    <!-- Cart Button -->
+                    <button id="cartBtn" class="relative p-2 hover:bg-gray-100 rounded-full transition">
+                        <i class="fas fa-shopping-cart text-xl text-primary"></i>
+                        <span id="cartCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+                    </button>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuBtn" class="md:hidden p-2 hover:bg-gray-100 rounded-full transition">
+                        <i class="fas fa-bars text-xl text-primary"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+            <div class="container mx-auto px-4 py-4 flex flex-col gap-4">
+                <a href="/" class="text-primary font-semibold py-2 border-b border-gray-100">الرئيسية</a>
+                <a href="/products.html" class="text-gray-600 font-medium py-2 border-b border-gray-100">المنتجات</a>
+                <a href="#customer-reviews" class="text-gray-600 font-medium py-2 border-b border-gray-100">اراء عملائنا الكرام</a>
+                <a href="https://play.google.com/store/apps/details?id=shop.karim.olive" target="_blank" class="text-gray-600 font-medium py-2">حمّل تطبيق نخبة</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-20 md:py-32 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-10 right-10 w-64 h-64 bg-white rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 left-10 w-96 h-96 bg-yellow-400 rounded-full blur-3xl"></div>
+        </div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <div class="mb-6 inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-6 py-2 rounded-full">
+                <i class="fas fa-certificate text-accent"></i>
+                <span class="font-semibold">جودة مضمونة من الصحراء الغربية</span>
+            </div>
+            <h2 class="text-4xl md:text-6xl font-bold mb-4 fade-in gradient-text">نخبة</h2>
+            <p class="text-xl md:text-2xl text-yellow-300 font-semibold mb-6 fade-in">خيرات سيوة ومطروح</p>
+            <p class="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto mb-8 fade-in">أجود أنواع زيت الزيتون الطبيعي والبهارات العطرة من قلب الصحراء الغربية</p>
+            
+            <!-- Stats -->
+            <div class="flex flex-wrap justify-center gap-8 md:gap-16 mb-10 fade-in">
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold text-yellow-400">٢٥+</div>
+                    <div class="text-sm md:text-base text-gray-300">سنه خبرة</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold text-yellow-400">١٠٠٪</div>
+                    <div class="text-sm md:text-base text-gray-300">منتجات طبيعية</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold text-yellow-400">٤.٩/٥</div>
+                    <div class="text-sm md:text-base text-gray-300">تقييم العملاء</div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4 fade-in">
+                <a href="#products" class="neon-btn gold-gradient text-white px-10 py-4 rounded-full font-bold text-lg hover:shadow-2xl transition-all duration-300 inline-block">
+                    <i class="fas fa-shopping-bag ml-2"></i>تسوق الآن
+                </a>
+                <a href="#contact" class="border-2 border-white text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-primary transition-all duration-300 inline-block">
+                    <i class="fas fa-phone ml-2"></i>تواصل معنا
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop Showcase -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 reveal">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="category-card rounded-2xl overflow-hidden shadow-lg card-hover cursor-pointer" onclick="window.location.href='/products.html'">
+                    <div class="img-zoom">
+                        <img src="https://karimolive.shop/img/our_shop.webp" alt="متجر نخبة" class="w-full h-56 object-cover">
+                    </div>
+                    <div class="p-4 bg-white">
+                        <h3 class="font-bold text-lg text-primary">متجرنا في قلب مطروح</h3>
+                        <p class="text-gray-500 text-sm mt-1">نستقبلكم بكل فخر في متجرنا الرئيسي</p>
+                    </div>
+                </div>
+                <div class="category-card rounded-2xl overflow-hidden shadow-lg card-hover cursor-pointer" onclick="window.location.href='/products.html'">
+                    <div class="img-zoom">
+                        <img src="https://karimolive.shop/img/products.webp" alt="منتجات" class="w-full h-56 object-cover">
+                    </div>
+                    <div class="p-4 bg-white">
+                        <h3 class="font-bold text-lg text-primary">تشكيلة واسعة من المنتجات</h3>
+                        <p class="text-gray-500 text-sm mt-1">زيوت طبيعية وبهارات أصيلة</p>
+                    </div>
+                </div>
+                <div class="category-card rounded-2xl overflow-hidden shadow-lg card-hover cursor-pointer" onclick="window.location.href='/products.html'">
+                    <div class="img-zoom">
+                        <img src="https://karimolive.shop/img/olive_oil.webp" alt="زيت زيتون" class="w-full h-56 object-cover">
+                    </div>
+                    <div class="p-4 bg-white">
+                        <h3 class="font-bold text-lg text-primary">زيت زيتون بكر ممتاز</h3>
+                        <p class="text-gray-500 text-sm mt-1">من إنتاجنا الخاص</p>
+                    </div>
+                </div>
+                <div class="category-card rounded-2xl overflow-hidden shadow-lg card-hover cursor-pointer" onclick="window.location.href='/products.html'">
+                    <div class="img-zoom">
+                        <img src="https://karimolive.shop/img/ramadan.webp" alt="ياميش رمضان" class="w-full h-56 object-cover">
+                    </div>
+                    <div class="p-4 bg-white">
+                        <h3 class="font-bold text-lg text-primary">ياميش رمضان</h3>
+                        <p class="text-gray-500 text-sm mt-1">جميع منتجات رمضان</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-16 bg-cream">
+        <div class="container mx-auto px-4 reveal">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-3">تصفح حسب التصنيف</h2>
+                <div class="w-24 h-1 gold-gradient mx-auto rounded-full"></div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 stagger-children" id="categoriesGrid">
+                <!-- Categories will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Sellers Section -->
+    <section id="products" class="py-16 bg-white">
+        <div class="container mx-auto px-4 reveal">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-3">الأكثر مبيعًا</h2>
+                <div class="w-24 h-1 gold-gradient mx-auto rounded-full"></div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="bestSellersGrid">
+                <!-- Products will be loaded by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Reviews Section -->
+    <section id="customer-reviews" class="py-16 bg-cream">
+        <div class="container mx-auto px-4 reveal">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-3">آراء عملائنا</h2>
+                <p class="text-gray-500">ماذا يقول عملاؤنا الكرام عن منتجاتنا الطبيعية</p>
+                <div class="w-24 h-1 gold-gradient mx-auto rounded-full mt-3"></div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="reviewsGrid">
+                <!-- Reviews will be loaded dynamically -->
+            </div>
+            <div class="text-center mt-8">
+                <a href="/products.html" class="inline-block border-2 border-primary text-primary px-8 py-3 rounded-full font-bold hover:bg-primary hover:text-white transition-all duration-300">
+                    عرض جميع الآراء
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 reveal">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-primary mb-3">لماذا تختار نخبة؟</h2>
+                <div class="w-24 h-1 gold-gradient mx-auto rounded-full"></div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center p-6 rounded-2xl bg-cream card-hover">
+                    <div class="w-20 h-20 gold-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-truck text-white text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-primary mb-2">شحن سريع</h3>
+                    <p class="text-gray-500 text-sm">توصيل الشحنه خلال 3 - 4 ايام</p>
+                </div>
+                <div class="text-center p-6 rounded-2xl bg-cream card-hover">
+                    <div class="w-20 h-20 gold-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-leaf text-white text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-primary mb-2">منتجات طبيعية 100%</h3>
+                    <p class="text-gray-500 text-sm">منتجات طبيعية وخاليه من المواد الكيميائية</p>
+                </div>
+                <div class="text-center p-6 rounded-2xl bg-cream card-hover">
+                    <div class="w-20 h-20 gold-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-medal text-white text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-primary mb-2">الجودة</h3>
+                    <p class="text-gray-500 text-sm">منتجات ذات جوده عاليه و طبيعيه</p>
+                </div>
+                <div class="text-center p-6 rounded-2xl bg-cream card-hover">
+                    <div class="w-20 h-20 gold-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-hand-holding-heart text-white text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-primary mb-2">خدمة متميزة</h3>
+                    <p class="text-gray-500 text-sm">دعم فني متواصل على مدار الساعة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-16 hero-gradient text-white">
+        <div class="container mx-auto px-4 text-center reveal">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">اشترك في نشرتنا البريدية</h2>
+            <p class="text-gray-200 mb-8">احصل على أحدث العروض والخصومات مباشرة إلى بريدك</p>
+            <div class="max-w-md mx-auto flex gap-2">
+                <input type="email" placeholder="أدخل بريدك الإلكتروني" class="flex-1 px-4 py-3 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                <button class="gold-gradient text-white px-6 py-3 rounded-full font-bold hover:opacity-90 transition">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 gold-gradient rounded-full flex items-center justify-center">
+                            <i class="fas fa-leaf text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">نخبة</h3>
+                            <p class="text-xs text-gray-400">NOKHBA | خيرات سيوة ومطروح</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">أجود المنتجات الطبيعية من قلب الصحراء الغربية</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-yellow-400">روابط سريعة</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/" class="hover:text-white transition">الرئيسية</a></li>
+                        <li><a href="/products.html" class="hover:text-white transition">المنتجات</a></li>
+                        <li><a href="#" class="hover:text-white transition">من نحن</a></li>
+                        <li><a href="#customer-reviews" class="hover:text-white transition">آراء العملاء</a></li>
+                    </ul>
+                </div>
+
+                <!-- Policies -->
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-yellow-400">السياسات</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">سياسة الشحن</a></li>
+                        <li><a href="#" class="hover:text-white transition">سياسة الاسترجاع</a></li>
+                        <li><a href="#" class="hover:text-white transition">سياسة الخصوصية</a></li>
+                        <li><a href="#" class="hover:text-white transition">طلب حذف البيانات</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-yellow-400">تواصل معنا</h4>
+                    <ul class="space-y-3 text-gray-400">
+                        <li><i class="fas fa-phone ml-2 text-yellow-400"></i>01000709753</li>
+                        <li><i class="fas fa-map-marker-alt ml-2 text-yellow-400"></i>مرسي مطروح، مصر</li>
+                    </ul>
+                    <div class="flex gap-4 mt-4">
+                        <a href="https://www.facebook.com/kareim154" target="_blank" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://wa.me/201023696962" target="_blank" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-green-600 transition">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.instagram.com/karimoliveshop/" target="_blank" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-pink-600 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://x.com/Karim_sirry" target="_blank" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-sky-600 transition">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2026 نخبة. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Modal -->
+    <div id="cartModal" class="hidden fixed inset-0 z-50 flex justify-end">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" id="cartOverlay"></div>
+        <div class="relative bg-white w-full max-w-md h-full shadow-2xl slide-up overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b p-4 flex items-center justify-between z-10">
+                <h3 class="text-xl font-bold text-primary">عربة التسوق</h3>
+                <button id="closeCart" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition">
+                    <i class="fas fa-times text-gray-500"></i>
+                </button>
+            </div>
+            <div class="p-4" id="cartContent">
+                <div id="emptyCart" class="text-center py-16">
+                    <i class="fas fa-shopping-cart text-6xl text-gray-200 mb-4"></i>
+                    <p class="text-gray-500 text-lg">العربة فارغة</p>
+                    <a href="/products.html" class="inline-block mt-4 bg-primary text-white px-6 py-2 rounded-full hover:bg-secondary transition">تسوق الآن</a>
+                </div>
+                <div id="cartItems" class="hidden space-y-4"></div>
+            </div>
+            <div class="sticky bottom-0 bg-white border-t p-4" id="cartFooter" style="display:none;">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-gray-600">المجموع:</span>
+                    <span class="text-2xl font-bold text-primary" id="cartTotal">0.00 ج.م</span>
+                </div>
+                <a href="https://wa.me/201023696962?text=أرغب في طلب منتجات من متجر نخبة" target="_blank" class="block w-full bg-green-500 text-white text-center py-3 rounded-full font-bold hover:bg-green-600 transition neon-btn">
+                    <i class="fab fa-whatsapp ml-2"></i>تابع الي تفاصيل الشحن
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick View Modal -->
+    <div id="quickViewModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-end mb-4">
+                    <button id="closeQuickView" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition">
+                        <i class="fas fa-times text-gray-500"></i>
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="quickViewContent">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookieBanner" class="cookie-banner p-4">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3 text-gray-700">
+                <i class="fas fa-cookie-bite text-3xl text-yellow-500"></i>
+                <p>نستخدم ملفات تعريف الارتباط لتحسين تجربتك. بمواصلة التصفح، فإنك توافق على استخدامنا للcookie.</p>
+            </div>
+            <div class="flex gap-3">
+                <button id="acceptCookies" class="bg-primary text-white px-6 py-2 rounded-full font-bold hover:bg-secondary transition">موافق</button>
+                <button id="declineCookies" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-full font-bold hover:bg-gray-300 transition">رفض</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== DATA ==========
+        const products = [
+            { id: 1, name: "البربرين", image: "https://karimolive.shop/uploads/products/images/4e015918ff0f4d328f326f8d541ee5b4.webp", description: "البربرين هو ثمار صغيرة حمراء زاهية، يتميز بمذاق يجمع بين الحلاوة والحموضة الخفيفة. يخفض سكر الدم ويحسن صحة القلب.", origin: "من الصين", weight: "100 جرام", price: 300, oldPrice: 400, discount: 25, available: true },
+            { id: 2, name: "🫒 زيت زيتون نخبة – سوبر إكسترا فرجن (250 جرام)", image: "https://karimolive.shop/uploads/products/images/7aa926092dce413e84dbabb2d1f84e2e.webp", description: "نقاء طبيعي من واحة سيوة… جودة تثق فيها كل يوم. عصير على البارد للحفاظ على العناصر المفيدة.", origin: "من مطروح ( محل نخبة )", weight: "250 جرام", price: 150, oldPrice: 200, discount: 25, available: true },
+            { id: 3, name: "🫒 زيت زيتون نخبة – سوبر إكسترا فرجن (500 جرام)", image: "https://karimolive.shop/uploads/products/images/b733c4eae97d49f793027187babb71c4.webp", description: "نقاء طبيعي من واحة سيوة… زيت طبيعي 100% بدون أي إضافات أو مواد حافظة.", origin: "من مطروح ( محل نخبة )", weight: "500 جرام", price: 280, oldPrice: 340, discount: 18, available: true },
+            { id: 4, name: "مجموعتين زيوت (تساقط + انبات ) + ربع سدر مطحون هدية", image: "https://karimolive.shop/uploads/products/images/9af0c333c0a84136b18969afbb3f05cb.webp", description: "باكيت متكامل من أقوى الزيوت الطبيعية لعلاج تساقط الشعر وتقوية البصيلات.", origin: "من مطروح ( محل نخبة )", weight: "150 مل للزجاجة", price: 400, oldPrice: 450, discount: 11, available: true },
+            { id: 5, name: "مجموعتين زيوت (تساقط + انبات ) + ديرما رولر هديه", image: "https://karimolive.shop/uploads/products/images/5a17f0787fe145af858734d93ba83bf9.webp", description: "عرض علاجي متكامل يعتمد على التحفيز الميكانيكي لفروة الرأس.", origin: "من مطروح ( محل نخبة )", weight: "150 مل للزجاجة", price: 400, oldPrice: 500, discount: 20, available: false },
+            { id: 6, name: "المجموعة الذهبية", image: "https://karimolive.shop/uploads/products/images/d715edf4a6e34c92a308673bc72e80d5.webp", description: "المجموعة الكاملة التي تجمع أغلى وأندر الزيوت.", origin: "من مطروح ( محل نخبة )", weight: "60 مل للزجاجة", price: 490, oldPrice: 630, discount: 22, available: true },
+            { id: 7, name: "مجموعة الترميم الشامل", image: "https://karimolive.shop/uploads/products/images/449a7ee890274cadbc02125852729d7c.webp", description: "عرض السباعية الاحترافية (7 زيوت) + 🎁 هدية.", origin: "من مطروح ( محل نخبة )", weight: "60 مل للزجاجة", price: 410, oldPrice: 490, discount: 16, available: true },
+            { id: 8, name: "مجموعة التغذية العميقة", image: "https://karimolive.shop/uploads/products/images/2bfc6c0997204586acfe25200e44b9b1.webp", description: "5 زيوت تمنحك القوة الكاملة لترميم شعرك.", origin: "من مطروح ( محل نخبة )", weight: "60 مل للزjاجة", price: 300, oldPrice: 350, discount: 14, available: true },
+            { id: 9, name: "زيت زيتون بكر ممتاز (الوادي) ½ زجاج غامق عرض 3+1 هديه", image: "https://karimolive.shop/uploads/products/images/52cf9e3af6be4927a03c2a9ae95ea447.webp", description: "زيت زيتون الوادي – بكر ممتاز، معصور على البارد بنسبة حموضة أقل من 0.8%.", origin: "من مطروح ( محل نخبة )", weight: "", price: 840, oldPrice: 1120, discount: 25, available: true },
+            { id: 10, name: "1 كيلو زيت زيتون + ربع هديه", image: "https://karimolive.shop/uploads/products/images/6aa2d8ea2938495ca9725222fc7dc4fe.webp", description: "زيت زيتون بكر ممتاز اكسترا فرجن معصور علي البارد.", origin: "من مطروح ( محل نخبة )", weight: "1 كيلو", price: 500, oldPrice: 650, discount: 23, available: true },
+            { id: 11, name: "زيت زيتون بكر ممتاز (الوادي) – بلاستيك 1 لتر", image: "https://karimolive.shop/uploads/products/images/be0d8b3a33814fc5a6697dbbfe95fa85.webp", description: "زيت زيتون إكسترا فرجن معصور على البارد، محفوظ بعناية.", origin: "من مطروح ( محل نخبة )", weight: "1 لتر", price: 450, oldPrice: 500, discount: 10, available: true },
+            { id: 12, name: "zيت زيتون بكر ممتاز (الوادي) – زجاج غامق 1 لتر", image: "https://karimolive.shop/uploads/products/images/62ce47c9a0794db0b5504172dcca6e1b.webp", description: "zيت زيتون إكسترا فرjin محفوظ في زجاج غامق.", origin: "من مطروح ( محل نخبة )", weight: "1 لتر", price: 500, oldPrice: 550, discount: 9, available: true }
+        ];
+
+        const categories = [
+            { name: "كل المنتجات", count: "٤٧٣ منتج", image: "https://karimolive.shop/uploads/categories/all.webp", slug: "" },
+            { name: "العروض والخصومات", count: "١٢ منتج", image: "https://karimolive.shop/uploads/categories/1763543591214.webp", slug: "offers" },
+            { name: "باكج زيوت الشعر الخطير 😍", count: "٣٠ منتج", image: "https://karimolive.shop/uploads/categories/1763797995308.webp", slug: "hair" },
+            { name: "zيت زيتون بكر ممتاز", count: "١٣ منتج", image: "https://karimolive.shop/uploads/categories/1763797771898.webp", slug: "olive" },
+            { name: "صابون العناية بالبشره", count: "٣٠ منتج", image: "https://karimolive.shop/uploads/categories/1763798067208.webp", slug: "soap" },
+            { name: "مستحضرات التجميل", count: "٩٧ منتج", image: "https://karimolive.shop/uploads/categories/1763798107123.webp", slug: "cosmetics" },
+            { name: "تمر", count: "٣٢ منتج", image: "https://karimolive.shop/uploads/categories/1763798203024.webp", slug: "dates" },
+            { name: "منتجاتنا 🥰", count: "٥٥ منتج", image: "https://karimolive.shop/uploads/categories/1762878534164.webp", slug: "matrouh" },
+            { name: "التوابل والبهارات", count: "٤٩ منتج", image: "https://karimolive.shop/uploads/categories/1763608018696.webp", slug: "spices" },
+            { name: "زيوت طبيعية", count: "٣٧ منتج", image: "https://karimolive.shop/uploads/categories/1763607740994.webp", slug: "natural-oils" },
+            { name: "zيتون سيوي", count: "٧ منتجات", image: "https://karimolive.shop/uploads/categories/1762878599530.webp", slug: "zaytoun" },
+            { name: "عسل نحل والطحينه الخام", count: "١٢ منتج", image: "https://karimolive.shop/uploads/categories/1763798154796.webp", slug: "honey" },
+            { name: "شاي الزرده والبن", count: "٢٢ منتج", image: "https://karimolive.shop/uploads/categories/1762878516686.webp", slug: "tea" },
+            { name: "لب ومكسرات مطروح", count: "١٧ منتج", image: "https://karimolive.shop/uploads/categories/1762878568717.webp", slug: "nuts" },
+            { name: "الحنه و أعشاب الشعر", count: "١٢ منتج", image: "https://karimolive.shop/uploads/categories/1776540689823.webp", slug: "henna" },
+            { name: "الأعشاب والبذور العلاجية", count: "١٦ منتج", image: "https://karimolive.shop/uploads/categories/1776991267477.png", slug: "herbs" }
+        ];
+
+        const reviews = [
+            { image: "https://karimolive.shop/uploads/reviews/images/1534f093477f4704be35f0ff95858295.png" },
+            { image: "https://karimolive.shop/uploads/reviews/images/b7d48ae253d84ce5aee9a9c47476e664.jpg" },
+            { image: "https://karimolive.shop/uploads/reviews/images/1c36f1e9006c41d48c5b25ca14c30de6.jpg" },
+            { image: "https://karimolive.shop/uploads/reviews/images/f050ffaeffa2433a8b8c410d4a405627.jpg" },
+            { image: "https://karimolive.shop/uploads/reviews/images/40e39bc226dc4c23b5698bc88af41c35.jpg" },
+            { image: "https://karimolive.shop/uploads/reviews/images/043052d44bc74724be264b281b237b63.jpg" },
+            { image: "https://karimolive.shop/uploads/reviews/images/609da0471c6d4340bc3a9e5b574e0620.jpg" },
+            { image: "https://karimolive.shop/uploads/reviews/images/c052be9382f8486b8796244cc383e09e.jpg" }
+        ];
+
+        // ========== CART SYSTEM ==========
+        let cart = [];
+
+        function loadCart() {
+            const saved = localStorage.getItem('nokhba_cart');
+            if (saved) cart = JSON.parse(saved);
+            updateCartUI();
+        }
+
+        function saveCart() {
+            localStorage.setItem('nokhba_cart', JSON.stringify(cart));
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product || !product.available) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            saveCart();
+            updateCartUI();
+            showToast('تمت الإضافة للسلة بنجاح ✅');
+            
+            const badge = document.getElementById('cartCount');
+            badge.classList.add('cart-badge');
+            setTimeout(() => badge.classList.remove('cart-badge'), 500);
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            saveCart();
+            updateCartUI();
+            renderCartItems();
+        }
+
+        function updateQty(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) { removeFromCart(productId); return; }
+            saveCart();
+            updateCartUI();
+            renderCartItems();
+        }
+
+        function updateCartUI() {
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            
+            document.getElementById('cartCount').textContent = count;
+            document.getElementById('cartTotal').textContent = total.toLocaleString('ar-EG') + ' ج.م';
+            
+            const emptyCart = document.getElementById('emptyCart');
+            const cartItems = document.getElementById('cartItems');
+            const cartFooter = document.getElementById('cartFooter');
+            
+            if (cart.length === 0) {
+                emptyCart.style.display = 'block';
+                cartItems.classList.add('hidden');
+                cartFooter.style.display = 'none';
+            } else {
+                emptyCart.style.display = 'none';
+                cartItems.classList.remove('hidden');
+                cartFooter.style.display = 'block';
+            }
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById('cartItems');
+            container.innerHTML = cart.map(item => `
+                <div class="flex gap-4 bg-cream rounded-xl p-4">
+                    <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm text-primary line-clamp-2">${item.name}</h4>
+                        <p class="text-gray-500 text-xs mt-1">${item.weight || item.origin}</p>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="font-bold text-primary">${item.price} ج.م</span>
+                            <div class="flex items-center gap-2">
+                                <button onclick="updateQty(${item.id}, -1)" class="w-7 h-7 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center text-sm transition">-</button>
+                                <span class="font-bold text-sm w-6 text-center">${item.qty}</span>
+                                <button onclick="updateQty(${item.id}, 1)" class="w-7 h-7 rounded-full bg-primary hover:bg-secondary text-white flex items-center justify-center text-sm transition">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-500 transition self-start">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // ========== RENDER FUNCTIONS ==========
+        function renderProductCard(product) {
+            return `
+                <div class="bg-white rounded-2xl shadow-md overflow-hidden card-hover flex flex-col ${!product.available ? 'opacity-75' : ''}">
+                    <div class="relative overflow-hidden">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-52 object-cover hover:scale-105 transition-transform duration-500">
+                        ${product.discount ? `<span class="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full discount-badge">خصم ${product.discount}%</span>` : ''}
+                        ${!product.available ? `<div class="absolute inset-0 bg-black/60 flex items-center justify-center"><span class="bg-red-600 text-white px-6 py-2 rounded-full font-bold">نفذت الكمية</span></div>` : ''}
+                        
+                        <!-- Quick View Button -->
+                        <button onclick="openQuickView(${product.id})" class="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm text-primary px-3 py-2 rounded-full text-sm font-bold opacity-0 hover:opacity-100 transition-all duration-300 hover:translate-y-0 translate-y-2">
+                            <i class="fas fa-eye ml-1"></i>عرض سريع
+                        </button>
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col">
+                        <h3 class="font-bold text-primary text-sm mb-2 line-clamp-2 min-h-[2.5rem]">${product.name}</h3>
+                        <p class="text-gray-500 text-xs mb-2 line-clamp-3 flex-1">${product.description}</p>
+                        <div class="flex items-center gap-2 text-xs text-gray-400 mb-3">
+                            <span><i class="fas fa-map-marker-alt ml-1"></i>${product.origin}</span>
+                            ${product.weight ? `<span class="mr-2">| <i class="fas fa-weight-hanging ml-1"></i>${product.weight}</span>` : ''}
+                        </div>
+                        <div class="flex items-center justify-between mt-auto">
+                            <div>
+                                <span class="text-primary font-bold text-lg">${product.price} ج.م</span>
+                                ${product.oldPrice ? `<span class="text-gray-400 line-through text-sm mr-2">${product.oldPrice} ج.م</span>` : ''}
+                            </div>
+                            ${product.available ? `
+                                <button onclick="addToCart(${product.id})" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-full text-sm font-bold transition flex items-center gap-2 btn-ripple">
+                                    <i class="fas fa-cart-plus"></i> أضف للسلة
+                                </button>
+                            ` : `
+                                <button disabled class="bg-gray-300 text-gray-500 px-4 py-2 rounded-full text-sm font-bold cursor-not-allowed">
+                                    غير متوفر
+                                </button>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openQuickView(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const content = document.getElementById('quickViewContent');
+            content.innerHTML = `
+                <div class="img-zoom rounded-xl overflow-hidden">
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-80 object-cover">
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-primary mb-3">${product.name}</h2>
+                    <p class="text-gray-600 mb-4">${product.description}</p>
+                    <div class="flex items-center gap-4 mb-4 text-sm text-gray-500">
+                        <span><i class="fas fa-map-marker-alt ml-1 text-primary"></i>${product.origin}</span>
+                        ${product.weight ? `<span><i class="fas fa-weight-hanging ml-1 text-primary"></i>${product.weight}</span>` : ''}
+                    </div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="text-3xl font-bold text-primary">${product.price} ج.م</span>
+                        ${product.oldPrice ? `<span class="text-xl text-gray-400 line-through">${product.oldPrice} ج.م</span>` : ''}
+                        ${product.discount ? `<span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm">خصم ${product.discount}%</span>` : ''}
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="addToCart(${product.id}); closeQuickView();" class="flex-1 bg-primary text-white py-3 rounded-full font-bold hover:bg-secondary transition btn-ripple">
+                            <i class="fas fa-cart-plus ml-2"></i>أضف للسلة
+                        </button>
+                        <a href="https://wa.me/201023696962?text=أرغب في شراء ${encodeURIComponent(product.name)}" target="_blank" class="bg-green-500 text-white px-4 py-3 rounded-full hover:bg-green-600 transition">
+                            <i class="fab fa-whatsapp text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('quickViewModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeQuickView() {
+            document.getElementById('quickViewModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // ========== TOAST NOTIFICATION ==========
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ========== INIT ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hide preloader
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 1000);
+
+            // Load cart
+            loadCart();
+
+            // Render categories
+            const categoriesGrid = document.getElementById('categoriesGrid');
+            categoriesGrid.innerHTML = categories.slice(0, 16).map(cat => `
+                <a href="/products.html" class="category-card bg-white rounded-2xl shadow-md overflow-hidden card-hover text-center p-4">
+                    <div class="w-20 h-20 mx-auto rounded-full overflow-hidden mb-3">
+                        <img src="${cat.image}" alt="${cat.name}" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-bold text-primary text-sm md:text-base">${cat.name}</h3>
+                    <p class="text-gray-500 text-xs mt-1">${cat.count}</p>
+                </a>
+            `).join('');
+
+            // Render reviews
+            const reviewsGrid = document.getElementById('reviewsGrid');
+            reviewsGrid.innerHTML = reviews.map(review => `
+                <div class="rounded-2xl overflow-hidden shadow-md card-hover">
+                    <img src="${review.image}" alt="review" class="w-full h-48 object-cover">
+                </div>
+            `).join('');
+
+            // Render best sellers
+            renderBestSellers();
+
+            // Observe sections for scroll animations
+            document.querySelectorAll('.reveal').forEach(section => {
+                section.classList.add('opacity-0');
+                observer.observe(section);
+            });
+
+            // Hero particles
+            const heroSection = document.querySelector('.hero-gradient');
+            if (heroSection) {
+                for (let i = 0; i < 6; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    heroSection.appendChild(particle);
+                }
+            }
+
+            // Show cookie banner after delay
+            setTimeout(() => {
+                if (!localStorage.getItem('cookiesAccepted')) {
+                    document.getElementById('cookieBanner').classList.add('show');
+                }
+            }, 3000);
+        });
+
+        // ========== SCROLL EFFECTS ==========
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Back to Top
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+
+            // Navbar scroll effect
+            const navbar = document.getElementById('navbar');
+            if (window.pageYOffset > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        let isDark = false;
+
+        themeToggle.addEventListener('click', () => {
+            isDark = !isDark;
+            if (isDark) {
+                document.body.classList.add('dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.body.classList.remove('dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                document.documentElement.removeAttribute('data-theme');
+            }
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            isDark = true;
+            document.body.classList.add('dark');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+
+        // Mobile Menu
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
+
+        // Cart Modal
+        document.getElementById('cartBtn').addEventListener('click', () => {
+            renderCartItems();
+            document.getElementById('cartModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        document.getElementById('closeCart').addEventListener('click', () => {
+            document.getElementById('cartModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+
+        document.getElementById('cartOverlay').addEventListener('click', () => {
+            document.getElementById('cartModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Quick View Modal
+        document.getElementById('closeQuickView').addEventListener('click', closeQuickView);
+        document.getElementById('quickViewModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeQuickView();
+        });
+
+        // Cookie Consent
+        document.getElementById('acceptCookies').addEventListener('click', () => {
+            localStorage.setItem('cookiesAccepted', 'true');
+            document.getElementById('cookieBanner').classList.remove('show');
+        });
+
+        document.getElementById('declineCookies').addEventListener('click', () => {
+            localStorage.setItem('cookiesAccepted', 'declined');
+            document.getElementById('cookieBanner').classList.remove('show');
+        });
+
+        // Function to render best sellers
+        function renderBestSellers() {
+            const container = document.getElementById('bestSellersGrid');
+            container.innerHTML = products.slice(0, 8).map(renderProductCard).join('');
+        }
+    </script>
+</body>
+</html>
