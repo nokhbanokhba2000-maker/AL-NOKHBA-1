@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معاينة لوحة التحكم | نخبة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Cairo', sans-serif; }
+        body { direction: rtl; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-900 via-green-700 to-yellow-600 min-h-screen text-white p-8">
+    
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">🧪 معاينة لوحة التحكم</h1>
+            <p class="text-xl text-green-100">نخبة | NOKHBA - نظام إدارة المنتجات</p>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            
+            <!-- Feature 1 -->
+            <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+                <div class="flex items-start gap-4">
+                    <div class="w-14 h-14 bg-green-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-plus text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xl mb-2">إضافة منتجات</h3>
+                        <p class="text-green-100 text-sm">أضف منتجات جديدة بسهولة مع الاسم، السعر، الفئة، والخصم</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+                <div class="flex items-start gap-4">
+                    <div class="w-14 h-14 bg-blue-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-edit text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xl mb-2">تعديل سريع</h3>
+                        <p class="text-green-100 text-sm">عدّل أسعار المنتجات أو حالة التوفر بنقرة واحدة</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+                <div class="flex items-start gap-4">
+                    <div class="w-14 h-14 bg-yellow-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-search text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xl mb-2">بحث وفلترة</h3>
+                        <p class="text-green-100 text-sm">ابحث عن أي منتج أو تصفح حسب الفئات المختلفة</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+                <div class="flex items-start gap-4">
+                    <div class="w-14 h-14 bg-red-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-download text-2xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xl mb-2">تصدير البيانات</h3>
+                        <p class="text-green-100 text-sm">صدّر جميع بيانات المنتجات كملف JSON للنسخ الاحتياطي</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Demo Products Table -->
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 mb-8">
+            <h2 class="font-bold text-xl mb-4">📦 عينات من المنتجات المتاحة</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-white/20">
+                            <th class="pb-3 text-right">#</th>
+                            <th class="pb-3 text-right">المنتج</th>
+                            <th class="pb-3 text-right">الفئة</th>
+                            <th class="pb-3 text-right">السعر</th>
+                            <th class="pb-3 text-right">الحالة</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/10">
+                        <tr>
+                            <td class="py-3">1</td>
+                            <td class="py-3">🫒 زيت زيتون سوبر إكسترا فرجن</td>
+                            <td class="py-3"><span class="px-2 py-1 bg-green-500/20 rounded-full">زيت زيتون</span></td>
+                            <td class="py-3 font-bold">500 ج.م</td>
+                            <td class="py-3"><span class="text-green-400">✓ متوفر</span></td>
+                        </tr>
+                        <tr>
+                            <td class="py-3">2</td>
+                            <td class="py-3">🧼 صابون طبيعي بالزعتر</td>
+                            <td class="py-3"><span class="px-2 py-1 bg-blue-500/20 rounded-full">صابون</span></td>
+                            <td class="py-3 font-bold">45 ج.م</td>
+                            <td class="py-3"><span class="text-green-400">✓ متوفر</span></td>
+                        </tr>
+                        <tr>
+                            <td class="py-3">3</td>
+                            <td class="py-3">🌴 تمر سيناري فاخر</td>
+                            <td class="py-3"><span class="px-2 py-1 bg-yellow-500/20 rounded-full">تمور</span></td>
+                            <td class="py-3 font-bold">120 ج.م</td>
+                            <td class="py-3"><span class="text-green-400">✓ متوفر</span></td>
+                        </tr>
+                        <tr>
+                            <td class="py-3">4</td>
+                            <td class="py-3">💆‍♀️ مجموعة الخطير لتساقط الشعر</td>
+                            <td class="py-3"><span class="px-2 py-1 bg-purple-500/20 rounded-full">زيوت شعر</span></td>
+                            <td class="py-3 font-bold">200 ج.م</td>
+                            <td class="py-3"><span class="text-green-400">✓ متوفر</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- How to Access -->
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 mb-8">
+            <h2 class="font-bold text-xl mb-4">🚀 كيف تفتح لوحة التحكم؟</h2>
+            <div class="space-y-3">
+                <div class="flex items-center gap-3 bg-black/20 px-4 py-3 rounded-lg">
+                    <span class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center font-bold">1</span>
+                    <code class="text-sm">file:///mnt/workspace/projects/nokhba/admin.html</code>
+                </div>
+                <div class="flex items-center gap-3 bg-black/20 px-4 py-3 rounded-lg">
+                    <span class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center font-bold">2</span>
+                    <code class="text-sm">cd /mnt/workspace/projects/nokhba && python3 -m http.server 8000</code>
+                </div>
+                <div class="flex items-center gap-3 bg-black/20 px-4 py-3 rounded-lg">
+                    <span class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center font-bold">3</span>
+                    <code class="text-sm">افتح: http://localhost:8000/admin.html</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-2 gap-4">
+            <a href="/admin.html" target="_blank" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-xl text-center transition flex items-center justify-center gap-2">
+                <i class="fas fa-external-link-alt"></i>
+                فتح لوحة التحكم
+            </a>
+            <a href="/single-page.html" target="_blank" class="bg-white/20 hover:bg-white/30 text-white font-bold py-4 px-6 rounded-xl text-center transition flex items-center justify-center gap-2">
+                <i class="fas fa-eye"></i>
+                معاينة الموقع
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-8 text-green-200 text-sm">
+            <p>© 2026 نخبة | NOKHBA - جميع الحقوق محفوظة</p>
+        </div>
+    </div>
+
+</body>
+</html>
