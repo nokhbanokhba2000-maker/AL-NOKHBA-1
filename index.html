@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>nokhba-store-b2a92f</title>
+  <meta name="description" content="نخبة | NOKHBA - خيرات سيوة ومطروح. أفضل زيت زيتون بكر ممتاز، أعشاب طبية، صابون طبيعي، زيوت شعر ومنتجات طبيعية 100% من قلب الواحات البحرية.">
+<meta name="keywords" content="نخبة, NOKHBA, زيت زيتون, سيوة, مطروح, منتجات طبيعية">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫒</text></svg>">
+  <style>
+  :root {
+  --primary: #1a5632;
+  --primary-light: #2d7a4a;
+  --primary-dark: #0f3d22;
+  --gold: #c9a84c;
+  --gold-light: #e8d48b;
+  --cream: #faf6ef;
+  --dark: #1a1a2e;
+  --text: #2d2d2d;
+  --text-light: #6b7280;
+  --white: #ffffff;
+  --danger: #dc2626;
+  --success: #16a34a;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--cream);
+  direction: rtl;
+  line-height: 1.6;
+}
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+ul { list-style: none; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* Header */
+.header {
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  background: rgba(26,86,50,0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 0 20px;
+  transition: var(--transition);
+}
+.header-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 70px;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 1.5rem; font-weight: 800; color: var(--white);
+}
+.logo img { width: 40px; height: 40px; border-radius: 50%; }
+.logo span { background: linear-gradient(135deg, var(--gold), var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav { display: flex; align-items: center; gap: 8px; }
+.nav a {
+  color: rgba(255,255,255,0.85); padding: 8px 16px;
+  border-radius: 8px; font-size: 0.9rem; font-weight: 500;
+  transition: var(--transition);
+}
+.nav a:hover { background: rgba(255,255,255,0.12); color: var(--white); }
+.cart-btn {
+  position: relative; background: var(--gold); color: var(--dark);
+  border: none; padding: 10px 20px; border-radius: 10px;
+  font-weight: 700; font-size: 0.9rem; cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  transition: var(--transition);
+}
+.cart-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+.cart-count {
+  background: var(--danger); color: white;
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700;
+  position: absolute; top: -6px; right: -6px;
+}
+.admin-btn {
+  background: rgba(255,255,255,0.15); color: white;
+  border: 1px solid rgba(255,255,255,0.2); padding: 8px 14px;
+  border-radius: 8px; font-size: 0.8rem; cursor: pointer;
+  transition: var(--transition);
+}
+.admin-btn:hover { background: rgba(255,255,255,0.25); }
+.mobile-toggle { display: none; background: none; border: none; color: white; font-size: 1.8rem; cursor: pointer; }
+
+/* Hero */
+.hero {
+  min-height: 100vh; padding-top: 70px;
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, #1e6b3e 100%);
+  display: flex; align-items: center; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+.hero .container { position: relative; z-index: 1; display: flex; align-items: center; gap: 60px; }
+.hero-content { flex: 1; }
+.hero-badge {
+  display: inline-block; background: rgba(201,168,76,0.2);
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--gold-light); padding: 6px 18px; border-radius: 50px;
+  font-size: 0.85rem; font-weight: 600; margin-bottom: 20px;
+}
+.hero h1 {
+  font-size: 3.5rem; font-weight: 900; color: var(--white);
+  line-height: 1.2; margin-bottom: 10px;
+}
+.hero h1 span { color: var(--gold); }
+.hero p {
+  font-size: 1.15rem; color: rgba(255,255,255,0.75);
+  margin-bottom: 30px; line-height: 1.8;
+}
+.hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; border-radius: 12px; font-weight: 700;
+  font-size: 1rem; cursor: pointer; border: none;
+  transition: var(--transition);
+}
+.btn-primary { background: var(--gold); color: var(--dark); }
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
+.btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.3); }
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.hero-stats { display: flex; gap: 40px; margin-top: 40px; }
+.hero-stat { text-align: center; }
+.hero-stat .num { font-size: 2rem; font-weight: 900; color: var(--gold); }
+.hero-stat .label { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+.hero-visual { flex: 0 0 300px; }
+.hero-image {
+  width: 300px; height: 300px; border-radius: 50%;
+  object-fit: cover; border: 4px solid var(--gold);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+/* Sections */
+.section { padding: 80px 0; }
+.section-title {
+  text-align: center; margin-bottom: 50px;
+}
+.section-title h2 {
+  font-size: 2.2rem; font-weight: 800; color: var(--primary-dark);
+  margin-bottom: 10px;
+}
+.section-title p { color: var(--text-light); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+
+/* Categories */
+.categories-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+  gap: 20px;
+}
+.cat-card {
+  background: var(--white); border-radius: var(--radius);
+  padding: 30px 20px; text-align: center;
+  box-shadow: var(--shadow); cursor: pointer;
+  transition: var(--transition);
+  border: 2px solid transparent;
+}
+.cat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--gold); }
+.cat-card .icon { font-size: 2.5rem; margin-bottom: 10px; }
+.cat-card h3 { font-size: 1rem; font-weight: 700; color: var(--primary); }
+.cat-card .count { font-size: 0.8rem; color: var(--text-light); margin-top: 4px; }
+
+/* Products */
+.products-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+  gap: 24px;
+}
+.product-card {
+  background: var(--white); border-radius: var(--radius);
+  overflow: hidden; box-shadow: var(--shadow);
+  transition: var(--transition);
+  position: relative;
+}
+.product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.product-badge {
+  position: absolute; top: 12px; right: 12px; z-index: 2;
+  background: var(--danger); color: white;
+  padding: 4px 12px; border-radius: 50px;
+  font-size: 0.75rem; font-weight: 700;
+}
+.product-img {
+  width: 100%; height: 200px; object-fit: cover;
+  background: #f0f0f0;
+}
+.product-info { padding: 18px; }
+.product-category {
+  display: inline-block; background: var(--cream);
+  color: var(--primary); font-size: 0.7rem; font-weight: 600;
+  padding: 3px 10px; border-radius: 50px; margin-bottom: 8px;
+}
+.product-info h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.product-info .origin { font-size: 0.8rem; color: var(--text-light); margin-bottom: 6px; }
+.product-info .weight { font-size: 0.8rem; color: var(--text-light); margin-bottom: 10px; }
+.product-price { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.product-price .current { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
+.product-price .old { font-size: 0.9rem; color: var(--text-light); text-decoration: line-through; }
+.add-btn {
+  width: 100%; padding: 12px; border: none; border-radius: var(--radius-sm);
+  background: var(--primary); color: white; font-weight: 700; font-size: 0.9rem;
+  cursor: pointer; transition: var(--transition);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.add-btn:hover { background: var(--primary-light); }
+.add-btn:disabled { background: #ccc; cursor: not-allowed; }
+.sold-out { background: #e5e7eb; color: #9ca3af; }
+
+/* Filters */
+.filters { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; }
+.filter-btn {
+  padding: 8px 20px; border-radius: 50px; border: 2px solid #e5e7eb;
+  background: var(--white); font-size: 0.85rem; font-weight: 600;
+  cursor: pointer; transition: var(--transition);
+  color: var(--text-light);
+}
+.filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+.filter-btn.active { background: var(--gold); border-color: var(--gold); color: var(--dark); }
+
+/* Cart Sidebar */
+.cart-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 2000; opacity: 0; visibility: hidden;
+  transition: var(--transition);
+}
+.cart-overlay.open { opacity: 1; visibility: visible; }
+.cart-sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: 400px;
+  max-width: 100vw; background: var(--white);
+  z-index: 2001; transform: translateX(-100%);
+  transition: var(--transition);
+  display: flex; flex-direction: column;
+}
+.cart-sidebar.open { transform: translateX(0); }
+.cart-header {
+  padding: 20px; border-bottom: 1px solid #eee;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.cart-header h3 { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
+.cart-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-light); }
+.cart-items { flex: 1; overflow-y: auto; padding: 20px; }
+.cart-item {
+  display: flex; gap: 14px; padding: 14px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+.cart-item-img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
+.cart-item-info { flex: 1; }
+.cart-item-info h4 { font-size: 0.9rem; font-weight: 600; }
+.cart-item-info .cart-item-price { font-size: 0.85rem; color: var(--primary); font-weight: 700; }
+.cart-item-qty { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.cart-item-qty button {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1px solid #ddd; background: var(--white);
+  cursor: pointer; font-weight: 700; font-size: 1rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.cart-item-qty button:hover { background: #f3f4f6; }
+.cart-item-qty span { font-weight: 700; min-width: 20px; text-align: center; }
+.cart-item-remove { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 0.8rem; }
+.cart-empty { text-align: center; padding: 60px 20px; color: var(--text-light); }
+.cart-empty .icon { font-size: 3rem; margin-bottom: 10px; }
+.cart-footer {
+  padding: 20px; border-top: 1px solid #eee;
+}
+.cart-total { display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 700; margin-bottom: 14px; }
+.cart-total .total-amount { color: var(--primary); font-size: 1.3rem; }
+.checkout-btn {
+  width: 100%; padding: 14px; border: none; border-radius: var(--radius-sm);
+  background: var(--gold); color: var(--dark); font-weight: 800; font-size: 1rem;
+  cursor: pointer; transition: var(--transition);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.checkout-btn:hover { background: var(--gold-light); }
+.continue-btn {
+  width: 100%; padding: 12px; border: 2px solid #eee;
+  border-radius: var(--radius-sm); background: var(--white);
+  color: var(--text-light); font-weight: 600; cursor: pointer;
+  margin-top: 8px; transition: var(--transition);
+}
+.continue-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* Cart Toast */
+.toast {
+  position: fixed; bottom: 30px; right: 30px; z-index: 3000;
+  background: var(--primary); color: white;
+  padding: 16px 24px; border-radius: 12px;
+  box-shadow: var(--shadow-lg); font-weight: 600;
+  transform: translateY(100px); opacity: 0;
+  transition: var(--transition);
+  display: flex; align-items: center; gap: 10px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* Admin Panel */
+.admin-panel {
+  position: fixed; inset: 0; z-index: 3000;
+  background: var(--white); overflow-y: auto;
+  transform: translateY(100%); transition: var(--transition);
+}
+.admin-panel.open { transform: translateY(0); }
+.admin-header {
+  background: var(--primary-dark); color: white;
+  padding: 20px; display: flex; justify-content: space-between; align-items: center;
+}
+.admin-header h2 { font-size: 1.3rem; display: flex; align-items: center; gap: 10px; }
+.admin-close { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+.admin-body { max-width: 1000px; margin: 0 auto; padding: 30px 20px; }
+.admin-stats { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 16px; margin-bottom: 30px; }
+.admin-stat {
+  background: var(--cream); padding: 20px; border-radius: var(--radius-sm);
+  text-align: center;
+}
+.admin-stat .num { font-size: 1.8rem; font-weight: 900; color: var(--primary); }
+.admin-stat .label { font-size: 0.8rem; color: var(--text-light); }
+.admin-tabs {
+  display: flex; gap: 4px; margin-bottom: 24px;
+  background: #f3f4f6; padding: 4px; border-radius: 12px;
+}
+.admin-tab {
+  flex: 1; padding: 10px; border: none; border-radius: 10px;
+  background: transparent; font-weight: 600; cursor: pointer;
+  transition: var(--transition); font-size: 0.9rem;
+}
+.admin-tab.active { background: var(--white); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.admin-tab:hover:not(.active) { background: rgba(0,0,0,0.04); }
+.admin-form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.admin-form .full { grid-column: 1 / -1; }
+.admin-form label { font-size: 0.85rem; font-weight: 600; color: var(--text); display: block; margin-bottom: 4px; }
+.admin-form input, .admin-form select, .admin-form textarea {
+  width: 100%; padding: 10px 14px; border: 2px solid #e5e7eb;
+  border-radius: 8px; font-size: 0.9rem; transition: var(--transition);
+  font-family: inherit;
+}
+.admin-form input:focus, .admin-form select:focus, .admin-form textarea:focus {
+  outline: none; border-color: var(--gold);
+}
+.admin-form textarea { resize: vertical; min-height: 80px; }
+.admin-submit {
+  grid-column: 1 / -1; padding: 14px; background: var(--primary);
+  color: white; border: none; border-radius: 10px;
+  font-weight: 700; font-size: 1rem; cursor: pointer;
+  transition: var(--transition);
+}
+.admin-submit:hover { background: var(--primary-light); }
+.import-section {
+  background: var(--cream); border-radius: var(--radius);
+  padding: 30px; margin-bottom: 30px; border: 2px dashed var(--gold);
+  text-align: center;
+}
+.import-section h3 { font-size: 1.1rem; margin-bottom: 10px; color: var(--primary); }
+.import-section p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 16px; }
+.import-file-btn {
+  display: inline-block; padding: 12px 30px; background: var(--gold);
+  color: var(--dark); border-radius: 10px; font-weight: 700;
+  cursor: pointer; transition: var(--transition);
+}
+.import-file-btn:hover { background: var(--gold-light); }
+.import-note {
+  font-size: 0.8rem; color: var(--text-light); margin-top: 10px;
+  direction: ltr; text-align: center;
+}
+.admin-table-wrap { overflow-x: auto; }
+.admin-table {
+  width: 100%; border-collapse: collapse; font-size: 0.85rem;
+}
+.admin-table th {
+  background: var(--primary); color: white; padding: 12px;
+  text-align: right; font-weight: 600;
+}
+.admin-table td { padding: 12px; border-bottom: 1px solid #f3f4f6; }
+.admin-table tr:hover { background: #fafafa; }
+.admin-table .actions { display: flex; gap: 6px; }
+.admin-table .actions button {
+  padding: 4px 10px; border: none; border-radius: 6px;
+  font-size: 0.75rem; font-weight: 600; cursor: pointer;
+}
+.edit-btn { background: #dbeafe; color: #1d4ed8; }
+.delete-btn { background: #fee2e2; color: #dc2626; }
+.export-btn {
+  background: var(--primary); color: white; border: none;
+  padding: 10px 20px; border-radius: 8px; font-weight: 600;
+  cursor: pointer; margin-bottom: 16px; transition: var(--transition);
+}
+.export-btn:hover { background: var(--primary-light); }
+.admin-actions { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+
+/* About */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.about-text h2 { font-size: 2rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 16px; }
+.about-text p { color: var(--text-light); line-height: 1.8; margin-bottom: 16px; }
+.features-list { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.feature-item { display: flex; align-items: center; gap: 10px; }
+.feature-item .icon { font-size: 1.2rem; }
+.feature-item span { font-weight: 600; color: var(--text); }
+
+/* Contact */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.contact-info h3 { font-size: 1.3rem; font-weight: 700; color: var(--primary); margin-bottom: 20px; }
+.contact-item { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.contact-item .icon { font-size: 1.5rem; }
+.contact-item .text { font-size: 0.95rem; }
+.contact-item .text strong { display: block; }
+.payment-methods { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 20px; }
+.payment-card {
+  background: var(--white); border: 2px solid #eee;
+  border-radius: var(--radius-sm); padding: 16px 20px;
+  text-align: center; flex: 1; min-width: 120px;
+}
+.payment-card .icon { font-size: 1.5rem; }
+.payment-card .name { font-size: 0.8rem; font-weight: 600; color: var(--text-light); }
+.contact-form { background: var(--white); padding: 30px; border-radius: var(--radius); box-shadow: var(--shadow); }
+.contact-form h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; color: var(--primary); }
+.contact-form input, .contact-form textarea {
+  width: 100%; padding: 12px 16px; border: 2px solid #e5e7eb;
+  border-radius: 8px; margin-bottom: 14px; font-size: 0.9rem;
+  font-family: inherit; transition: var(--transition);
+}
+.contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--gold); }
+.contact-form textarea { min-height: 120px; resize: vertical; }
+.contact-form .submit-btn {
+  width: 100%; padding: 14px; background: var(--primary);
+  color: white; border: none; border-radius: 10px;
+  font-weight: 700; font-size: 1rem; cursor: pointer;
+  transition: var(--transition);
+}
+.contact-form .submit-btn:hover { background: var(--primary-light); }
+
+/* Footer */
+.footer {
+  background: var(--primary-dark); color: rgba(255,255,255,0.8);
+  padding: 60px 0 30px;
+}
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+.footer-brand h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 10px; }
+.footer-brand h3 span { color: var(--gold); }
+.footer-brand p { font-size: 0.9rem; line-height: 1.7; }
+.footer h4 { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 16px; }
+.footer ul li { margin-bottom: 8px; }
+.footer ul li a { font-size: 0.85rem; color: rgba(255,255,255,0.6); transition: var(--transition); }
+.footer ul li a:hover { color: var(--gold); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 40px; padding-top: 20px;
+  text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav { display: none; }
+  .nav.open { display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; background: var(--primary); padding: 20px; }
+  .mobile-toggle { display: block; }
+  .hero .container { flex-direction: column; text-align: center; }
+  .hero h1 { font-size: 2.2rem; }
+  .hero-stats { justify-content: center; }
+  .hero-visual { flex: none; }
+  .hero-image { width: 200px; height: 200px; }
+  .hero-buttons { justify-content: center; }
+  .about-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .admin-form { grid-template-columns: 1fr; }
+  .cart-sidebar { width: 100vw; }
+  .section { padding: 50px 0; }
+  .section-title h2 { font-size: 1.6rem; }
+  .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 14px; }
+  .features-list { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .hero h1 { font-size: 1.8rem; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 20px; }
+  .hero-stat .num { font-size: 1.5rem; }
+}
+  </style>
+</head>
+<body>
+  <header class="header" id="home">
+  <div class="header-inner">
+    <a href="#" class="logo">
+      🫒 <span>نخبة</span>
+    </a>
+    <nav class="nav" id="navMenu">
+      <a href="#home">الرئيسية</a>
+      <a href="#categories">الأقسام</a>
+      <a href="#products">المنتجات</a>
+      <a href="#about">من نحن</a>
+      <a href="#contact">تواصل معنا</a>
+      <button class="admin-btn" onclick="toggleAdmin()">⚙️ الإدارة</button>
+      <button class="cart-btn" onclick="toggleCart()">
+        🛒 السلة <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </nav>
+    <button class="mobile-toggle" onclick="toggleMobile()">☰</button>
+  </div>
+</header>
+  <main>
+    <section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">✨ أصلي ١٠٠٪ من سيوة</div>
+      <h1>اكتشف خيرات<br><span>سيوة ومطروح</span></h1>
+      <p>منتجات طبيعية ١٠٠٪ من قلب الواحات البحرية — زيت زيتون بكر ممتاز، أعشاب طبية، صابون طبيعي، زيوت شعر ومنتجات تقليدية أصيلة.</p>
+      <div class="hero-buttons">
+        <a href="#products" class="btn btn-primary">🛒 تسوق الآن</a>
+        <a href="https://wa.me/201023696962" target="_blank" class="btn btn-outline">💬 واتساب</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="num">+25</div>
+          <div class="label">سنة خبرة</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">100%</div>
+          <div class="label">طبيعي</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">4.9</div>
+          <div class="label">تقييم العملاء</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img class="hero-image" src="https://karimolive.shop/uploads/products/images/d1ecfa82ed114b868cb29411746dd26f.webp" alt="زيت زيتون نخبة بكر ممتاز" loading="lazy">
+    </div>
+  </div>
+</section>
+    <section class="section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <h2>لماذا تختار <span style="color:var(--gold)">نخبة</span>؟</h2>
+        <p>نخبة هي وجهتك الأولى للمنتجات الطبيعية الأصيلة من سيوة ومطروح. نقدم لكم أجود أنواع زيت الزيتون البكر الممتاز، الأعشاب الطبية، والصابون الطبيعي المصنع يدوياً بأعلى معايير الجودة.</p>
+        <p>منتجاتنا ١٠٠٪ طبيعية بدون إضافات كيميائية، تم اختيارها بعناية من أفضل المصادر في واحات سيوة ومطروح.</p>
+        <div class="features-list">
+          <div class="feature-item"><span class="icon">✅</span><span>جودة عالية - منتجات أصلية</span></div>
+          <div class="feature-item"><span class="icon">🚚</span><span>توصيل سريع لجميع المحافظات</span></div>
+          <div class="feature-item"><span class="icon">🌿</span><span>طبيعي ١٠٠٪ بدون كيماويات</span></div>
+          <div class="feature-item"><span class="icon">💬</span><span>دعم فني ٢٤/٧</span></div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <img src="https://karimolive.shop/uploads/products/images/9d9e27c2-dc17-4d72-8ccd-4260326decf1.webp" alt="زيت زيتون نخبة" style="border-radius:var(--radius-sm);height:200px;object-fit:cover;width:100%;" loading="lazy">
+        <img src="https://karimolive.shop/uploads/products/images/7aa926092dce413e84dbabb2d1f84e2e.webp" alt="منتجات نخبة" style="border-radius:var(--radius-sm);height:200px;object-fit:cover;width:100%;" loading="lazy">
+        <img src="https://karimolive.shop/uploads/products/images/dfe4c89c8d3e4d4e863a1d09c9bd67c8.webp" alt="صابون نخبة" style="border-radius:var(--radius-sm);height:200px;object-fit:cover;width:100%;" loading="lazy">
+        <img src="https://karimolive.shop/uploads/products/images/42fdafa49ba0457dbe7710e094b402fc.webp" alt="جركن زيت نخبة" style="border-radius:var(--radius-sm);height:200px;object-fit:cover;width:100%;" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+    <section class="section" id="categories">
+  <div class="container">
+    <div class="section-title">
+      <h2>🏷️ أقسامنا المميزة</h2>
+      <p>تصفح منتجاتنا حسب القسم الذي تفضله</p>
+    </div>
+    <div class="categories-grid" id="categoriesGrid">
+      <div class="cat-card" onclick="filterProducts('زيت الزيتون')">
+        <div class="icon">🫒</div>
+        <h3>زيت الزيتون</h3>
+        <div class="count" data-cat="زيت الزيتون">0 منتج</div>
+      </div>
+      <div class="cat-card" onclick="filterProducts('زيوت الشعر')">
+        <div class="icon">💇</div>
+        <h3>زيوت الشعر</h3>
+        <div class="count" data-cat="زيوت الشعر">0 منتج</div>
+      </div>
+      <div class="cat-card" onclick="filterProducts('العروض والخصومات')">
+        <div class="icon">🎉</div>
+        <h3>العروض والخصومات</h3>
+        <div class="count" data-cat="العروض والخصومات">0 منتج</div>
+      </div>
+      <div class="cat-card" onclick="filterProducts('الصابون الطبيعي')">
+        <div class="icon">🧼</div>
+        <h3>الصابون الطبيعي</h3>
+        <div class="count" data-cat="الصابون الطبيعي">0 منتج</div>
+      </div>
+      <div class="cat-card" onclick="filterProducts('الأعشاب')">
+        <div class="icon">🌿</div>
+        <h3>الأعشاب</h3>
+        <div class="count" data-cat="الأعشاب">0 منتج</div>
+      </div>
+      <div class="cat-card" onclick="filterProducts('التمور')">
+        <div class="icon">🌴</div>
+        <h3>التمور</h3>
+        <div class="count" data-cat="التمور">0 منتج</div>
+      </div>
+    </div>
+  </div>
+</section>
+    <section class="section" id="products">
+  <div class="container">
+    <div class="section-title">
+      <h2>🛍️ منتجاتنا الطبيعية</h2>
+      <p>منتجات طبيعية من سيوة ومطروح بأعلى جودة</p>
+    </div>
+    <div class="filters" id="filters">
+      <button class="filter-btn active" onclick="filterProducts('الكل')">الكل</button>
+      <button class="filter-btn" onclick="filterProducts('زيت الزيتون')">🫒 زيت الزيتون</button>
+      <button class="filter-btn" onclick="filterProducts('زيوت الشعر')">💇 زيوت الشعر</button>
+      <button class="filter-btn" onclick="filterProducts('العروض والخصومات')">🎉 العروض</button>
+      <button class="filter-btn" onclick="filterProducts('الصابون الطبيعي')">🧼 صابون</button>
+      <button class="filter-btn" onclick="filterProducts('الأعشاب')">🌿 أعشاب</button>
+      <button class="filter-btn" onclick="filterProducts('التمور')">🌴 تمور</button>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+</section>
+    <section class="section" id="contact">
+  <div class="container">
+    <div class="section-title">
+      <h2>📞 تواصل معنا</h2>
+      <p>نسعد بتواصلكم معنا لأي استفسار أو طلب</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>معلومات التواصل</h3>
+        <div class="contact-item">
+          <span class="icon">📱</span>
+          <div class="text"><strong>واتساب</strong> 01023696962</div>
+        </div>
+        <div class="contact-item">
+          <span class="icon">📞</span>
+          <div class="text"><strong>اتصل بنا</strong> 01000709753</div>
+        </div>
+        <div class="contact-item">
+          <span class="icon">📍</span>
+          <div class="text"><strong>العنوان</strong> مرسى مطروح، مصر</div>
+        </div>
+        <div class="contact-item">
+          <span class="icon">⏰</span>
+          <div class="text"><strong>ساعات العمل</strong> يومياً ٩ صباحاً - ١٠ مساءً</div>
+        </div>
+        <h3 style="margin-top:30px;">💳 طرق الدفع</h3>
+        <div class="payment-methods">
+          <div class="payment-card">
+            <div class="icon">💬</div>
+            <div class="name">الواتساب للطلب</div>
+            <div style="font-size:0.8rem;font-weight:700;color:var(--primary);margin-top:4px;">01023696962</div>
+          </div>
+          <div class="payment-card">
+            <div class="icon">🏦</div>
+            <div class="name">إنستا باي</div>
+            <div style="font-size:0.8rem;font-weight:700;color:var(--primary);margin-top:4px;">NOKHBA_Store</div>
+          </div>
+          <div class="payment-card">
+            <div class="icon">💵</div>
+            <div class="name">الدفع عند الاستلام</div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <h3>أرسل لنا رسالة</h3>
+        <input type="text" id="contactName" placeholder="الاسم *" required>
+        <input type="tel" id="contactPhone" placeholder="رقم الهاتف *" required>
+        <textarea id="contactMsg" placeholder="رسالتك *" required></textarea>
+        <button class="submit-btn" onclick="sendContact()">📨 إرسال الرسالة</button>
+        <div id="contactSuccess" style="display:none;margin-top:10px;padding:12px;background:#dcfce7;color:#16a34a;border-radius:8px;font-weight:600;text-align:center;">✅ تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.</div>
+      </div>
+    </div>
+  </div>
+</section>
+    <!-- AGNES:SECTION:pricing -->
+    <!-- AGNES:SECTION:faq -->
+  </main>
+  <footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>🫒 <span>نخبة</span></h3>
+        <p>خيرات سيوة ومطروح — منتجات طبيعية أصيلة من قلب الواحات البحرية. أجود أنواع زيت الزيتون، الأعشاب الطبية، والصابون الطبيعي.</p>
+      </div>
+      <div>
+        <h4>روابط سريعة</h4>
+        <ul>
+          <li><a href="#home">الرئيسية</a></li>
+          <li><a href="#products">المنتجات</a></li>
+          <li><a href="#about">من نحن</a></li>
+          <li><a href="#contact">تواصل معنا</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>الأقسام</h4>
+        <ul>
+          <li><a href="#" onclick="filterProducts('زيت الزيتون');return false;">زيت الزيتون</a></li>
+          <li><a href="#" onclick="filterProducts('زيوت الشعر');return false;">زيوت الشعر</a></li>
+          <li><a href="#" onclick="filterProducts('الصابون الطبيعي');return false;">الصابون الطبيعي</a></li>
+          <li><a href="#" onclick="filterProducts('التمور');return false;">التمور</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>طرق الدفع</h4>
+        <ul>
+          <li>💬 واتساب: <strong style="color:var(--gold);">01023696962</strong></li>
+          <li>🏦 إنستا باي: <strong style="color:var(--gold);">NOKHBA_Store</strong></li>
+          <li>💵 الدفع عند الاستلام</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 نخبة | NOKHBA - جميع الحقوق محفوظة
+    </div>
+  </div>
+</footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <!-- Cart Sidebar -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>🛒 سلة التسوق</h3>
+      <button class="cart-close" onclick="toggleCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty"><div class="icon">🛒</div><h3>السلة فارغة</h3><p>أضف منتجات إلى السلة للبدء</p></div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>الإجمالي:</span>
+        <span class="total-amount" id="cartTotal">0 ج.م</span>
+      </div>
+      <button class="checkout-btn" onclick="checkoutWhatsApp()">💬 طلب عبر واتساب</button>
+      <button class="continue-btn" onclick="toggleCart()">العودة للمتجر</button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Admin Panel -->
+  <div class="admin-panel" id="adminPanel">
+    <div class="admin-header">
+      <h2>⚙️ لوحة تحكم المنتجات — نخبة</h2>
+      <div>
+        <button class="export-btn" onclick="exportData()" style="background:var(--gold);color:var(--dark);margin-left:10px;">📥 تصدير JSON</button>
+        <button class="admin-close" onclick="toggleAdmin()">✕</button>
+      </div>
+    </div>
+    <div class="admin-body">
+      <div class="admin-stats">
+        <div class="admin-stat">
+          <div class="num" id="adminTotalProducts">0</div>
+          <div class="label">إجمالي المنتجات</div>
+        </div>
+        <div class="admin-stat">
+          <div class="num" id="adminAvailable">0</div>
+          <div class="label">متوفر</div>
+        </div>
+        <div class="admin-stat">
+          <div class="num" id="adminSoldOut">0</div>
+          <div class="label">نفذت الكمية</div>
+        </div>
+        <div class="admin-stat">
+          <div class="num" id="adminCategories">0</div>
+          <div class="label">الفئات</div>
+        </div>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="products" onclick="switchAdminTab('products')">📋 المنتجات</button>
+        <button class="admin-tab" data-tab="add" onclick="switchAdminTab('add')">➕ إضافة منتج</button>
+        <button class="admin-tab" data-tab="import" onclick="switchAdminTab('import')">📊 استيراد Excel</button>
+      </div>
+
+      <!-- Tab: Products List -->
+      <div class="admin-tab-content" id="adminTabProducts" style="display:block;">
+        <div class="admin-actions">
+          <button class="export-btn" onclick="exportData()">📥 تصدير JSON</button>
+          <button class="export-btn" onclick="if(confirm('هل أنت متأكد من إعادة تعيين جميع المنتجات للافتراضية؟')){localStorage.removeItem('nokhba_products');location.reload();}" style="background:var(--danger);">🔄 إعادة تعيين</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>الصورة</th>
+                <th>المنتج</th>
+                <th>القسم</th>
+                <th>السعر</th>
+                <th>الخصم</th>
+                <th>الوزن</th>
+                <th>الحالة</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody">
+              <tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text-light);">جاري التحميل...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab: Add Product -->
+      <div class="admin-tab-content" id="adminTabAdd" style="display:none;">
+        <form class="admin-form" id="adminProductForm" onsubmit="addProduct(event)">
+          <div class="full">
+            <label>اسم المنتج *</label>
+            <input type="text" name="name" required placeholder="مثال: زيت زيتون بكر ممتاز">
+          </div>
+          <div>
+            <label>القسم *</label>
+            <select name="category" required>
+              <option value="">اختر القسم</option>
+              <option value="زيت الزيتون">🫒 زيت الزيتون</option>
+              <option value="زيوت الشعر">💇 زيوت الشعر</option>
+              <option value="العروض والخصومات">🎉 العروض والخصومات</option>
+              <option value="الصابون الطبيعي">🧼 الصابون الطبيعي</option>
+              <option value="الأعشاب">🌿 الأعشاب</option>
+              <option value="التمور">🌴 التمور</option>
+              <option value="منتجات">📦 منتجات</option>
+            </select>
+          </div>
+          <div>
+            <label>السعر (ج.م) *</label>
+            <input type="number" name="price" required min="1" placeholder="500">
+          </div>
+          <div>
+            <label>السعر قبل الخصم</label>
+            <input type="number" name="oldPrice" min="0" placeholder="600">
+          </div>
+          <div>
+            <label>نسبة الخصم (%)</label>
+            <input type="number" name="discount" min="0" max="99" placeholder="17">
+          </div>
+          <div>
+            <label>الوزن / الحجم</label>
+            <input type="text" name="weight" placeholder="1 كيلو">
+          </div>
+          <div>
+            <label>المنشأ</label>
+            <input type="text" name="origin" placeholder="مطروح (محل نخبة)">
+          </div>
+          <div class="full">
+            <label>رابط الصورة</label>
+            <input type="url" name="image" placeholder="https://...">
+          </div>
+          <div class="full" style="display:flex;align-items:center;gap:10px;">
+            <input type="checkbox" name="available" id="availableCheck" checked style="width:auto;">
+            <label for="availableCheck" style="margin:0;">متاح للبيع</label>
+          </div>
+          <button type="submit" class="admin-submit">💾 حفظ المنتج</button>
+        </form>
+      </div>
+
+      <!-- Tab: Import Excel -->
+      <div class="admin-tab-content" id="adminTabImport" style="display:none;">
+        <div class="import-section">
+          <h3>📊 استيراد منتجات من Excel</h3>
+          <p>ارفع ملف Excel يحتوي على المنتجات وسيتم تحويلها مباشرة إلى JSON وإضافتها للمتجر</p>
+          <p style="font-size:0.85rem;color:var(--text-light);margin-bottom:16px;">
+            الأعمدة المطلوبة: <strong>اسم المنتج</strong>، <strong>السعر</strong>، <strong>القسم</strong>
+            <br>
+            أعمدة اختيارية: السعر القديم، الخصم، الوزن، الصورة، المنشأ، متاح
+          </p>
+          <label class="import-file-btn">
+            📂 اختر ملف Excel
+            <input type="file" accept=".xlsx,.xls,.csv" style="display:none;" id="excelFile" onchange="handleExcelImport(this.files[0])">
+          </label>
+          <div class="import-note">ملفات مدعومة: .xlsx, .xls, .csv</div>
+        </div>
+        <pre id="importJsonPreview" style="display:none;background:#1a1a2e;color:#e8d48b;padding:20px;border-radius:10px;font-size:0.8rem;overflow-x:auto;direction:ltr;text-align:left;max-height:400px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;"> </pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+// =============== PRODUCTS DATA ===============
+const defaultProducts = [
+  {id:'p1',name:'🫒 زيت زيتون نخبة – سوبر إكسترا فرجن',category:'زيت الزيتون',price:500,oldPrice:600,discount:17,weight:'1 كيلو',image:'https://karimolive.shop/uploads/products/images/d1ecfa82ed114b868cb29411746dd26f.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p2',name:'🫒 زيت زيتون نخبة – سوبر إكسترا فرجن 500 جرام',category:'زيت الزيتون',price:280,oldPrice:340,discount:18,weight:'500 جرام',image:'https://karimolive.shop/uploads/products/images/b733c4eae97d49f793027187babb71c4.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p3',name:'🫒 زيت زيتون نخبة – سوبر إكسترا فرجن 250 جرام',category:'زيت الزيتون',price:150,oldPrice:200,discount:25,weight:'250 جرام',image:'https://karimolive.shop/uploads/products/images/7aa926092dce413e84dbabb2d1f84e2e.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p4',name:'زيت زيتون بكر خام – جركن 1 لتر',category:'زيت الزيتون',price:400,oldPrice:450,discount:11,weight:'1 لتر',image:'https://karimolive.shop/uploads/products/images/42fdafa49ba0457dbe7710e094b402fc.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p5',name:'زيت زيتون بكر خام – جركن ½ لتر',category:'زيت الزيتون',price:210,oldPrice:250,discount:16,weight:'½ لتر',image:'https://karimolive.shop/uploads/products/images/3628e72c02644b9da0d8ed5986ee4d6f.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p6',name:'زيت زيتون بكر خام – جركن ¼ لتر',category:'زيت الزيتون',price:110,oldPrice:125,discount:12,weight:'¼ لتر',image:'https://karimolive.shop/uploads/products/images/08812245d8da41b19e3659c88cc8a3b4.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p7',name:'زيت زيتون بكر ممتاز (الوادي) – زجاج غامق ¼ لتر',category:'زيت الزيتون',price:150,oldPrice:170,discount:12,weight:'¼ لتر',image:'https://karimolive.shop/uploads/products/images/9d9e27c2-dc17-4d72-8ccd-4260326decf1.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p8',name:'زيت زيتون بكر ممتاز (الوادي) – بلاستيك 1 لتر',category:'زيت الزيتون',price:450,oldPrice:500,discount:10,weight:'1 لتر',image:'https://karimolive.shop/uploads/products/images/be0d8b3a33814fc5a6697dbbfe95fa85.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p9',name:'زيت زيتون بكر ممتاز (الوادي) – بلاستيك ½ لتر',category:'زيت الزيتون',price:240,oldPrice:280,discount:14,weight:'½ لتر',image:'https://karimolive.shop/uploads/products/images/8175ccef-7bdf-4230-a003-6fd19a43a225.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p10',name:'زيت زيتون بكر ممتاز (الوادي) – زجاج غامق 1 لتر',category:'زيت الزيتون',price:500,oldPrice:550,discount:9,weight:'1 لتر',image:'https://karimolive.shop/uploads/products/images/62ce47c9a0794db0b5504172dcca6e1b.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p11',name:'زيت زيتون بكر ممتاز (الوادي) – زجاج غامق ½ لتر',category:'زيت الزيتون',price:280,oldPrice:300,discount:7,weight:'½ لتر',image:'https://karimolive.shop/uploads/products/images/56451dc6-ff87-4d13-9f84-bad18ac81d45.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p12',name:'زيت زيتون عجيبه',category:'زيت الزيتون',price:550,oldPrice:650,discount:15,weight:'1 لتر',image:'https://karimolive.shop/uploads/products/images/89dbf7e2799a45ae922a37721153b777.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p13',name:'زيت زيتون الشعر – أوليفيا 🌿',category:'زيوت الشعر',price:80,oldPrice:100,discount:20,weight:'',image:'https://karimolive.shop/uploads/products/images/4edaae7e9a93480891afcbdfaebf6f2f.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p14',name:'1 كيلو زيت زيتون + ربع هدية',category:'العروض والخصومات',price:500,oldPrice:650,discount:23,weight:'',image:'https://karimolive.shop/uploads/products/images/6aa2d8ea2938495ca9725222fc7dc4fe.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p15',name:'3 صابون طبيعي + 1 صابونة هدية',category:'العروض والخصومات',price:210,oldPrice:280,discount:25,weight:'',image:'https://karimolive.shop/uploads/products/images/dfe4c89c8d3e4d4e863a1d09c9bd67c8.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p16',name:'باكيت كِش كِنج الهندي الأصلي – شامبو + زيت',category:'العروض والخصومات',price:450,oldPrice:600,discount:25,weight:'',image:'https://karimolive.shop/uploads/products/images/f658331686324b04af68879283017f68.webp',origin:'الهند',available:true},
+  {id:'p17',name:'عرض منتجات سيوه',category:'العروض والخصومات',price:500,oldPrice:750,discount:33,weight:'',image:'https://karimolive.shop/uploads/products/images/c86690ffcdfb4df999f34d4a14418ba8.webp',origin:'سيوه',available:true},
+  {id:'p18',name:'زيت زيتون ½ زجاج غامق عرض 3+1 هدية',category:'العروض والخصومات',price:840,oldPrice:1120,discount:25,weight:'',image:'https://karimolive.shop/uploads/products/images/52cf9e3af6be4927a03c2a9ae95ea447.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p19',name:'عرض مجموعة لبان الدكر للعناية بالبشرة',category:'العروض والخصومات',price:200,oldPrice:320,discount:38,weight:'',image:'https://karimolive.shop/uploads/products/images/6b45f375a87a4fbf9c4c2173e2790ebb.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p20',name:'مجموعة التغذية العميقة',category:'العروض والخصومات',price:300,oldPrice:350,discount:14,weight:'60 مل للزجاجة',image:'https://karimolive.shop/uploads/products/images/2bfc6c0997204586acfe25200e44b9b1.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p21',name:'مجموعة الترميم الشامل',category:'العروض والخصومات',price:410,oldPrice:490,discount:16,weight:'60 مل للزجاجة',image:'https://karimolive.shop/uploads/products/images/449a7ee890274cadbc02125852729d7c.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p22',name:'المجموعة الذهبية',category:'العروض والخصومات',price:490,oldPrice:630,discount:22,weight:'60 مل للزجاجة',image:'https://karimolive.shop/uploads/products/images/d715edf4a6e34c92a308673bc72e80d5.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p23',name:'مجموعة الإشراقة السريعة',category:'العروض والخصومات',price:190,oldPrice:210,discount:10,weight:'60 مل للزجاجة',image:'https://karimolive.shop/uploads/products/images/a1db9e89db554ecfa81b1ca2d51e3322.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p24',name:'مجموعة الخطير 2 لفراغات الشعر – حجم صغير 💗',category:'العروض والخصومات',price:200,oldPrice:280,discount:29,weight:'',image:'https://karimolive.shop/uploads/products/images/d2822d02e0cf43719dbdddc79393b82f.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p25',name:'مجموعة الخطير 1 لتساقط الشعر',category:'العروض والخصومات',price:200,oldPrice:280,discount:29,weight:'',image:'https://karimolive.shop/uploads/products/images/2c5230a631b84f849277403bce92adba.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p26',name:'مجموعة منير الخطير 2 حجم كبير',category:'العروض والخصومات',price:280,oldPrice:320,discount:12,weight:'',image:'https://karimolive.shop/uploads/products/images/fd3a601c885945d2b56e578300d7ccd5.webp',origin:'مطروح (محل نخبة)',available:true},
+  {id:'p27',name:'زيت الحية الباكستاني الأصلي',category:'زيوت الشعر',price:250,oldPrice:300,discount:17,weight:'',image:'https://karimolive.shop/uploads/products/images/42b1cb5385254cd19807a6e695177119.webp',origin:'باكستان',available:true},
+  {id:'p28',name:'زيت الكركار السوداني',category:'زيوت الشعر',price:150,oldPrice:180,discount:17,weight:'',image:'https://karimolive.shop/uploads/products/images/535a9ad3311646c28253c2acfce5d4b0.webp',origin:'السودان',available:true},
+  {id:'p29',name:'سيروم لوريال الذهبي للشعر',category:'زيوت الشعر',price:0,oldPrice:0,discount:0,weight:'',image:'https://karimolive.shop/uploads/products/images/047fd2c0c79d48b282e3beffef99217a.webp',origin:'فرنسا',available:true},
+  {id:'p30',name:'البربرين – ثمار صحية',category:'الأعشاب',price:300,oldPrice:400,discount:25,weight:'100 جرام',image:'https://karimolive.shop/uploads/products/images/4e015918ff0f4d328f326f8d541ee5b4.webp',origin:'الصين',available:true},
+  {id:'p31',name:'🧼 صابون طبيعي بالزعتر',category:'الصابون الطبيعي',price:45,oldPrice:60,discount:25,weight:'250 جرام',image:'https://karimolive.shop/uploads/products/images/dfe4c89c8d3e4d4e863a1d09c9bd67c8.webp',origin:'سيوة',available:true},
+  {id:'p32',name:'🍯 عسل سيوي طبيعي',category:'الأعشاب',price:350,oldPrice:0,discount:0,weight:'500 جرام',image:'https://karimolive.shop/uploads/products/images/c86690ffcdfb4df999f34d4a14418ba8.webp',origin:'سيوة',available:true},
+  {id:'p33',name:'🌴 تمر سيناري فاخر',category:'التمور',price:120,oldPrice:150,discount:20,weight:'1 كيلو',image:'https://karimolive.shop/uploads/products/images/7aa926092dce413e84dbabb2d1f84e2e.webp',origin:'سيوة',available:true},
+  {id:'p34',name:'🧂 ملح بحري صحي',category:'الأعشاب',price:35,oldPrice:0,discount:0,weight:'1 كيلو',image:'https://karimolive.shop/uploads/products/images/42fdafa49ba0457dbe7710e094b402fc.webp',origin:'مطروح',available:true},
+  {id:'p35',name:'🌸 زيت لافندر عطري',category:'زيوت الشعر',price:180,oldPrice:220,discount:18,weight:'100 مل',image:'https://karimolive.shop/uploads/products/images/4edaae7e9a93480891afcbdfaebf6f2f.webp',origin:'سيوة',available:true},
+  {id:'p36',name:'مجموعتين زيوت (تساقط + إنبات) + ديرما رولر هدية',category:'العروض والخصومات',price:400,oldPrice:500,discount:20,weight:'150 مل للزجاجة',image:'https://karimolive.shop/uploads/products/images/5a17f0787fe145af858734d93ba83bf9.webp',origin:'مطروح (محل نخبة)',available:false}
+];
+
+// =============== STATE ===============
+let products = [];
+let cart = [];
+let currentFilter = 'الكل';
+
+function loadData() {
+  const saved = localStorage.getItem('nokhba_products');
+  if (saved) {
+    try { products = JSON.parse(saved); } catch(e) { products = [...defaultProducts]; }
+  } else {
+    products = [...defaultProducts];
+  }
+  const cartSaved = localStorage.getItem('nokhba_cart');
+  if (cartSaved) {
+    try { cart = JSON.parse(cartSaved); } catch(e) { cart = []; }
+  }
+  saveProducts();
+  saveCart();
+}
+
+function saveProducts() {
+  localStorage.setItem('nokhba_products', JSON.stringify(products));
+}
+function saveCart() {
+  localStorage.setItem('nokhba_cart', JSON.stringify(cart));
+}
+
+// =============== RENDER PRODUCTS ===============
+function renderProducts() {
+  const grid = document.getElementById('productsGrid');
+  if (!grid) return;
+  let filtered = products;
+  if (currentFilter !== 'الكل') {
+    filtered = products.filter(p => p.category === currentFilter);
+  }
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-light);"><div style="font-size:3rem;margin-bottom:10px;">📦</div><h3>لا توجد منتجات</h3><p>لم يتم إضافة منتجات بعد في هذا القسم</p></div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(p => {
+    const inCart = cart.find(c => c.id === p.id);
+    if (!p.available) {
+      return `<div class="product-card">
+        ${p.discount > 0 ? `<div class="product-badge">-${p.discount}%</div>` : ''}
+        <img class="product-img" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect fill=%22%23f0f0f0%22 width=%22200%22 height=%22200%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 font-size=%2230%22>🫒</text></svg>'">
+        <div class="product-info">
+          <span class="product-category">${p.category}</span>
+          <h3>${p.name}</h3>
+          ${p.origin ? `<div class="origin">📍 ${p.origin}</div>` : ''}
+          ${p.weight ? `<div class="weight">📦 ${p.weight}</div>` : ''}
+          <div class="product-price">
+            <span class="current">${p.price > 0 ? p.price + ' ج.م' : 'السعر عند الطلب'}</span>
+            ${p.oldPrice > 0 ? `<span class="old">${p.oldPrice} ج.م</span>` : ''}
+          </div>
+          <button class="add-btn sold-out" disabled>❌ نفذت الكمية</button>
+        </div>
+      </div>`;
+    }
+    return `<div class="product-card">
+      ${p.discount > 0 ? `<div class="product-badge">-${p.discount}%</div>` : ''}
+      <img class="product-img" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect fill=%22%23f0f0f0%22 width=%22200%22 height=%22200%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 font-size=%2230%22>🫒</text></svg>'">
+      <div class="product-info">
+        <span class="product-category">${p.category}</span>
+        <h3>${p.name}</h3>
+        ${p.origin ? `<div class="origin">📍 ${p.origin}</div>` : ''}
+        ${p.weight ? `<div class="weight">📦 ${p.weight}</div>` : ''}
+        <div class="product-price">
+          <span class="current">${p.price > 0 ? p.price + ' ج.م' : 'السعر عند الطلب'}</span>
+          ${p.oldPrice > 0 ? `<span class="old">${p.oldPrice} ج.م</span>` : ''}
+        </div>
+        <button class="add-btn" onclick="addToCart('${p.id}')">
+          ${inCart ? '✓ تمت الإضافة' : '+ أضف للسلة'}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+  updateCategoryCounts();
+}
+
+function updateCategoryCounts() {
+  const cats = {};
+  products.forEach(p => {
+    if (p.available) cats[p.category] = (cats[p.category] || 0) + 1;
+  });
+  document.querySelectorAll('[data-cat]').forEach(el => {
+    const cat = el.getAttribute('data-cat');
+    const count = cats[cat] || 0;
+    el.textContent = count + ' منتج';
+  });
+}
+
+function filterProducts(cat) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.includes(cat) || (cat === 'الكل' && btn.textContent === 'الكل'));
+  });
+  renderProducts();
+  if (cat !== 'الكل') {
+    document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+// =============== CART ===============
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  if (!p || !p.available) return;
+  const existing = cart.find(c => c.id === id);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ id: p.id, name: p.name, price: p.price, image: p.image, qty: 1 });
+  }
+  saveCart();
+  updateCartUI();
+  renderProducts();
+  showToast('✅ تمت إضافة ' + p.name + ' إلى السلة');
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(c => c.id !== id);
+  saveCart();
+  updateCartUI();
+  renderProducts();
+}
+
+function updateQty(id, delta) {
+  const item = cart.find(c => c.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) {
+    removeFromCart(id);
+    return;
+  }
+  saveCart();
+  updateCartUI();
+}
+
+function updateCartUI() {
+  const count = cart.reduce((s, c) => s + c.qty, 0);
+  const el = document.getElementById('cartCount');
+  if (el) el.textContent = count;
+  const sidebar = document.getElementById('cartItems');
+  if (!sidebar) return;
+  const total = cart.reduce((s, c) => s + c.price * c.qty, 0);
+  if (cart.length === 0) {
+    sidebar.innerHTML = '<div class="cart-empty"><div class="icon">🛒</div><h3>السلة فارغة</h3><p>أضف منتجات إلى السلة للبدء</p></div>';
+  } else {
+    sidebar.innerHTML = cart.map(c => `
+      <div class="cart-item">
+        <img class="cart-item-img" src="${c.image}" alt="${c.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 60 60%22><rect fill=%22%23f0f0f0%22 width=%2260%22 height=%2260%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 font-size=%2220%22>🫒</text></svg>'">
+        <div class="cart-item-info">
+          <h4>${c.name}</h4>
+          <div class="cart-item-price">${c.price} ج.م</div>
+          <div class="cart-item-qty">
+            <button onclick="updateQty('${c.id}',-1)">−</button>
+            <span>${c.qty}</span>
+            <button onclick="updateQty('${c.id}',1)">+</button>
+            <button class="cart-item-remove" onclick="removeFromCart('${c.id}')">🗑️</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+  document.getElementById('cartTotal').textContent = total + ' ج.م';
+}
+
+function toggleCart() {
+  document.getElementById('cartOverlay').classList.toggle('open');
+  document.getElementById('cartSidebar').classList.toggle('open');
+  updateCartUI();
+}
+
+function checkoutWhatsApp() {
+  if (cart.length === 0) { showToast('⚠️ السلة فارغة'); return; }
+  const items = cart.map(c => `• ${c.name} × ${c.qty} = ${c.price * c.qty} ج.م`).join('%0A');
+  const total = cart.reduce((s, c) => s + c.price * c.qty, 0);
+  const msg = `🛒 *طلب جديد من نخبة*%0A%0A${items}%0A%0A📦 *الإجمالي:* ${total} ج.م%0A📍 *الموقع:* مرسى مطروح`;
+  window.open(`https://wa.me/201023696962?text=${msg}`, '_blank');
+}
+
+// =============== TOAST ===============
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.innerHTML = msg;
+  el.classList.add('show');
+  clearTimeout(el._timeout);
+  el._timeout = setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+// =============== MOBILE MENU ===============
+function toggleMobile() {
+  document.getElementById('navMenu').classList.toggle('open');
+}
+
+// =============== ADMIN ===============
+function toggleAdmin() {
+  const panel = document.getElementById('adminPanel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) {
+    renderAdminTable();
+    updateAdminStats();
+  }
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('cartSidebar').classList.remove('open');
+}
+
+function switchAdminTab(tab) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.admin-tab-content').forEach(c => c.style.display = 'none');
+  document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.add('active');
+  document.getElementById(`adminTab${tab.charAt(0).toUpperCase() + tab.slice(1)}`).style.display = 'block';
+  if (tab === 'products') renderAdminTable();
+  if (tab === 'import') renderAdminTable();
+}
+
+function updateAdminStats() {
+  const total = products.length;
+  const available = products.filter(p => p.available).length;
+  const soldOut = products.filter(p => !p.available).length;
+  const cats = new Set(products.map(p => p.category)).size;
+  document.getElementById('adminTotalProducts').textContent = total;
+  document.getElementById('adminAvailable').textContent = available;
+  document.getElementById('adminSoldOut').textContent = soldOut;
+  document.getElementById('adminCategories').textContent = cats;
+}
+
+function addProduct(e) {
+  e.preventDefault();
+  const form = document.getElementById('adminProductForm');
+  const name = form.name.value.trim();
+  const category = form.category.value;
+  const price = parseFloat(form.price.value) || 0;
+  const oldPrice = parseFloat(form.oldPrice.value) || 0;
+  const discount = parseFloat(form.discount.value) || 0;
+  const weight = form.weight.value.trim();
+  const image = form.image.value.trim() || 'https://karimolive.shop/uploads/products/images/d1ecfa82ed114b868cb29411746dd26f.webp';
+  const origin = form.origin.value.trim();
+  const available = form.available.checked;
+  if (!name) { showToast('⚠️ اسم المنتج مطلوب'); return; }
+  if (!category) { showToast('⚠️ القسم مطلوب'); return; }
+  if (price <= 0) { showToast('⚠️ السعر مطلوب'); return; }
+  const id = 'p' + Date.now();
+  products.push({ id, name, category, price, oldPrice, discount, weight, image, origin, available });
+  saveProducts();
+  renderProducts();
+  renderAdminTable();
+  updateAdminStats();
+  form.reset();
+  showToast('✅ تم إضافة المنتج بنجاح');
+}
+
+function deleteProduct(id) {
+  if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) return;
+  products = products.filter(p => p.id !== id);
+  cart = cart.filter(c => c.id !== id);
+  saveProducts();
+  saveCart();
+  renderProducts();
+  renderAdminTable();
+  updateAdminStats();
+  updateCartUI();
+  showToast('✅ تم حذف المنتج');
+}
+
+function toggleProductStatus(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  p.available = !p.available;
+  saveProducts();
+  renderProducts();
+  renderAdminTable();
+  updateAdminStats();
+  showToast(p.available ? '✅ المنتج متاح الآن' : '⛔ تم إيقاف المنتج');
+}
+
+function renderAdminTable() {
+  const tbody = document.getElementById('adminTableBody');
+  if (!tbody) return;
+  if (products.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text-light);">لا توجد منتجات بعد</td></tr>';
+    return;
+  }
+  tbody.innerHTML = products.map(p => `
+    <tr>
+      <td><img src="${p.image}" style="width:40px;height:40px;border-radius:6px;object-fit:cover;" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><rect fill=%22%23f0f0f0%22 width=%2240%22 height=%2240%22/></svg>'"></td>
+      <td style="font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</td>
+      <td>${p.category}</td>
+      <td>${p.price} ج.م</td>
+      <td>${p.discount > 0 ? p.discount + '%' : '—'}</td>
+      <td>${p.weight || '—'}</td>
+      <td>${p.available ? '✅ متاح' : '❌ غير متاح'}</td>
+      <td class="actions">
+        <button class="edit-btn" onclick="toggleProductStatus('${p.id}')">${p.available ? 'إيقاف' : 'تفعيل'}</button>
+        <button class="delete-btn" onclick="deleteProduct('${p.id}')">حذف</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// =============== EXCEL IMPORT ===============
+function handleExcelImport(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+      const sheet = workbook.Sheets[workbook.SheetNames[0]];
+      const json = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+      
+      if (!json || json.length === 0) {
+        showToast('⚠️ الملف فارغ أو غير صحيح');
+        return;
+      }
+      
+      let imported = 0;
+      json.forEach(row => {
+        const name = row['اسم المنتج'] || row['name'] || row['الاسم'] || row['Name'] || '';
+        const category = row['القسم'] || row['category'] || row['Category'] || 'منتجات';
+        const price = parseFloat(row['السعر'] || row['price'] || row['Price'] || 0);
+        const oldPrice = parseFloat(row['السعر القديم'] || row['oldPrice'] || row['Old Price'] || 0);
+        const discount = parseFloat(row['الخصم'] || row['discount'] || row['Discount'] || 0);
+        const weight = row['الوزن'] || row['weight'] || row['Weight'] || '';
+        const image = row['الصورة'] || row['image'] || row['Image'] || 'https://karimolive.shop/uploads/products/images/d1ecfa82ed114b868cb29411746dd26f.webp';
+        const origin = row['المنشأ'] || row['origin'] || row['Origin'] || '';
+        const available = (row['متاح'] || row['available'] || row['Available'] || 'نعم').toString().includes('نعم') || (row['متاح'] || row['available'] || 'true').toString().includes('true');
+        
+        if (!name || price <= 0) return;
+        
+        const id = 'p' + Date.now() + '_' + imported;
+        products.push({ id, name, category, price, oldPrice, discount, weight, image, origin, available });
+        imported++;
+      });
+      
+      if (imported === 0) {
+        showToast('⚠️ لم يتم العثور على منتجات صالحة في الملف. تأكد من وجود أعمدة: اسم المنتج، السعر، القسم');
+        return;
+      }
+      
+      saveProducts();
+      renderProducts();
+      renderAdminTable();
+      updateAdminStats();
+      showToast(`✅ تم استيراد ${imported} منتج بنجاح من ملف Excel وتحويلهم إلى JSON`);
+      
+      // Show JSON preview
+      const preview = document.getElementById('importJsonPreview');
+      if (preview) {
+        const lastProducts = products.slice(-imported);
+        preview.textContent = JSON.stringify(lastProducts, null, 2);
+        preview.style.display = 'block';
+      }
+    } catch(err) {
+      showToast('⚠️ خطأ في قراءة الملف: ' + err.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// =============== EXPORT ===============
+function exportData() {
+  const data = JSON.stringify(products, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'nokhba-products.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✅ تم تصدير البيانات');
+}
+
+// =============== CONTACT FORM ===============
+function sendContact() {
+  const name = document.getElementById('contactName').value.trim();
+  const phone = document.getElementById('contactPhone').value.trim();
+  const msg = document.getElementById('contactMsg').value.trim();
+  if (!name || !phone || !msg) {
+    showToast('⚠️ يرجى ملء جميع الحقول');
+    return;
+  }
+  document.getElementById('contactSuccess').style.display = 'block';
+  document.getElementById('contactName').value = '';
+  document.getElementById('contactPhone').value = '';
+  document.getElementById('contactMsg').value = '';
+  setTimeout(() => {
+    document.getElementById('contactSuccess').style.display = 'none';
+  }, 5000);
+}
+
+// =============== INIT ===============
+document.addEventListener('DOMContentLoaded', function() {
+  loadData();
+  renderProducts();
+  updateCartUI();
+  updateCategoryCounts();
+  updateAdminStats();
+  
+  // Close cart on overlay click
+  document.getElementById('cartOverlay').addEventListener('click', function() {
+    this.classList.remove('open');
+    document.getElementById('cartSidebar').classList.remove('open');
+  });
+  
+  // Close admin on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.getElementById('adminPanel').classList.remove('open');
+      document.getElementById('cartOverlay').classList.remove('open');
+      document.getElementById('cartSidebar').classList.remove('open');
+    }
+  });
+});
+</script>
+</body>
+</html>
