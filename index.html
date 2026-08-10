@@ -498,7 +498,7 @@ ul { list-style: none; }
       <a href="#products">المنتجات</a>
       <a href="#about">من نحن</a>
       <a href="#contact">تواصل معنا</a>
-      <button class="admin-btn" onclick="toggleAdmin()">⚙️ الإدارة</button>
+      <button class="admin-btn" onclick="showLoginModal()" id="adminBtn">🔐 الدخول للإدارة</button>
       <button class="cart-btn" onclick="toggleCart()">
         🛒 السلة <span class="cart-count" id="cartCount">0</span>
       </button>
@@ -863,13 +863,37 @@ ul { list-style: none; }
   <!-- Toast -->
   <div class="toast" id="toast"></div>
 
+  <!-- Login Modal -->
+  <div class="login-overlay" id="loginOverlay" style="display:none;">
+    <div class="login-box">
+      <h3>🔐 تسجيل دخول الإدارة</h3>
+      <input type="text" id="loginUser" placeholder="اسم المستخدم" autocomplete="username">
+      <input type="password" id="loginPass" placeholder="كلمة المرور" autocomplete="current-password">
+      <select id="loginRole" style="width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:8px;font-size:1rem;">
+        <option value="">اختر الصلاحية</option>
+        <option value="admin">👑 مدير كامل (Admin)</option>
+        <option value="manager">👔 مشرف (Manager)</option>
+        <option value="product">📦 مدير منتجات (Product)</option>
+        <option value="orders">📋 متابع طلبات (Orders)</option>
+      </select>
+      <button onclick="loginAdmin()">دخول</button>
+      <div class="login-error" id="loginError">❌ بيانات الدخول غير صحيحة</div>
+      <p style="margin-top:15px;font-size:0.8rem;color:#6b7280;text-align:center;">
+        حسابات تجريبية:<br>
+        admin/admin123 | manager/manager123<br>
+        product/product123 | orders/orders123
+      </p>
+      <button onclick="closeLoginModal()" style="background:#6b7280;margin-top:10px;">إلغاء</button>
+    </div>
+  </div>
+
   <!-- Admin Panel -->
   <div class="admin-panel" id="adminPanel">
     <div class="admin-header">
       <h2>⚙️ لوحة تحكم المنتجات — نخبة</h2>
       <div>
         <button class="export-btn" onclick="exportData()" style="background:var(--gold);color:var(--dark);margin-left:10px;">📥 تصدير JSON</button>
-        <button class="admin-close" onclick="toggleAdmin()">✕</button>
+        <button class="admin-close" onclick="closeAdmin()">✕</button>
       </div>
     </div>
     <div class="admin-body">
@@ -893,10 +917,12 @@ ul { list-style: none; }
       </div>
 
       <div class="admin-tabs">
-        <button class="admin-tab active" data-tab="products" onclick="switchAdminTab('products')">📋 المنتجات</button>
-        <button class="admin-tab" data-tab="add" onclick="switchAdminTab('add')">➕ إضافة منتج</button>
-        <button class="admin-tab" data-tab="import" onclick="switchAdminTab('import')">📊 استيراد Excel</button>
-        <button class="admin-tab" data-tab="bulk" onclick="switchAdminTab('bulk')">📥 استيراد كميات</button>
+        <button class="admin-tab active" data-tab="products" data-role="all" onclick="switchAdminTab('products')">📋 المنتجات</button>
+        <button class="admin-tab" data-tab="add" data-role="product,manager,admin" onclick="switchAdminTab('add')">➕ إضافة منتج</button>
+        <button class="admin-tab" data-tab="import" data-role="product,manager,admin" onclick="switchAdminTab('import')">📊 استيراد Excel</button>
+        <button class="admin-tab" data-tab="orders" data-role="orders,manager,admin" onclick="switchAdminTab('orders')">📦 الطلبات</button>
+        <button class="admin-tab" data-tab="stats" data-role="admin" onclick="switchAdminTab('stats')">📈 الإحصائيات</button>
+        <button class="admin-tab" data-tab="users" data-role="admin" onclick="switchAdminTab('users')">👥 المستخدمين</button>
       </div>
 
       <!-- Tab: Products List -->
@@ -1016,6 +1042,82 @@ ul { list-style: none; }
           </p>
         </div>
         <pre id="bulkJsonPreview" style="display:none;background:#1a1a2e;color:#e8d48b;padding:20px;border-radius:10px;font-size:0.8rem;overflow-x:auto;direction:ltr;text-align:left;max-height:400px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;"> </pre>
+      </div>
+
+      <!-- Tab: Orders -->
+      <div class="admin-tab-content" id="adminTabOrders" style="display:none;">
+        <div class="admin-actions">
+          <span style="color:var(--text-light);font-size:0.9rem;">📦 إدارة الطلبات - يمكنك تحديث حالة كل طلب</span>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>رقم الطلب</th>
+                <th>العميل</th>
+                <th>الهاتف</th>
+                <th>المبلغ</th>
+                <th>التوصيل</th>
+                <th>الإجمالي</th>
+                <th>الحالة</th>
+                <th>التاريخ</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <tr><td colspan="9" style="text-align:center;padding:30px;color:var(--text-light);">لا توجد طلبات بعد</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab: Statistics -->
+      <div class="admin-tab-content" id="adminTabStats" style="display:none;">
+        <div class="admin-stats" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+          <div class="admin-stat admin-stat-financial">
+            <div class="num" id="statsTotalRevenue">0 ج.م</div>
+            <div class="label">إجمالي الإيرادات</div>
+          </div>
+          <div class="admin-stat">
+            <div class="num" id="statsTodayRevenue">0 ج.م</div>
+            <div class="label">إيرادات اليوم</div>
+          </div>
+          <div class="admin-stat">
+            <div class="num" id="statsWeekRevenue">0 ج.م</div>
+            <div class="label">إيرادات الأسبوع</div>
+          </div>
+          <div class="admin-stat">
+            <div class="num" id="statsMonthRevenue">0 ج.م</div>
+            <div class="label">إيرادات الشهر</div>
+          </div>
+        </div>
+        <div style="margin-top:30px;">
+          <h3 style="margin-bottom:15px;">📊 توزيع المبيعات حسب القسم</h3>
+          <div id="categorySalesChart" style="background:#f8fafc;padding:20px;border-radius:12px;"></div>
+        </div>
+      </div>
+
+      <!-- Tab: Users Management -->
+      <div class="admin-tab-content" id="adminTabUsers" style="display:none;">
+        <div class="admin-actions">
+          <button class="export-btn" onclick="showAddUserModal()">➕ إضافة مستخدم جديد</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>اسم المستخدم</th>
+                <th>الصلاحية</th>
+                <th>تاريخ الإنشاء</th>
+                <th>آخر دخول</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-light);">جاري التحميل...</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -1212,15 +1314,32 @@ function checkoutInstaPay() {
   const shipping = 50; // shipping cost
   const total = subtotal + shipping;
   
-  // Build message for WhatsApp first
-  const items = cart.map(c => `• ${c.name} × ${c.qty} = ${c.price * c.qty} ج.م`).join('%0A');
-  const msg = `🛒 *طلب جديد من نخبة الشرق*%0A%0A${items}%0A%0A💰 *المجموع الفرعي:* ${subtotal} ج.م%0A🚚 *التوصيل:* ${shipping} ج.م%0A📦 *الإجمالي:* ${total} ج.م`;
+  // Save order before redirecting to payment
+  const order = {
+    id: Date.now(),
+    customer: '',
+    phone: '',
+    items: cart.map(c => ({ name: c.name, price: c.price, qty: c.qty, category: c.category })),
+    subtotal,
+    delivery: shipping,
+    total,
+    status: 'pending',
+    date: new Date().toISOString().split('T')[0]
+  };
+  
+  orders.push(order);
+  saveOrders();
   
   // Show summary then redirect to Instapay
-  alert(`💳 تم التحويل إلى صفحة الدفع بالإنستا باي\n\nالمجموع الفرعي: ${subtotal} ج.م\nالتوصيل: ${shipping} ج.م\n\n💰 الإجمالي: ${total} ج.م`);
+  alert(`🛒 تم حفظ طلبك بنجاح!\n\nالمجموع الفرعي: ${subtotal} ج.م\nالتوصيل: ${shipping} ج.م\n\n💰 الإجمالي: ${total} ج.م`);
   
   // Open Instapay link (no phone number shown)
   window.open(INSTAPAY_LINK, '_blank');
+  
+  // Clear cart after checkout
+  cart = [];
+  saveCart();
+  updateCartUI();
 }
 
 // =============== TOAST ===============
@@ -1238,16 +1357,143 @@ function toggleMobile() {
   document.getElementById('navMenu').classList.toggle('open');
 }
 
-// =============== ADMIN ===============
-function toggleAdmin() {
-  const panel = document.getElementById('adminPanel');
-  panel.classList.toggle('open');
-  if (panel.classList.contains('open')) {
-    renderAdminTable();
+// =============== ROLE-BASED ACCESS ===============
+const USERS_DB = {
+  'admin': { password: 'admin123', role: 'admin', name: 'المدير العام' },
+  'manager': { password: 'manager123', role: 'manager', name: 'المشرف' },
+  'product': { password: 'product123', role: 'product', name: 'مدير المنتجات' },
+  'orders': { password: 'orders123', role: 'orders', name: 'متابع الطلبات' }
+};
+
+let currentUser = null;
+let orders = [];
+
+function showLoginModal() {
+  document.getElementById('loginOverlay').style.display = 'flex';
+}
+
+function closeLoginModal() {
+  document.getElementById('loginOverlay').style.display = 'none';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginRole').value = '';
+  document.getElementById('loginError').style.display = 'none';
+}
+
+function loginAdmin() {
+  const username = document.getElementById('loginUser').value.trim();
+  const password = document.getElementById('loginPass').value;
+  const role = document.getElementById('loginRole').value;
+  
+  if (!username || !password || !role) {
+    document.getElementById('loginError').textContent = '⚠️ يرجى ملء جميع الحقول';
+    document.getElementById('loginError').style.display = 'block';
+    return;
+  }
+  
+  const user = USERS_DB[username];
+  if (user && user.password === password && user.role === role) {
+    currentUser = { username, role: user.role, name: user.name };
+    localStorage.setItem('nokhba_user', JSON.stringify(currentUser));
+    closeLoginModal();
+    openAdmin();
+    updateUIForRole();
+    showToast(`✅ مرحباً ${user.name}`);
+  } else {
+    document.getElementById('loginError').textContent = '❌ بيانات الدخول غير صحيحة';
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+
+function logoutAdmin() {
+  currentUser = null;
+  localStorage.removeItem('nokhba_user');
+  document.getElementById('adminPanel').classList.remove('open');
+  document.getElementById('adminBtn').style.display = 'flex';
+  document.getElementById('userBadgeContainer').style.display = 'none';
+  showToast('👋 تم تسجيل الخروج');
+}
+
+function updateUIForRole() {
+  if (!currentUser) return;
+  
+  // Update header
+  document.getElementById('adminBtn').style.display = 'none';
+  document.getElementById('userBadgeContainer').style.display = 'flex';
+  document.getElementById('currentUserName').textContent = currentUser.name;
+  const badge = document.getElementById('currentUserRole');
+  badge.textContent = getRoleName(currentUser.role);
+  badge.className = 'role-badge role-' + currentUser.role;
+  
+  // Show/hide tabs based on role
+  const tabs = document.querySelectorAll('.admin-tab[data-role]');
+  tabs.forEach(tab => {
+    const allowedRoles = tab.dataset.role.split(',');
+    tab.style.display = allowedRoles.includes('all') || allowedRoles.includes(currentUser.role) ? 'block' : 'none';
+  });
+  
+  // Reload relevant data
+  if (currentUser.role === 'admin' || currentUser.role === 'manager') {
     updateAdminStats();
   }
-  document.getElementById('cartOverlay').classList.remove('open');
-  document.getElementById('cartSidebar').classList.remove('open');
+  if (currentUser.role === 'admin' || currentUser.role === 'orders') {
+    renderOrdersTable();
+  }
+  if (currentUser.role === 'admin') {
+    renderUsersTable();
+    updateStats();
+  }
+}
+
+function getRoleName(role) {
+  const names = { admin: 'مدير كامل', manager: 'مشرف', product: 'مدير منتجات', orders: 'متابع طلبات' };
+  return names[role] || role;
+}
+
+function checkPermission(requiredRole) {
+  if (!currentUser) return false;
+  if (currentUser.role === 'admin') return true;
+  const hierarchy = { admin: 4, manager: 3, product: 2, orders: 1 };
+  return (hierarchy[currentUser.role] || 0) >= (hierarchy[requiredRole] || 0);
+}
+
+function openAdmin() {
+  document.getElementById('adminPanel').classList.add('open');
+}
+
+function closeAdmin() {
+  document.getElementById('adminPanel').classList.remove('open');
+}
+
+function switchAdminTab(tab) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.admin-tab-content').forEach(c => c.style.display = 'none');
+  
+  // Map tab names to element IDs
+  const tabMap = { 
+    products: 'Products', 
+    add: 'Add', 
+    import: 'Import', 
+    bulk: 'Bulk',
+    orders: 'Orders',
+    stats: 'Stats',
+    users: 'Users'
+  };
+  
+  document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.add('active');
+  const tabId = tabMap[tab] || 'Products';
+  const el = document.getElementById(`adminTab${tabId}`);
+  if (el) el.style.display = 'block';
+  
+  // Load data for specific tabs
+  if (tab === 'products') renderAdminTable();
+  if (tab === 'orders') renderOrdersTable();
+  if (tab === 'stats') updateStats();
+  if (tab === 'users') renderUsersTable();
+  if (tab === 'import' || tab === 'bulk') {
+    const preview = document.getElementById(tab === 'bulk' ? 'bulkJsonPreview' : 'importJsonPreview');
+    if (preview && preview.textContent.trim() && preview.textContent !== ' ') preview.style.display = 'block';
+  }
 }
 
 function switchAdminTab(tab) {
@@ -1520,10 +1766,30 @@ function sendContact() {
 // =============== INIT ===============
 document.addEventListener('DOMContentLoaded', function() {
   loadData();
+  loadOrders();
   renderProducts();
   updateCartUI();
   updateCategoryCounts();
   updateAdminStats();
+  
+  // Check for existing login session
+  const savedUser = localStorage.getItem('nokhba_user');
+  if (savedUser) {
+    currentUser = JSON.parse(savedUser);
+    document.getElementById('adminBtn').style.display = 'none';
+    document.getElementById('userBadgeContainer').style.display = 'flex';
+    document.getElementById('currentUserName').textContent = currentUser.name;
+    const badge = document.getElementById('currentUserRole');
+    badge.textContent = getRoleName(currentUser.role);
+    badge.className = 'role-badge role-' + currentUser.role;
+    
+    // Show/hide tabs based on role
+    const tabs = document.querySelectorAll('.admin-tab[data-role]');
+    tabs.forEach(tab => {
+      const allowedRoles = tab.dataset.role.split(',');
+      tab.style.display = allowedRoles.includes('all') || allowedRoles.includes(currentUser.role) ? 'block' : 'none';
+    });
+  }
   
   // Close cart on overlay click
   document.getElementById('cartOverlay').addEventListener('click', function() {
@@ -1538,6 +1804,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('cartOverlay').classList.remove('open');
       document.getElementById('cartSidebar').classList.remove('open');
       closeEditModal();
+      closeLoginModal();
     }
   });
   
@@ -1545,7 +1812,180 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('editProductModal').addEventListener('click', function(e) {
     if (e.target === this) closeEditModal();
   });
+  
+  // Close login modal on backdrop click
+  document.getElementById('loginOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeLoginModal();
+  });
 });
+
+// =============== ORDERS MANAGEMENT ===============
+function renderOrdersTable() {
+  const tbody = document.getElementById('ordersTableBody');
+  if (!tbody) return;
+  
+  if (orders.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:30px;color:var(--text-light);">لا توجد طلبات بعد</td></tr>';
+    return;
+  }
+  
+  tbody.innerHTML = orders.map((order, idx) => `
+    <tr>
+      <td>#${String(idx + 1).padStart(4, '0')}</td>
+      <td>${order.customer}</td>
+      <td>${order.phone}</td>
+      <td>${order.subtotal} ج.م</td>
+      <td>${order.delivery} ج.م</td>
+      <td><strong>${order.total} ج.م</strong></td>
+      <td>
+        <select onchange="updateOrderStatus(${idx}, this.value)" style="padding:6px;border-radius:6px;border:1px solid #ddd;">
+          <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>⏳ قيد الانتظار</option>
+          <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>✅ مؤكد</option>
+          <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>🚚 تم الشحن</option>
+          <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>📦 تم التسليم</option>
+          <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>❌ ملغي</option>
+        </select>
+      </td>
+      <td>${order.date}</td>
+      <td>
+        <button onclick="deleteOrder(${idx})" style="background:#dc2626;color:white;border:none;padding:5px 10px;border-radius:6px;cursor:pointer;font-size:0.8rem;">🗑️ حذف</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function updateOrderStatus(index, status) {
+  orders[index].status = status;
+  saveOrders();
+  showToast('✅ تم تحديث حالة الطلب');
+  updateAdminStats();
+}
+
+function deleteOrder(index) {
+  if (!confirm('هل أنت متأكد من حذف هذا الطلب؟')) return;
+  orders.splice(index, 1);
+  saveOrders();
+  renderOrdersTable();
+  updateAdminStats();
+  showToast('🗑️ تم حذف الطلب');
+}
+
+function saveOrders() {
+  localStorage.setItem('nokhba_orders', JSON.stringify(orders));
+}
+
+function loadOrders() {
+  const saved = localStorage.getItem('nokhba_orders');
+  if (saved) {
+    try { orders = JSON.parse(saved); } catch(e) { orders = []; }
+  }
+}
+
+// =============== STATISTICS ===============
+function updateStats() {
+  const totalRevenue = orders.reduce((sum, o) => sum + (o.total || 0), 0);
+  const today = new Date().toISOString().split('T')[0];
+  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+  const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+  
+  const todayRevenue = orders.filter(o => o.date === today).reduce((sum, o) => sum + (o.total || 0), 0);
+  const weekRevenue = orders.filter(o => o.date >= weekAgo).reduce((sum, o) => sum + (o.total || 0), 0);
+  const monthRevenue = orders.filter(o => o.date >= monthAgo).reduce((sum, o) => sum + (o.total || 0), 0);
+  
+  document.getElementById('statsTotalRevenue').textContent = totalRevenue + ' ج.م';
+  document.getElementById('statsTodayRevenue').textContent = todayRevenue + ' ج.م';
+  document.getElementById('statsWeekRevenue').textContent = weekRevenue + ' ج.م';
+  document.getElementById('statsMonthRevenue').textContent = monthRevenue + ' ج.م';
+  
+  // Category breakdown
+  const categorySales = {};
+  orders.forEach(order => {
+    (order.items || []).forEach(item => {
+      const cat = item.category || 'أخرى';
+      categorySales[cat] = (categorySales[cat] || 0) + (item.price * item.qty || 0);
+    });
+  });
+  
+  const chartEl = document.getElementById('categorySalesChart');
+  if (chartEl && Object.keys(categorySales).length > 0) {
+    const sorted = Object.entries(categorySales).sort((a, b) => b[1] - a[1]);
+    const max = sorted[0][1];
+    chartEl.innerHTML = sorted.map(([cat, amount]) => `
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:0.9rem;">
+          <span>${cat}</span>
+          <strong>${amount.toFixed(0)} ج.م</strong>
+        </div>
+        <div style="background:#e5e7eb;border-radius:8px;height:20px;overflow:hidden;">
+          <div style="background:linear-gradient(90deg,var(--primary),var(--primary-light));height:100%;width:${(amount/max*100).toFixed(1)}%;border-radius:8px;"></div>
+        </div>
+      </div>
+    `).join('');
+  } else if (chartEl) {
+    chartEl.innerHTML = '<p style="text-align:center;color:var(--text-light);padding:20px;">لا توجد بيانات مبيعات بعد</p>';
+  }
+}
+
+// =============== USERS MANAGEMENT ===============
+function renderUsersTable() {
+  const tbody = document.getElementById('usersTableBody');
+  if (!tbody) return;
+  
+  const users = Object.entries(USERS_DB).map(([username, data], idx) => ({
+    username,
+    ...data,
+    id: idx
+  }));
+  
+  tbody.innerHTML = users.map(u => `
+    <tr>
+      <td><strong>${u.username}</strong></td>
+      <td><span class="role-badge role-${u.role}">${getRoleName(u.role)}</span></td>
+      <td>2026-01-01</td>
+      <td>-</td>
+      <td>
+        <button onclick="editUser('${u.username}')" style="background:#2563eb;color:white;border:none;padding:5px 10px;border-radius:6px;cursor:pointer;font-size:0.8rem;margin-left:5px;">✏️ تعديل</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function showAddUserModal() {
+  const username = prompt('اسم المستخدم الجديد:');
+  if (!username) return;
+  const password = prompt('كلمة المرور:');
+  if (!password) return;
+  const role = prompt('الصلاحية (admin/manager/product/orders):');
+  if (!role || !['admin', 'manager', 'product', 'orders'].includes(role)) {
+    showToast('⚠️ صلاحية غير صحيحة');
+    return;
+  }
+  
+  USERS_DB[username] = { password, role, name: username };
+  renderUsersTable();
+  showToast('✅ تم إضافة المستخدم');
+}
+
+function editUser(username) {
+  const newRole = prompt('الصلاحية الجديدة (admin/manager/product/orders):', USERS_DB[username]?.role);
+  if (!newRole || !['admin', 'manager', 'product', 'orders'].includes(newRole)) return;
+  const newPassword = prompt('كلمة المرور الجديدة (اترك فارغاُ للابقاء على الحالية):');
+  
+  if (newPassword !== null && newPassword !== '') {
+    USERS_DB[username].password = newPassword;
+  }
+  USERS_DB[username].role = newRole;
+  
+  // Update current user if editing self
+  if (currentUser && currentUser.username === username) {
+    currentUser.role = newRole;
+    localStorage.setItem('nokhba_user', JSON.stringify(currentUser));
+    updateUIForRole();
+  }
+  
+  renderUsersTable();
+  showToast('✅ تم تحديث بيانات المستخدم');
+}
 </script>
 </body>
 </html>
