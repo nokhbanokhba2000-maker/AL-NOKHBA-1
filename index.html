@@ -923,6 +923,7 @@ ul { list-style: none; }
         <button class="admin-tab" data-tab="orders" data-role="orders,manager,admin" onclick="switchAdminTab('orders')">📦 الطلبات</button>
         <button class="admin-tab" data-tab="stats" data-role="admin" onclick="switchAdminTab('stats')">📈 الإحصائيات</button>
         <button class="admin-tab" data-tab="users" data-role="admin" onclick="switchAdminTab('users')">👥 المستخدمين</button>
+        <button class="admin-tab" data-tab="ownership" data-role="admin" onclick="switchAdminTab('ownership')">🏢 الملكية</button>
       </div>
 
       <!-- Tab: Products List -->
@@ -1117,6 +1118,36 @@ ul { list-style: none; }
               <tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-light);">جاري التحميل...</td></tr>
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- Tab: Site Ownership -->
+      <div class="admin-tab-content" id="adminTabOwnership" style="display:none;">
+        <div class="admin-actions">
+          <span style="color:var(--text-light);font-size:0.9rem;">🏢 إدارة ملكية الموقع والبريد الإلكتروني</span>
+        </div>
+        
+        <div style="margin-top:20px;">
+          <h4 style="margin-bottom:15px;">📧 البريد الإلكتروني الأساسي للمالك</h4>
+          <div style="background:#f8fafc;padding:20px;border-radius:12px;margin-bottom:20px;">
+            <p style="margin-bottom:10px;"><strong>البريد الحالي:</strong> <span id="ownerEmailDisplay" style="color:var(--gold-dark);"></span></p>
+            <input type="email" id="newOwnerEmail" placeholder="أدخل البريد الإلكتروني الجديد" style="width:60%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-left:10px;">
+            <button onclick="updateOwnerEmail()" style="background:var(--primary);color:white;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;margin-right:10px;">تحديث البريد</button>
+          </div>
+          
+          <h4 style="margin-bottom:15px;">👥 브ريد الإشراف العام (يمكن إضافة أكثر من بريد)</h4>
+          <div style="background:#f8fafc;padding:20px;border-radius:12px;margin-bottom:20px;">
+            <div id="supervisionEmails" style="margin-bottom:15px;"></div>
+            <input type="email" id="newSupervisionEmail" placeholder="أدخل بريد الإشراف الجديد" style="width:50%;padding:10px;border:1px solid #ddd;border-radius:8px;">
+            <button onclick="addSupervisionEmail()" style="background:var(--primary);color:white;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;margin-left:10px;">➕ إضافة</button>
+          </div>
+          
+          <h4 style="margin-bottom:15px;">🔄 نقل الملكية للموقع</h4>
+          <div style="background:#fff3cd;padding:20px;border-radius:12px;border:1px solid #ffc107;">
+            <p style="margin-bottom:15px;color:#856404;">⚠️ تنبيه: نقل الملكية سيحول حقوق الموقع بالكامل إلى البريد الإلكتروني المحدد.</p>
+            <input type="email" id="transferEmail" placeholder="بريد المالك الجديد" style="width:40%;padding:10px;border:1px solid #ffc107;border-radius:8px;">
+            <button onclick="transferOwnership()" style="background:#dc3545;color:white;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;margin-left:10px;">🔄 نقل الملكية</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1360,6 +1391,110 @@ const USERS_DB = {
 let currentUser = null;
 let orders = [];
 
+// =============== SITE CONFIGURATION (Ownership & Emails) ===============
+const OWNER_EMAIL_KEY = 'nokhba_owner_email';
+const SUPERVISION_EMAILS_KEY = 'nokhba_supervision_emails';
+
+function getSiteConfig() {
+  return {
+    ownerEmail: localStorage.getItem(OWNER_EMAIL_KEY) || 'nokhbanokhba2000@gmail.com',
+    supervisionEmails: JSON.parse(localStorage.getItem(SUPERVISION_EMAILS_KEY) || '["emad.hassabo1976@gmail.com"]')
+  };
+}
+
+function saveSiteConfig(config) {
+  localStorage.setItem(OWNER_EMAIL_KEY, config.ownerEmail);
+  localStorage.setItem(SUPERVISION_EMAILS_KEY, JSON.stringify(config.supervisionEmails));
+}
+
+function renderOwnerEmailSection() {
+  const config = getSiteConfig();
+  document.getElementById('ownerEmailDisplay').textContent = config.ownerEmail;
+  
+  const supervisionDiv = document.getElementById('supervisionEmails');
+  if (supervisionDiv) {
+    supervisionDiv.innerHTML = config.supervisionEmails.map((email, idx) => `
+      <span style="display:inline-block;background:#e8f5e9;color:#2e7d32;padding:8px 15px;border-radius:20px;margin:5px;font-size:0.9rem;">
+        ${email} 
+        <button onclick="removeSupervisionEmail(${idx})" style="background:none;border:none;color:#c62828;cursor:pointer;font-weight:bold;margin-right:5px;">✕</button>
+      </span>
+    `).join('');
+  }
+}
+
+function updateOwnerEmail() {
+  const newEmail = document.getElementById('newOwnerEmail').value.trim();
+  if (!newEmail || !newEmail.includes('@')) {
+    showToast('⚠️ الرجاء إدخال بريد إلكتروني صحيح');
+    return;
+  }
+  
+  const config = getSiteConfig();
+  config.ownerEmail = newEmail;
+  saveSiteConfig(config);
+  renderOwnerEmailSection();
+  showToast('✅ تم تحديث البريد الإلكتروني للمالك');
+}
+
+function addSupervisionEmail() {
+  const email = document.getElementById('newSupervisionEmail').value.trim();
+  if (!email || !email.includes('@')) {
+    showToast('⚠️ الرجاء إدخال بريد إلكتروني صحيح');
+    return;
+  }
+  
+  const config = getSiteConfig();
+  if (config.supervisionEmails.includes(email)) {
+    showToast('⚠️ هذا البريد موجود بالفعل');
+    return;
+  }
+  
+  config.supervisionEmails.push(email);
+  saveSiteConfig(config);
+  document.getElementById('newSupervisionEmail').value = '';
+  renderOwnerEmailSection();
+  showToast('✅ تم إضافة بريد الإشراف');
+}
+
+function removeSupervisionEmail(idx) {
+  const config = getSiteConfig();
+  config.supervisionEmails.splice(idx, 1);
+  saveSiteConfig(config);
+  renderOwnerEmailSection();
+  showToast('🗑️ تم حذف البريد');
+}
+
+function transferOwnership() {
+  const newEmail = document.getElementById('transferEmail').value.trim();
+  if (!newEmail || !newEmail.includes('@')) {
+    showToast('⚠️ الرجاء إدخال بريد إلكتروني صحيح');
+    return;
+  }
+  
+  if (!confirm(`هل أنت متأكد من نقل ملكية الموقع إلى: ${newEmail}?\n\nسيتم تحويل جميع حقوق الموقع بالكامل.`)) {
+    return;
+  }
+  
+  // Save current owner info for records
+  const oldOwner = getSiteConfig().ownerEmail;
+  const transferRecord = {
+    from: oldOwner,
+    to: newEmail,
+    date: new Date().toISOString(),
+    transactionId: 'TX-' + Date.now()
+  };
+  
+  // Transfer ownership
+  const config = getSiteConfig();
+  config.ownerEmail = newEmail;
+  config.lastTransfer = transferRecord;
+  saveSiteConfig(config);
+  
+  document.getElementById('transferEmail').value = '';
+  renderOwnerEmailSection();
+  showToast('✅ تم نقل ملكية الموقع بنجاح');
+}
+
 function showLoginModal() {
   document.getElementById('loginOverlay').style.display = 'flex';
 }
@@ -1469,7 +1604,8 @@ function switchAdminTab(tab) {
     bulk: 'Bulk',
     orders: 'Orders',
     stats: 'Stats',
-    users: 'Users'
+    users: 'Users',
+    ownership: 'Ownership'
   };
   
   document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.add('active');
@@ -1482,21 +1618,7 @@ function switchAdminTab(tab) {
   if (tab === 'orders') renderOrdersTable();
   if (tab === 'stats') updateStats();
   if (tab === 'users') renderUsersTable();
-  if (tab === 'import' || tab === 'bulk') {
-    const preview = document.getElementById(tab === 'bulk' ? 'bulkJsonPreview' : 'importJsonPreview');
-    if (preview && preview.textContent.trim() && preview.textContent !== ' ') preview.style.display = 'block';
-  }
-}
-
-function switchAdminTab(tab) {
-  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.admin-tab-content').forEach(c => c.style.display = 'none');
-  const tabMap = { products: 'Products', add: 'Add', import: 'Import', bulk: 'Bulk' };
-  document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.add('active');
-  const tabId = tabMap[tab] || 'Products';
-  const el = document.getElementById(`adminTab${tabId}`);
-  if (el) el.style.display = 'block';
-  if (tab === 'products') renderAdminTable();
+  if (tab === 'ownership') renderOwnerEmailSection();
   if (tab === 'import' || tab === 'bulk') {
     const preview = document.getElementById(tab === 'bulk' ? 'bulkJsonPreview' : 'importJsonPreview');
     if (preview && preview.textContent.trim() && preview.textContent !== ' ') preview.style.display = 'block';
@@ -1961,30 +2083,6 @@ function showAddUserModal() {
   renderUsersTable();
   showToast('✅ تم إضافة المستخدم');
 }
-
-function editUser(username) {
-  const newRole = prompt('الصلاحية الجديدة (admin/manager/product/orders):', USERS_DB[username]?.role);
-  if (!newRole || !['admin', 'manager', 'product', 'orders'].includes(newRole)) return;
-  const newPassword = prompt('كلمة المرور الجديدة (اترك فارغاُ للابقاء على الحالية):');
-  
-  if (newPassword !== null && newPassword !== '') {
-    USERS_DB[username].password = newPassword;
-  }
-  USERS_DB[username].role = newRole;
-  
-  // Update current user if editing self
-  if (currentUser && currentUser.username === username) {
-    currentUser.role = newRole;
-    localStorage.setItem('nokhba_user', JSON.stringify(currentUser));
-    updateUIForRole();
-  }
-  
-  renderUsersTable();
-  showToast('✅ تم تحديث بيانات المستخدم');
-}
-</script>
-</body>
-</html>
 
 function editUser(username) {
   const newRole = prompt('الصلاحية الجديدة (admin/manager/product/orders):', USERS_DB[username]?.role);
