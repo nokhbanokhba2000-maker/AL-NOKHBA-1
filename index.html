@@ -709,7 +709,65 @@ ul { list-style: none; }
     </div>
   </div>
 </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <!-- Edit Product Modal -->
+  <div id="editProductModal" style="display:none;position:fixed;z-index:4000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);overflow-y:auto;">
+    <div style="background:#fff;margin:3% auto;padding:25px;border-radius:12px;width:90%;max-width:600px;box-shadow:0 5px 15px rgba(0,0,0,0.3);direction:rtl;">
+      <h3 style="margin-bottom:20px;color:var(--primary);border-bottom:2px solid #e0e0e0;padding-bottom:10px;text-align:center;">✏️ تعديل تفاصيل المنتج</h3>
+      <input type="hidden" id="edit-p-id">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
+        <div style="grid-column:span 2;">
+          <label style="font-weight:bold;display:block;margin-bottom:5px;">اسم المنتج:</label>
+          <input type="text" id="edit-p-name" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;">
+        </div>
+        <div>
+          <label style="font-weight:bold;display:block;margin-bottom:5px;">القسم:</label>
+          <select id="edit-p-category" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;">
+            <option value="زيت الزيتون">🫒 زيت الزيتون</option>
+            <option value="العروض والخصومات">🎉 العروض والخصومات</option>
+            <option value="زيوت الشعر">💇 زيوت الشعر</option>
+            <option value="الصابون الطبيعي">🧼 الصابون الطبيعي</option>
+            <option value="الأعشاب">🌿 الأعشاب</option>
+            <option value="التمور">🌴 التمور</option>
+            <option value="منتجات">📦 منتجات</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-weight:bold;display:block;margin-bottom:5px;">الوزن / الحجم:</label>
+          <input type="text" id="edit-p-weight" placeholder="مثال: 1 كيلو" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;">
+        </div>
+        <div>
+          <label style="font-weight:bold;display:block;margin-bottom:5px;">السعر (ج.م):</label>
+          <input type="number" id="edit-p-price" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;">
+        </div>
+        <div>
+          <label style="font-weight:bold;display:block;margin-bottom:5px;">السعر قبل الخصم (ج.م):</label>
+          <input type="number" id="edit-p-oldPrice" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;">
+        </div>
+        <div>
+          <label style="font-weight:bold;display:block;margin-bottom:5px;">نسبة الخصم (%):</label>
+          <input type="number" id="edit-p-discount" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;">
+        </div>
+        <div style="display:flex;align-items:center;margin-top:25px;">
+          <input type="checkbox" id="edit-p-available" style="transform:scale(1.3);margin-left:8px;">
+          <label for="edit-p-available" style="font-weight:bold;cursor:pointer;">منتج متوفر</label>
+        </div>
+        <div style="grid-column:span 2;">
+          <label style="font-weight:bold;display:block;margin-bottom:5px;">المنشأ:</label>
+          <input type="text" id="edit-p-origin" placeholder="مطروح (محل نخبة)" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;">
+        </div>
+        <div style="grid-column:span 2;">
+          <label style="font-weight:bold;display:block;margin-bottom:5px;">رابط الصورة:</label>
+          <input type="text" id="edit-p-image" placeholder="ضع رابط صورة المنتج هنا" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;">
+        </div>
+      </div>
+      <div style="margin-top:20px;text-align:left;display:flex;justify-content:flex-end;gap:10px;">
+        <button onclick="closeEditModal()" style="background:#6c757d;color:white;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:600;">❌ إلغاء</button>
+        <button onclick="saveProductEdits()" style="background:#198754;color:white;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:700;">💾 حفظ التغييرات</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
   <!-- Cart Sidebar -->
   <div class="cart-overlay" id="cartOverlay"></div>
@@ -767,6 +825,7 @@ ul { list-style: none; }
         <button class="admin-tab active" data-tab="products" onclick="switchAdminTab('products')">📋 المنتجات</button>
         <button class="admin-tab" data-tab="add" onclick="switchAdminTab('add')">➕ إضافة منتج</button>
         <button class="admin-tab" data-tab="import" onclick="switchAdminTab('import')">📊 استيراد Excel</button>
+        <button class="admin-tab" data-tab="bulk" onclick="switchAdminTab('bulk')">📥 استيراد كميات</button>
       </div>
 
       <!-- Tab: Products List -->
@@ -865,6 +924,27 @@ ul { list-style: none; }
           <div class="import-note">ملفات مدعومة: .xlsx, .xls, .csv</div>
         </div>
         <pre id="importJsonPreview" style="display:none;background:#1a1a2e;color:#e8d48b;padding:20px;border-radius:10px;font-size:0.8rem;overflow-x:auto;direction:ltr;text-align:left;max-height:400px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;"> </pre>
+      </div>
+
+      <!-- Tab: Bulk Import -->
+      <div class="admin-tab-content" id="adminTabBulk" style="display:none;">
+        <div class="import-section">
+          <h3>📥 استيراد كميات كبيرة من Excel</h3>
+          <p>للكميات الكبيرة — ارفع ملف Excel وسيتم تحويله مباشرة إلى JSON داخل المتجر</p>
+          <div style="margin:20px 0;">
+            <input type="file" id="excelFileInput" accept=".xlsx, .xls" style="display:none;" onchange="handleExcelImport(event)">
+            <button type="button" onclick="document.getElementById('excelFileInput').click()" style="background-color:#198754;color:white;border:none;padding:14px 28px;border-radius:10px;font-weight:bold;cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-size:1.1rem;">
+              📊 IMPORT EXCEL (استيراد من إكسيل)
+            </button>
+          </div>
+          <p style="font-size:0.85rem;color:var(--text-light);">
+            ✅ يدعم: .xlsx, .xls<br>
+            ✅ إذا كان المنتج موجوداً مسبقاً (بنفس الاسم) يتم تحديثه تلقائياً<br>
+            ✅ يتم تحويل جميع البيانات إلى JSON وحفظها في المتجر فوراً<br>
+            ✅ يمكنك استيراد مئات المنتجات دفعة واحدة
+          </p>
+        </div>
+        <pre id="bulkJsonPreview" style="display:none;background:#1a1a2e;color:#e8d48b;padding:20px;border-radius:10px;font-size:0.8rem;overflow-x:auto;direction:ltr;text-align:left;max-height:400px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;"> </pre>
       </div>
     </div>
   </div>
@@ -1120,10 +1200,16 @@ function toggleAdmin() {
 function switchAdminTab(tab) {
   document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.admin-tab-content').forEach(c => c.style.display = 'none');
+  const tabMap = { products: 'Products', add: 'Add', import: 'Import', bulk: 'Bulk' };
   document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.add('active');
-  document.getElementById(`adminTab${tab.charAt(0).toUpperCase() + tab.slice(1)}`).style.display = 'block';
+  const tabId = tabMap[tab] || 'Products';
+  const el = document.getElementById(`adminTab${tabId}`);
+  if (el) el.style.display = 'block';
   if (tab === 'products') renderAdminTable();
-  if (tab === 'import') renderAdminTable();
+  if (tab === 'import' || tab === 'bulk') {
+    const preview = document.getElementById(tab === 'bulk' ? 'bulkJsonPreview' : 'importJsonPreview');
+    if (preview && preview.textContent.trim() && preview.textContent !== ' ') preview.style.display = 'block';
+  }
 }
 
 function updateAdminStats() {
@@ -1203,49 +1289,115 @@ function renderAdminTable() {
       <td>${p.weight || '—'}</td>
       <td>${p.available ? '✅ متاح' : '❌ غير متاح'}</td>
       <td class="actions">
-        <button class="edit-btn" onclick="toggleProductStatus('${p.id}')">${p.available ? 'إيقاف' : 'تفعيل'}</button>
-        <button class="delete-btn" onclick="deleteProduct('${p.id}')">حذف</button>
+        <button class="edit-btn" onclick="openEditModal('${p.id}')">✏️ تعديل</button>
+        <button class="edit-btn" onclick="toggleProductStatus('${p.id}')" style="background:${p.available?'#dbeafe':'#fef3c7'};color:${p.available?'#1d4ed8':'#b45309'}">${p.available ? 'إيقاف' : 'تفعيل'}</button>
+        <button class="delete-btn" onclick="deleteProduct('${p.id}')">🗑️ حذف</button>
       </td>
     </tr>
   `).join('');
 }
 
+// =============== EDIT MODAL ===============
+function openEditModal(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) { showToast('⚠️ المنتج غير موجود'); return; }
+
+  document.getElementById('edit-p-id').value = product.id;
+  document.getElementById('edit-p-name').value = product.name || '';
+  document.getElementById('edit-p-category').value = product.category || 'زيت الزيتون';
+  document.getElementById('edit-p-price').value = product.price || '';
+  document.getElementById('edit-p-oldPrice').value = product.oldPrice || '';
+  document.getElementById('edit-p-discount').value = product.discount || '';
+  document.getElementById('edit-p-weight').value = product.weight || '';
+  document.getElementById('edit-p-image').value = product.image || '';
+  document.getElementById('edit-p-origin').value = product.origin || '';
+  document.getElementById('edit-p-available').checked = product.available !== false;
+
+  document.getElementById('editProductModal').style.display = 'block';
+}
+
+function closeEditModal() {
+  document.getElementById('editProductModal').style.display = 'none';
+}
+
+function saveProductEdits() {
+  const id = document.getElementById('edit-p-id').value;
+  const index = products.findIndex(p => p.id === id);
+
+  if (index === -1) { showToast('⚠️ لم يتم العثور على المنتج'); return; }
+
+  products[index].name = document.getElementById('edit-p-name').value.trim() || products[index].name;
+  products[index].category = document.getElementById('edit-p-category').value || products[index].category;
+  products[index].price = parseFloat(document.getElementById('edit-p-price').value) || 0;
+  products[index].oldPrice = parseFloat(document.getElementById('edit-p-oldPrice').value) || 0;
+  products[index].discount = parseFloat(document.getElementById('edit-p-discount').value) || 0;
+  products[index].weight = document.getElementById('edit-p-weight').value.trim() || '';
+  products[index].image = document.getElementById('edit-p-image').value.trim() || products[index].image;
+  products[index].origin = document.getElementById('edit-p-origin').value.trim() || '';
+  products[index].available = document.getElementById('edit-p-available').checked;
+
+  saveProducts();
+  renderProducts();
+  renderAdminTable();
+  updateAdminStats();
+  closeEditModal();
+  showToast('✅ تم تعديل بيانات المنتج بنجاح');
+}
+
 // =============== EXCEL IMPORT ===============
-function handleExcelImport(file) {
+function handleExcelImport(input) {
+  // Handle both direct file and event object
+  let file = input;
+  if (input && input.target) file = input.target.files[0];
+  if (!file) return;
   const reader = new FileReader();
   reader.onload = function(e) {
     try {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: 'array' });
-      const sheet = workbook.Sheets[workbook.SheetNames[0]];
-      const json = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheetName];
+      const json = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
       
       if (!json || json.length === 0) {
-        showToast('⚠️ الملف فارغ أو غير صحيح');
+        showToast('⚠️ الملف فارغ أو بتنسيق غير صحيح');
         return;
       }
       
       let imported = 0;
+      let updated = 0;
+      
       json.forEach(row => {
-        const name = row['اسم المنتج'] || row['name'] || row['الاسم'] || row['Name'] || '';
-        const category = row['القسم'] || row['category'] || row['Category'] || 'منتجات';
+        const name = row['اسم المنتج'] || row['name'] || row['الاسم'] || row['Name'] || row['product_name'] || '';
+        const category = row['القسم'] || row['category'] || row['Category'] || row['قسم'] || 'منتجات';
         const price = parseFloat(row['السعر'] || row['price'] || row['Price'] || 0);
-        const oldPrice = parseFloat(row['السعر القديم'] || row['oldPrice'] || row['Old Price'] || 0);
-        const discount = parseFloat(row['الخصم'] || row['discount'] || row['Discount'] || 0);
+        const oldPrice = parseFloat(row['السعر القديم'] || row['oldPrice'] || row['Old Price'] || row['السعر قبل الخصم'] || 0);
+        const discount = parseFloat(row['الخصم'] || row['discount'] || row['Discount'] || row['نسبة الخصم'] || 0);
         const weight = row['الوزن'] || row['weight'] || row['Weight'] || '';
-        const image = row['الصورة'] || row['image'] || row['Image'] || 'https://karimolive.shop/uploads/products/images/d1ecfa82ed114b868cb29411746dd26f.webp';
-        const origin = row['المنشأ'] || row['origin'] || row['Origin'] || '';
-        const available = (row['متاح'] || row['available'] || row['Available'] || 'نعم').toString().includes('نعم') || (row['متاح'] || row['available'] || 'true').toString().includes('true');
+        const image = row['الصورة'] || row['image'] || row['Image'] || row['رابط الصورة'] || 'https://karimolive.shop/uploads/products/images/d1ecfa82ed114b868cb29411746dd26f.webp';
+        const origin = row['المنشأ'] || row['origin'] || row['Origin'] || 'مطروح (محل نخبة)';
+        const availableRaw = (row['متاح'] || row['available'] || row['Available'] || 'نعم').toString();
+        const available = availableRaw.includes('نعم') || availableRaw.includes('true') || availableRaw.includes('yes') || availableRaw.includes('1');
         
         if (!name || price <= 0) return;
         
-        const id = 'p' + Date.now() + '_' + imported;
-        products.push({ id, name, category, price, oldPrice, discount, weight, image, origin, available });
-        imported++;
+        // Check if product already exists by name
+        const existingIndex = products.findIndex(p => p.name === name);
+        const newProduct = { id: 'p' + Date.now() + '_' + imported, name, category, price, oldPrice, discount, weight, image, origin, available };
+        
+        if (existingIndex !== -1) {
+          // Update existing product
+          newProduct.id = products[existingIndex].id;
+          products[existingIndex] = newProduct;
+          updated++;
+        } else {
+          products.push(newProduct);
+          imported++;
+        }
       });
       
-      if (imported === 0) {
-        showToast('⚠️ لم يتم العثور على منتجات صالحة في الملف. تأكد من وجود أعمدة: اسم المنتج، السعر، القسم');
+      if (imported === 0 && updated === 0) {
+        showToast('⚠️ لم يتم العثور على منتجات صالحة. تأكد من وجود أعمدة: اسم المنتج، السعر، القسم');
         return;
       }
       
@@ -1253,17 +1405,29 @@ function handleExcelImport(file) {
       renderProducts();
       renderAdminTable();
       updateAdminStats();
-      showToast(`✅ تم استيراد ${imported} منتج بنجاح من ملف Excel وتحويلهم إلى JSON`);
       
-      // Show JSON preview
-      const preview = document.getElementById('importJsonPreview');
-      if (preview) {
-        const lastProducts = products.slice(-imported);
-        preview.textContent = JSON.stringify(lastProducts, null, 2);
-        preview.style.display = 'block';
-      }
-    } catch(err) {
-      showToast('⚠️ خطأ في قراءة الملف: ' + err.message);
+      const msg = `✅ تم استيراد ${imported} منتج جديد وتحديث ${updated} منتج موجود بنجاح`;
+      showToast(msg);
+      
+      // Show JSON preview in both tabs
+      ['importJsonPreview', 'bulkJsonPreview'].forEach(id => {
+        const preview = document.getElementById(id);
+        if (preview) {
+          const lastProducts = products.slice(-Math.max(imported, updated, 5));
+          preview.textContent = JSON.stringify(lastProducts, null, 2);
+          preview.style.display = 'block';
+        }
+      });
+      
+      // Reset file inputs
+      ['excelFile', 'excelFileInput'].forEach(id => {
+        const fi = document.getElementById(id);
+        if (fi) fi.value = '';
+      });
+      
+    } catch(error) {
+      console.error(error);
+      showToast('⚠️ خطأ في قراءة الملف: ' + error.message);
     }
   };
   reader.readAsArrayBuffer(file);
@@ -1320,7 +1484,13 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('adminPanel').classList.remove('open');
       document.getElementById('cartOverlay').classList.remove('open');
       document.getElementById('cartSidebar').classList.remove('open');
+      closeEditModal();
     }
+  });
+  
+  // Close edit modal on backdrop click
+  document.getElementById('editProductModal').addEventListener('click', function(e) {
+    if (e.target === this) closeEditModal();
   });
 });
 </script>
