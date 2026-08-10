@@ -689,7 +689,7 @@ ul { list-style: none; }
         </div>
         <div class="contact-item">
           <span class="icon">📞</span>
-          <div class="text"><strong>اتصل بنا</strong> 01000709753</div>
+          <div class="text"><strong>اتصل بنا</strong> 01023696962</div>
         </div>
         <div class="contact-item">
           <span class="icon">📍</span>
@@ -1330,16 +1330,8 @@ function checkoutInstaPay() {
   orders.push(order);
   saveOrders();
   
-  // Show summary then redirect to Instapay
-  alert(`🛒 تم حفظ طلبك بنجاح!\n\nالمجموع الفرعي: ${subtotal} ج.م\nالتوصيل: ${shipping} ج.م\n\n💰 الإجمالي: ${total} ج.م`);
-  
-  // Open Instapay link (no phone number shown)
-  window.open(INSTAPAY_LINK, '_blank');
-  
-  // Clear cart after checkout
-  cart = [];
-  saveCart();
-  updateCartUI();
+  // Redirect directly to Instapay (works on all devices)
+  window.location.href = INSTAPAY_LINK;
 }
 
 // =============== TOAST ===============
@@ -1953,6 +1945,10 @@ function renderUsersTable() {
 function showAddUserModal() {
   const username = prompt('اسم المستخدم الجديد:');
   if (!username) return;
+  if (USERS_DB[username]) {
+    showToast('⚠️ اسم المستخدم موجود بالفعل');
+    return;
+  }
   const password = prompt('كلمة المرور:');
   if (!password) return;
   const role = prompt('الصلاحية (admin/manager/product/orders):');
@@ -1965,6 +1961,30 @@ function showAddUserModal() {
   renderUsersTable();
   showToast('✅ تم إضافة المستخدم');
 }
+
+function editUser(username) {
+  const newRole = prompt('الصلاحية الجديدة (admin/manager/product/orders):', USERS_DB[username]?.role);
+  if (!newRole || !['admin', 'manager', 'product', 'orders'].includes(newRole)) return;
+  const newPassword = prompt('كلمة المرور الجديدة (اترك فارغاُ للابقاء على الحالية):');
+  
+  if (newPassword !== null && newPassword !== '') {
+    USERS_DB[username].password = newPassword;
+  }
+  USERS_DB[username].role = newRole;
+  
+  // Update current user if editing self
+  if (currentUser && currentUser.username === username) {
+    currentUser.role = newRole;
+    localStorage.setItem('nokhba_user', JSON.stringify(currentUser));
+    updateUIForRole();
+  }
+  
+  renderUsersTable();
+  showToast('✅ تم تحديث بيانات المستخدم');
+}
+</script>
+</body>
+</html>
 
 function editUser(username) {
   const newRole = prompt('الصلاحية الجديدة (admin/manager/product/orders):', USERS_DB[username]?.role);
