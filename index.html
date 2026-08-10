@@ -868,6 +868,9 @@ ul { list-style: none; }
         <span>الإجمالي:</span>
         <span class="total-amount" id="cartTotal">0 ج.م</span>
       </div>
+      <p style="font-size:0.85rem;color:var(--danger);margin-bottom:12px;text-align:center;font-weight:600;">
+        ⚠️ بعد الدفع برجاء إرسال إيصال الدفع على الواتساب للتأكيد
+      </p>
       <button class="checkout-btn" onclick="checkoutInstaPay()">💳 ادفع الآن بالإنستا باي</button>
       <button class="continue-btn" onclick="toggleCart()">العودة للمتجر</button>
     </div>
@@ -942,7 +945,8 @@ ul { list-style: none; }
       <!-- Tab: Products List -->
       <div class="admin-tab-content" id="adminTabProducts" style="display:block;">
         <div class="admin-actions">
-          <button class="export-btn" onclick="exportData()">📥 تصدير JSON</button>
+          <button class="export-btn" onclick="exportData('json')">📥 تصدير JSON</button>
+          <button class="export-btn" onclick="exportData('excel')" style="background:#198754;color:white;margin-left:10px;">📊 تصدير Excel</button>
           <button class="export-btn" onclick="if(confirm('هل أنت متأكد من إعادة تعيين جميع المنتجات للافتراضية؟')){localStorage.removeItem('nokhba_products');location.reload();}" style="background:var(--danger);">🔄 إعادة تعيين</button>
         </div>
         <div class="admin-table-wrap">
@@ -1350,6 +1354,7 @@ function checkoutWhatsApp() {
 
 // =============== INSTAPAY CHECKOUT ===============
 const INSTAPAY_LINK = 'https://ipn.eg/S/emad.hassabo1/instapay/7XMNqz';
+const WHATSAPP_NUMBER = '201023696962';
 
 function checkoutInstaPay() {
   if (cart.length === 0) { showToast('⚠️ السلة فارغة'); return; }
@@ -1374,7 +1379,23 @@ function checkoutInstaPay() {
   orders.push(order);
   saveOrders();
   
-  // Redirect directly to Instapay (works on all devices)
+  // Prepare WhatsApp message BEFORE clearing cart
+  const cartItemsText = cart.map(c => `• ${c.name} × ${c.qty} = ${c.price * c.qty} ج.م`).join('%0A');
+  const msg = `🛒 *طلب جديد من نخبة الشرق*%0A%0A${cartItemsText}%0A%0A💳 *طريقة الدفع:* إنستا باي%0A📦 *الإجمالي:* ${total} ج.م%0A📍 *الموقع:* مرسى مطروح%0A%0A✅ *تم الدفع بالإنستا باي - برجاء تأكيد الطلب*`;
+  
+  // Clear cart immediately
+  cart = [];
+  localStorage.removeItem('nokhba_cart');
+  updateCartUI();
+  
+  // Show success message and redirect to WhatsApp
+  showToast('✅ تم حفظ طلبك! برجاء إرسال إيصال الدفع على الواتساب للتأكيد');
+  
+  setTimeout(() => {
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
+  }, 500);
+  
+  // Also try Instapay link
   window.location.href = INSTAPAY_LINK;
 }
 
@@ -1860,16 +1881,38 @@ function handleExcelImport(input) {
 }
 
 // =============== EXPORT ===============
-function exportData() {
-  const data = JSON.stringify(products, null, 2);
-  const blob = new Blob([data], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'nokhba-products.json';
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('✅ تم تصدير البيانات');
+function exportData(format = 'json') {
+  if (format === 'excel') {
+    // Export to Excel using SheetJS
+    const data = products.map(p => ({
+      'اسم المنتج': p.name,
+      'القسم': p.category,
+      'السعر': p.price,
+      'السعر القديم': p.oldPrice || '',
+      'الخصم': p.discount || '',
+      'الوزن': p.weight || '',
+      'المنشأ': p.origin || '',
+      'متاح': p.available ? 'نعم' : 'لا',
+      'رابط الصورة': p.image || ''
+    }));
+    
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'المنتجات');
+    XLSX.writeFile(workbook, 'nokhba-products.xlsx');
+    showToast('✅ تم تصدير البيانات بصيغة Excel');
+  } else {
+    // Export to JSON (existing)
+    const data = JSON.stringify(products, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'nokhba-products.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('✅ تم تصدير البيانات');
+  }
 }
 
 // =============== CONTACT FORM ===============
