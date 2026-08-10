@@ -908,7 +908,8 @@ ul { list-style: none; }
     <div class="admin-header">
       <h2>⚙️ لوحة تحكم المنتجات — نخبة</h2>
       <div>
-        <button class="export-btn" onclick="exportData()" style="background:var(--gold);color:var(--dark);margin-left:10px;">📥 تصدير JSON</button>
+        <button class="export-btn" onclick="exportData('json')" style="background:var(--gold);color:var(--dark);margin-left:10px;">📥 تصدير JSON</button>
+        <button class="export-btn" onclick="exportData('excel')" style="background:#198754;color:white;margin-left:10px;">📊 تصدير Excel</button>
         <button class="admin-close" onclick="closeAdmin()">✕</button>
       </div>
     </div>
@@ -1221,7 +1222,7 @@ function renderProducts() {
           <span class="product-category">${p.category}</span>
           <h3>${p.name}</h3>
           ${p.origin ? `<div class="origin">📍 ${p.origin}</div>` : ''}
-          ${p.weight ? `<div class="weight">📦 ${p.weight}</div>` : ''}
+          ${p.weight ? `<div class="weight">��� ${p.weight}</div>` : ''}
           <div class="product-price">
             <span class="current">${p.price > 0 ? p.price + ' ج.م' : 'السعر عند الطلب'}</span>
             ${p.oldPrice > 0 ? `<span class="old">${p.oldPrice} ج.م</span>` : ''}
