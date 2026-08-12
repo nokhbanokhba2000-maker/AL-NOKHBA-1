@@ -994,7 +994,12 @@ ul { list-style: none; }
         <div class="admin-actions">
           <button class="export-btn" onclick="exportData('json')">📥 تصدير JSON</button>
           <button class="export-btn" onclick="exportData('excel')" style="background:#198754;color:white;margin-left:10px;">📊 تصدير Excel</button>
-          <button class="export-btn" onclick="if(confirm('هل أنت متأكد من إعادة تعيين جميع المنتجات للافتراضية؟')){localStorage.removeItem('nokhba_products');location.reload();}" style="background:var(--danger);">🔄 إعادة تعيين</button>
+          <span style="margin:0 10px;opacity:0.3;">|</span>
+          <button class="export-btn" onclick="document.getElementById('excelImportBtn').click()" style="background:var(--primary);">📂 استيراد Excel</button>
+          <input type="file" id="excelImportBtn" accept=".xlsx,.xls,.csv" style="display:none;" onchange="handleExcelImport(this.files[0])">
+          <button class="export-btn" onclick="document.getElementById('jsonImportBtn').click()" style="background:#6c757d;margin-left:10px;">📋 استيراد JSON</button>
+          <input type="file" id="jsonImportBtn" accept=".json" style="display:none;" onchange="handleJsonImport(this.files[0])">
+          <button class="export-btn" onclick="if(confirm('هل أنت متأكد من إعادة تعيين جميع المنتجات للافتراضية؟')){localStorage.removeItem('nokhba_products');location.reload();}" style="background:var(--danger);margin-left:10px;">🔄 إعادة تعيين</button>
         </div>
         <div class="admin-table-wrap">
           <table class="admin-table">
@@ -1069,44 +1074,46 @@ ul { list-style: none; }
         </form>
       </div>
 
-      <!-- Tab: Import Excel -->
+      <!-- Tab: Import Products -->
       <div class="admin-tab-content" id="adminTabImport" style="display:none;">
         <div class="import-section">
-          <h3>📊 استيراد منتجات من Excel</h3>
-          <p>ارفع ملف Excel يحتوي على المنتجات وسيتم تحويلها مباشرة إلى JSON وإضافتها للمتجر</p>
-          <p style="font-size:0.85rem;color:var(--text-light);margin-bottom:16px;">
-            الأعمدة المطلوبة: <strong>اسم المنتج</strong>، <strong>السعر</strong>، <strong>القسم</strong>
-            <br>
-            أعمدة اختيارية: السعر القديم، الخصم، الوزن، الصورة، المنشأ، متاح
-          </p>
-          <label class="import-file-btn">
-            📂 اختر ملف Excel
-            <input type="file" accept=".xlsx,.xls,.csv" style="display:none;" id="excelFile" onchange="handleExcelImport(this.files[0])">
-          </label>
-          <div class="import-note">ملفات مدعومة: .xlsx, .xls, .csv</div>
-        </div>
-        <pre id="importJsonPreview" style="display:none;background:#1a1a2e;color:#e8d48b;padding:20px;border-radius:10px;font-size:0.8rem;overflow-x:auto;direction:ltr;text-align:left;max-height:400px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;"> </pre>
-      </div>
+          <h3>📊 استيراد المنتجات</h3>
+          <p style="margin-bottom:20px;color:var(--text-light);">اختر الصيغة المطلوبة لاستيراد المنتجات:</p>
 
-      <!-- Tab: Bulk Import -->
-      <div class="admin-tab-content" id="adminTabBulk" style="display:none;">
-        <div class="import-section">
-          <h3>📥 استيراد كميات كبيرة من Excel</h3>
-          <p>للكميات الكبيرة — ارفع ملف Excel وسيتم تحويله مباشرة إلى JSON داخل المتجر</p>
-          <div style="margin:20px 0;">
-            <input type="file" id="excelFileInput" accept=".xlsx, .xls" style="display:none;" onchange="handleExcelImport(event)">
-            <button type="button" onclick="document.getElementById('excelFileInput').click()" style="background-color:#198754;color:white;border:none;padding:14px 28px;border-radius:10px;font-weight:bold;cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-size:1.1rem;">
-              📊 IMPORT EXCEL (استيراد من إكسيل)
-            </button>
+          <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:28px;">
+            <!-- Excel Import -->
+            <div style="flex:1;min-width:260px;background:#f0f7ff;border-radius:14px;padding:28px 20px;text-align:center;border:2px solid #d0e3ff;">
+              <div style="font-size:3rem;margin-bottom:12px;">📊</div>
+              <h4 style="margin-bottom:8px;color:#1976d2;font-size:1.1rem;">استيراد من Excel</h4>
+              <p style="font-size:0.8rem;color:#666;margin-bottom:18px;">ملفات .xlsx, .xls, .csv</p>
+              <label class="import-file-btn" style="display:inline-block;background:#1976d2;color:white;padding:10px 24px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:0.95rem;">
+                📂 اختيار ملف Excel
+                <input type="file" accept=".xlsx,.xls,.csv" style="display:none;" onchange="handleExcelImport(this.files[0])">
+              </label>
+            </div>
+
+            <!-- JSON Import -->
+            <div style="flex:1;min-width:260px;background:#fff8f0;border-radius:14px;padding:28px 20px;text-align:center;border:2px solid #ffe0b2;">
+              <div style="font-size:3rem;margin-bottom:12px;">📋</div>
+              <h4 style="margin-bottom:8px;color:#e65100;font-size:1.1rem;">استيراد من JSON</h4>
+              <p style="font-size:0.8rem;color:#666;margin-bottom:18px;">ملفات .json</p>
+              <label class="import-file-btn" style="display:inline-block;background:#e65100;color:white;padding:10px 24px;border-radius:8px;cursor:pointer;font-weight:bold;font-size:0.95rem;">
+                📂 اختيار ملف JSON
+                <input type="file" accept=".json" style="display:none;" onchange="handleJsonImport(this.files[0])">
+              </label>
+            </div>
           </div>
-          <p style="font-size:0.85rem;color:var(--text-light);">
-            ✅ يدعم: .xlsx, .xls<br>
-            ✅ إذا كان المنتج موجوداً مسبقاً (بنفس الاسم) يتم تحديثه تلقائياً<br>
-            ✅ يتم تحويل جميع البيانات إلى JSON وحفظها في المتجر فوراً<br>
+
+          <div class="import-note" style="text-align:right;background:#f8f9fa;padding:16px;border-radius:10px;">
+            <strong>📝 ملاحظات مهمة:</strong><br>
+            ✅ الأعمدة المطلوبة: اسم المنتج، السعر، القسم<br>
+            ✅ أعمدة اختيارية: السعر القديم، الخصم، الوزن، الصورة، المنشأ، متاح<br>
+            ✅ إذا كان المنتج موجوداُ (بنفس الاسم) يتم تحديثه تلقائياُ<br>
             ✅ يمكنك استيراد مئات المنتجات دفعة واحدة
-          </p>
+          </div>
         </div>
-        <pre id="bulkJsonPreview" style="display:none;background:#1a1a2e;color:#e8d48b;padding:20px;border-radius:10px;font-size:0.8rem;overflow-x:auto;direction:ltr;text-align:left;max-height:400px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;"> </pre>
+
+        <pre id="importPreview" style="display:none;background:#1a1a2e;color:#e8d48b;padding:20px;border-radius:10px;font-size:0.8rem;overflow-x:auto;direction:ltr;text-align:left;max-height:400px;overflow-y:auto;white-space:pre-wrap;word-break:break-all;"> </pre>
       </div>
 
       <!-- Tab: Orders -->
@@ -1755,8 +1762,8 @@ function switchAdminTab(tab) {
   if (tab === 'stats') updateStats();
   if (tab === 'users') renderUsersTable();
   if (tab === 'ownership') renderOwnerEmailSection();
-  if (tab === 'import' || tab === 'bulk') {
-    const preview = document.getElementById(tab === 'bulk' ? 'bulkJsonPreview' : 'importJsonPreview');
+  if (tab === 'import') {
+    const preview = document.getElementById('importPreview');
     if (preview && preview.textContent.trim() && preview.textContent !== ' ') preview.style.display = 'block';
   }
 }
@@ -1893,6 +1900,81 @@ function saveProductEdits() {
   showToast('✅ تم تعديل بيانات المنتج بنجاح');
 }
 
+// =============== JSON IMPORT ===============
+function handleJsonImport(input) {
+  const file = input;
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const json = JSON.parse(e.target.result);
+      
+      if (!Array.isArray(json)) {
+        showToast('⚠️ JSON格式不正确，需要数组格式');
+        return;
+      }
+      
+      let imported = 0;
+      let updated = 0;
+      
+      json.forEach(row => {
+        const name = row.name || row['name'] || row['姓名'] || row['产品名称'] || '';
+        const category = row.category || row['category'] || row['分类'] || row['部门'] || '产品';
+        const price = parseFloat(row.price || row['price'] || row['价格'] || 0);
+        const oldPrice = parseFloat(row.oldPrice || row['oldPrice'] || row['原价'] || 0);
+        const discount = parseFloat(row.discount || row['discount'] || row['折扣'] || 0);
+        const weight = row.weight || row['weight'] || row['重量'] || '';
+        const image = row.image || row['image'] || row['图片'] || 'https://karimolive.shop/uploads/products/images/d1ecfa82ed114b868cb29411746dd26f.webp';
+        const origin = row.origin || row['origin'] || row['产地'] || '毛州 (叶店)';
+        const availableRaw = row.available !== undefined ? row.available : true;
+        const available = typeof availableRaw === 'boolean' ? availableRaw : 
+                          (availableRaw.toString().includes('true') || availableRaw.toString().includes('yes') || availableRaw.toString().includes('1'));
+        
+        if (!name || price <= 0) return;
+        
+        // Check if product already exists by name
+        const existingIndex = products.findIndex(p => p.name === name);
+        const newProduct = { id: 'p' + Date.now() + '_' + imported, name, category, price, oldPrice, discount, weight, image, origin, available };
+        
+        if (existingIndex !== -1) {
+          newProduct.id = products[existingIndex].id;
+          products[existingIndex] = newProduct;
+          updated++;
+        } else {
+          products.push(newProduct);
+          imported++;
+        }
+      });
+      
+      if (imported === 0 && updated === 0) {
+        showToast('⚠️ 未找到有效的产品。请确保JSON包含：名称、价格、分类');
+        return;
+      }
+      
+      saveProducts();
+      renderProducts();
+      renderAdminTable();
+      updateAdminStats();
+      
+      const msg = `✅ 成功导入 ${imported} 个新产品并更新 ${updated} 个现有产品`;
+      showToast(msg);
+      
+      // Show JSON preview
+      const preview = document.getElementById('importPreview');
+      if (preview) {
+        const lastProducts = products.slice(-Math.max(imported, updated, 5));
+        preview.textContent = JSON.stringify(lastProducts, null, 2);
+        preview.style.display = 'block';
+      }
+      
+    } catch(error) {
+      console.error(error);
+      showToast('⚠️ 读取文件时出错: ' + error.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
 // =============== EXCEL IMPORT ===============
 function handleExcelImport(input) {
   // Handle both direct file and event object
@@ -1958,18 +2040,16 @@ function handleExcelImport(input) {
       const msg = `✅ تم استيراد ${imported} منتج جديد وتحديث ${updated} منتج موجود بنجاح`;
       showToast(msg);
       
-      // Show JSON preview in both tabs
-      ['importJsonPreview', 'bulkJsonPreview'].forEach(id => {
-        const preview = document.getElementById(id);
-        if (preview) {
-          const lastProducts = products.slice(-Math.max(imported, updated, 5));
-          preview.textContent = JSON.stringify(lastProducts, null, 2);
-          preview.style.display = 'block';
-        }
-      });
+      // Show JSON preview
+      const preview = document.getElementById('importPreview');
+      if (preview) {
+        const lastProducts = products.slice(-Math.max(imported, updated, 5));
+        preview.textContent = JSON.stringify(lastProducts, null, 2);
+        preview.style.display = 'block';
+      }
       
       // Reset file inputs
-      ['excelFile', 'excelFileInput'].forEach(id => {
+      ['excelFile', 'excelFileInput', 'excelImportBtn'].forEach(id => {
         const fi = document.getElementById(id);
         if (fi) fi.value = '';
       });
