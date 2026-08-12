@@ -157,27 +157,34 @@ ul { list-style: none; }
 }
 .section-title p { color: var(--text-light); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
 
-/* Categories */
+/* Categories with Images */
 .categories-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
-  gap: 20px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+  gap: 16px;
 }
 .cat-card {
   background: var(--white); border-radius: var(--radius);
-  padding: 30px 20px; text-align: center;
-  box-shadow: var(--shadow); cursor: pointer;
-  transition: var(--transition);
-  border: 2px solid transparent;
+  overflow: hidden; box-shadow: var(--shadow); cursor: pointer;
+  transition: var(--transition); border: 2px solid transparent;
 }
 .cat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--gold); }
-.cat-card .icon { font-size: 2.5rem; margin-bottom: 10px; }
-.cat-card h3 { font-size: 1rem; font-weight: 700; color: var(--primary); }
-.cat-card .count { font-size: 0.8rem; color: var(--text-light); margin-top: 4px; }
+.cat-card img {
+  width: 100%; height: 140px; object-fit: cover;
+  display: block;
+}
+.cat-card .cat-info {
+  padding: 14px 10px; text-align: center;
+}
+.cat-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+.cat-card .count { font-size: 0.75rem; color: var(--text-light); }
 
 /* Products */
 .products-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
   gap: 24px;
+}
+.best-sellers-grid {
+  grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
 }
 .product-card {
   background: var(--white); border-radius: var(--radius);
@@ -565,84 +572,114 @@ ul { list-style: none; }
     <section class="section" id="categories">
   <div class="container">
     <div class="section-title">
-      <h2>🏷️ أقسامنا المميزة</h2>
-      <p>تصفح منتجاتنا حسب القسم الذي تفضله</p>
+      <h2>🏷️ تصفح حسب الصنف</h2>
+      <p>اختر القسم واستكشف منتجاتنا الطبيعية الأصيلة</p>
     </div>
     <div class="categories-grid" id="categoriesGrid">
       <div class="cat-card" onclick="filterProducts('olive')">
-        <div class="icon">🫒</div>
-        <h3>زيت الزيتون</h3>
-        <div class="count" data-cat="olive">0 منتج</div>
+        <img src="https://karimolive.shop/uploads/products/images/7aa926092dce413e84dbabb2d1f84e2e.webp" alt="زيت الزيتون" loading="lazy">
+        <div class="cat-info">
+          <h3>زيت الزيتون</h3>
+          <div class="count" data-cat="olive">0 منتج</div>
+        </div>
       </div>
       <div class="cat-card" onclick="filterProducts('hair_oils')">
-        <div class="icon">💇</div>
-        <h3>زيوت الشعر</h3>
-        <div class="count" data-cat="hair_oils">0 منتج</div>
+        <img src="https://karimolive.shop/uploads/products/images/42b1cb5385254cd19807a6e695177119.webp" alt="زيوت الشعر" loading="lazy">
+        <div class="cat-info">
+          <h3>زيوت الشعر</h3>
+          <div class="count" data-cat="hair_oils">0 منتج</div>
+        </div>
       </div>
       <div class="cat-card" onclick="filterProducts('offers')">
-        <div class="icon">🎉</div>
-        <h3>العروض والخصومات</h3>
-        <div class="count" data-cat="offers">0 منتج</div>
+        <img src="https://karimolive.shop/uploads/products/images/9af0c333c0a84136b18969afbb3f05cb.webp" alt="العروض والخصومات" loading="lazy">
+        <div class="cat-info">
+          <h3>العروض والخصومات</h3>
+          <div class="count" data-cat="offers">0 منتج</div>
+        </div>
       </div>
       <div class="cat-card" onclick="filterProducts('soap')">
-        <div class="icon">🧼</div>
-        <h3>الصابون الطبيعي</h3>
-        <div class="count" data-cat="soap">0 منتج</div>
+        <img src="https://karimolive.shop/uploads/products/images/f658331686324b04af68879283017f68.webp" alt="الصابون الطبيعي" loading="lazy">
+        <div class="cat-info">
+          <h3>الصابون الطبيعي</h3>
+          <div class="count" data-cat="soap">0 منتج</div>
+        </div>
       </div>
       <div class="cat-card" onclick="filterProducts('herbs')">
-        <div class="icon">🌿</div>
-        <h3>الأعشاب</h3>
-        <div class="count" data-cat="herbs">0 منتج</div>
+        <img src="https://karimolive.shop/uploads/products/images/4e015918ff0f4d328f326f8d541ee5b4.webp" alt="الأعشاب" loading="lazy">
+        <div class="cat-info">
+          <h3>الأعشاب</h3>
+          <div class="count" data-cat="herbs">0 منتج</div>
+        </div>
       </div>
       <div class="cat-card" onclick="filterProducts('dates')">
-        <div class="icon">🌴</div>
-        <h3>التمور</h3>
-        <div class="count" data-cat="dates">0 منتج</div>
+        <img src="https://karimolive.shop/uploads/products/images/449a7ee890274cadbc02125852729d7c.webp" alt="التمور" loading="lazy">
+        <div class="cat-info">
+          <h3>التمور</h3>
+          <div class="count" data-cat="dates">0 منتج</div>
+        </div>
       </div>
       <div class="cat-card" onclick="filterProducts('cosmetics')">
-        <div class="icon">✨</div>
-        <h3>مستحضرات التجميل</h3>
-        <div class="count" data-cat="cosmetics">0 منتج</div>
+        <img src="https://karimolive.shop/uploads/products/images/d715edf4a6e34c92a308673bc72e80d5.webp" alt="مستحضرات التجميل" loading="lazy">
+        <div class="cat-info">
+          <h3>مستحضرات التجميل</h3>
+          <div class="count" data-cat="cosmetics">0 منتج</div>
+        </div>
       </div>
       <div class="cat-card" onclick="filterProducts('spices')">
-        <div class="icon">🧂</div>
-        <h3>التوابل والبهارات</h3>
-        <div class="count" data-cat="spices">0 منتج</div>
+        <img src="https://karimolive.shop/uploads/products/images/a1db9e89db554ecfa81b1ca2d51e3322.webp" alt="التوابل والبهارات" loading="lazy">
+        <div class="cat-info">
+          <h3>التوابل والبهارات</h3>
+          <div class="count" data-cat="spices">0 منتج</div>
+        </div>
       </div>
       <div class="cat-card" onclick="filterProducts('honey')">
-        <div class="icon">🍯</div>
-        <h3>العسل والطحينة</h3>
-        <div class="count" data-cat="honey">0 منتج</div>
+        <img src="https://karimolive.shop/uploads/products/images/fd3a601c885945d2b56e578300d7ccd5.webp" alt="العسل والطحينة" loading="lazy">
+        <div class="cat-info">
+          <h3>العسل والطحينة</h3>
+          <div class="count" data-cat="honey">0 منتج</div>
+        </div>
       </div>
       <div class="cat-card" onclick="filterProducts('tea_coffee')">
-        <div class="icon">☕</div>
-        <h3>الشاي والبن</h3>
-        <div class="count" data-cat="tea_coffee">0 منتج</div>
+        <img src="https://karimolive.shop/uploads/products/images/fd3a601c885945d2b56e578300d7ccd5.webp" alt="الشاي والبن" loading="lazy">
+        <div class="cat-info">
+          <h3>الشاي والبن</h3>
+          <div class="count" data-cat="tea_coffee">0 منتج</div>
+        </div>
       </div>
       <div class="cat-card" onclick="filterProducts('nuts')">
-        <div class="icon">🥜</div>
-        <h3>المكسرات والتسالي</h3>
-        <div class="count" data-cat="nuts">0 منتج</div>
+        <img src="https://karimolive.shop/uploads/products/images/535a9ad3311646c28253c2acfce5d4b0.webp" alt="المكسرات والتسالي" loading="lazy">
+        <div class="cat-info">
+          <h3>المكسرات والتسالي</h3>
+          <div class="count" data-cat="nuts">0 منتج</div>
+        </div>
       </div>
       <div class="cat-card" onclick="filterProducts('natural_oils')">
-        <div class="icon">🌸</div>
-        <h3>الزيوت الطبيعية</h3>
-        <div class="count" data-cat="natural_oils">0 منتج</div>
+        <img src="https://karimolive.shop/uploads/products/images/047fd2c0c79d48b282e3beffef99217a.webp" alt="الزيوت الطبيعية" loading="lazy">
+        <div class="cat-info">
+          <h3>الزيوت الطبيعية</h3>
+          <div class="count" data-cat="natural_oils">0 منتج</div>
+        </div>
       </div>
       <div class="cat-card" onclick="filterProducts('henna')">
-        <div class="icon">💅</div>
-        <h3>الحناء وأعشاب الشعر</h3>
-        <div class="count" data-cat="henna">0 منتج</div>
+        <img src="https://karimolive.shop/uploads/products/images/42b1cb5385254cd19807a6e695177119.webp" alt="الحناء وأعشاب الشعر" loading="lazy">
+        <div class="cat-info">
+          <h3>الحناء وأعشاب الشعر</h3>
+          <div class="count" data-cat="henna">0 منتج</div>
+        </div>
       </div>
       <div class="cat-card" onclick="filterProducts('olives')">
-        <div class="icon">🫒</div>
-        <h3>الزيتون السيوي</h3>
-        <div class="count" data-cat="olives">0 منتج</div>
+        <img src="https://karimolive.shop/uploads/products/images/dfe4c89c8d3e4d4e863a1d09c9bd67c8.webp" alt="الزيتون السيوي" loading="lazy">
+        <div class="cat-info">
+          <h3>الزيتون السيوي</h3>
+          <div class="count" data-cat="olives">0 منتج</div>
+        </div>
       </div>
       <div class="cat-card" onclick="filterProducts('food')">
-        <div class="icon">📦</div>
-        <h3>أغذية ومنتجات متنوعة</h3>
-        <div class="count" data-cat="food">0 منتج</div>
+        <img src="https://karimolive.shop/uploads/products/images/2bfc6c0997204586acfe25200e44b9b1.webp" alt="أغذية ومنتجات متنوعة" loading="lazy">
+        <div class="cat-info">
+          <h3>أغذية ومنتجات متنوعة</h3>
+          <div class="count" data-cat="food">0 منتج</div>
+        </div>
       </div>
     </div>
   </div>
@@ -672,6 +709,15 @@ ul { list-style: none; }
       <button class="filter-btn" onclick="filterProducts('food')">📦 أغذية</button>
     </div>
     <div class="products-grid" id="productsGrid"></div>
+  </div>
+</section>
+    <section class="section" id="best-sellers">
+  <div class="container">
+    <div class="section-title">
+      <h2>🔥 الأكثر مبيعاً</h2>
+      <p>المنتجات الأكثر طلباً وبيعاً لدى عملائنا</p>
+    </div>
+    <div class="products-grid best-sellers-grid" id="bestSellersGrid"></div>
   </div>
 </section>
     <section class="section" id="contact">
@@ -1162,7 +1208,7 @@ ul { list-style: none; }
           
           <h4 style="margin-bottom:15px;">🔄 نقل الملكية للموقع</h4>
           <div style="background:#fff3cd;padding:20px;border-radius:12px;border:1px solid #ffc107;">
-            <p style="margin-bottom:15px;color:#856404;">⚠️ تنبيه: نقل الملكية سيحول حقوق الموقع بالكامل إلى البريد الإلكتروني المحدد.</p>
+            <p style="margin-bottom:15px;color:#856404;">⚠️ تنبيه: نقل الملك��ة سيحول حقوق الموقع بالكامل إلى البريد الإلكتروني المحدد.</p>
             <input type="email" id="transferEmail" placeholder="بريد المالك الجديد" style="width:40%;padding:10px;border:1px solid #ffc107;border-radius:8px;">
             <button onclick="transferOwnership()" style="background:#dc3545;color:white;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;margin-left:10px;">🔄 نقل الملكية</button>
           </div>
@@ -1250,6 +1296,61 @@ function renderProducts() {
     </div>`;
   }).join('');
   updateCategoryCounts();
+}
+
+function renderBestSellers() {
+  const grid = document.getElementById('bestSellersGrid');
+  if (!grid) return;
+  const bestSellers = products
+    .filter(p => p.available)
+    .sort((a, b) => (b.discount || 0) - (a.discount || 0))
+    .slice(0, 8);
+
+  if (bestSellers.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-light);"><div style="font-size:3rem;margin-bottom:10px;">🔥</div><h3>لا توجد منتجات بعد</h3></div>';
+    return;
+  }
+  grid.innerHTML = bestSellers.map(p => {
+    const inCart = cart.find(c => c.id === p.id);
+    return `<div class="product-card">
+      ${p.discount > 0 ? `<div class="product-badge">-${p.discount}%</div>` : ''}
+      <img class="product-img" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect fill=%22%23f0f0f0%22 width=%22200%22 height=%22200%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 font-size=%2230%22>🫒</text></svg>'">
+      <div class="product-info">
+        <span class="product-category">${getCategoryName(p.category)}</span>
+        <h3>${p.name}</h3>
+        ${p.origin ? `<div class="origin">📍 ${p.origin}</div>` : ''}
+        ${p.weight ? `<div class="weight">📦 ${p.weight}</div>` : ''}
+        <div class="product-price">
+          <span class="current">${p.price > 0 ? p.price + ' ج.م' : 'السعر عند الطلب'}</span>
+          ${p.oldPrice > 0 ? `<span class="old">${p.oldPrice} ج.م</span>` : ''}
+        </div>
+        <button class="add-btn" onclick="addToCart('${p.id}')">
+          ${inCart ? '✓ تمت الإضافة' : '+ أضف للسلة'}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function getCategoryName(cat) {
+  const names = {
+    'olive': 'زيت الزيتون',
+    'hair_oils': 'زيوت الشعر',
+    'offers': 'العروض',
+    'soap': 'الصابون',
+    'herbs': 'الأعشاب',
+    'dates': 'التمور',
+    'cosmetics': 'التجميل',
+    'spices': 'البهارات',
+    'honey': 'العسل',
+    'tea_coffee': 'الشاي والبن',
+    'nuts': 'المكسرات',
+    'natural_oils': 'الزيوت الطبيعية',
+    'henna': 'الحناء',
+    'olives': 'الزيتون السيوي',
+    'food': 'الأغذية'
+  };
+  return names[cat] || cat;
 }
 
 function updateCategoryCounts() {
@@ -1939,6 +2040,7 @@ document.addEventListener('DOMContentLoaded', function() {
   loadData();
   loadOrders();
   renderProducts();
+  renderBestSellers();
   updateCartUI();
   updateCategoryCounts();
   updateAdminStats();
