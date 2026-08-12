@@ -505,6 +505,11 @@ ul { list-style: none; }
       <a href="#products">المنتجات</a>
       <a href="#about">من نحن</a>
       <a href="#contact">تواصل معنا</a>
+      <div id="userBadgeContainer" style="display:none;align-items:center;gap:10px;">
+        <span id="currentUserName" style="color:#e8d48b;font-weight:bold;"></span>
+        <span id="currentUserRole" class="role-badge role-admin" style="padding:4px 12px;border-radius:20px;font-size:0.8rem;"></span>
+        <button onclick="logoutAdmin()" style="background:#dc2626;color:white;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:bold;">خروج</button>
+      </div>
       <button class="admin-btn" onclick="showLoginModal()" id="adminBtn">🔐 الدخول للإدارة</button>
       <button class="cart-btn" onclick="toggleCart()">
         🛒 السلة <span class="cart-count" id="cartCount">0</span>
@@ -929,23 +934,14 @@ ul { list-style: none; }
   <div class="login-overlay" id="loginOverlay" style="display:none;">
     <div class="login-box">
       <h3>🔐 تسجيل دخول الإدارة</h3>
-      <input type="text" id="loginUser" placeholder="اسم المستخدم" autocomplete="username">
-      <input type="password" id="loginPass" placeholder="كلمة المرور" autocomplete="current-password">
-      <select id="loginRole" style="width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:8px;font-size:1rem;">
-        <option value="">اختر الصلاحية</option>
-        <option value="admin">👑 مدير كامل (Admin)</option>
-        <option value="manager">👔 مشرف (Manager)</option>
-        <option value="product">📦 مدير منتجات (Product)</option>
-        <option value="orders">📋 متابع طلبات (Orders)</option>
-      </select>
-      <button onclick="loginAdmin()">دخول</button>
-      <div class="login-error" id="loginError">❌ بيانات الدخول غير صحيحة</div>
+      <p style="color:var(--text-light);margin-bottom:15px;font-size:0.9rem;">أدخل بريدك الإلكتروني المخول للدخول إلى لوحة التحكم</p>
+      <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" autocomplete="email" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:1rem;margin-bottom:12px;box-sizing:border-box;">
+      <button onclick="loginAdmin()" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--primary),#1565c0);color:white;border:none;border-radius:10px;font-size:1.1rem;font-weight:bold;cursor:pointer;">🔐 تسجيل الدخول</button>
+      <div class="login-error" id="loginError" style="display:none;"></div>
       <p style="margin-top:15px;font-size:0.8rem;color:#6b7280;text-align:center;">
-        حسابات تجريبية:<br>
-        admin/admin123 | manager/manager123<br>
-        product/product123 | orders/orders123
+        ⚠️ فقط أصحاب البريد المسجلين مسموح لهم بالدخول
       </p>
-      <button onclick="closeLoginModal()" style="background:#6b7280;margin-top:10px;">إلغاء</button>
+      <button onclick="closeLoginModal()" style="background:#6b7280;margin-top:10px;width:100%;padding:12px;color:white;border:none;border-radius:8px;cursor:pointer;">إلغاء</button>
     </div>
   </div>
 
@@ -1172,13 +1168,13 @@ ul { list-style: none; }
       <!-- Tab: Users Management -->
       <div class="admin-tab-content" id="adminTabUsers" style="display:none;">
         <div class="admin-actions">
-          <button class="export-btn" onclick="showAddUserModal()">➕ إضافة مستخدم جديد</button>
+          <button class="export-btn" onclick="addNewUser()">➕ إضافة مستخدم جديد</button>
         </div>
         <div class="admin-table-wrap">
           <table class="admin-table">
             <thead>
               <tr>
-                <th>اسم المستخدم</th>
+                <th>البريد الإلكتروني</th>
                 <th>الصلاحية</th>
                 <th>تاريخ الإنشاء</th>
                 <th>آخر دخول</th>
@@ -1206,7 +1202,7 @@ ul { list-style: none; }
             <button onclick="updateOwnerEmail()" style="background:var(--primary);color:white;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;margin-right:10px;">تحديث البريد</button>
           </div>
           
-          <h4 style="margin-bottom:15px;">👥 브ريد الإشراف العام (يمكن إضافة أكثر من بريد)</h4>
+          <h4 style="margin-bottom:15px;">👥 بريد الإشراف العام (يمكن إضافة أكثر من بريد)</h4>
           <div style="background:#f8fafc;padding:20px;border-radius:12px;margin-bottom:20px;">
             <div id="supervisionEmails" style="margin-bottom:15px;"></div>
             <input type="email" id="newSupervisionEmail" placeholder="أدخل بريد الإشراف الجديد" style="width:50%;padding:10px;border:1px solid #ddd;border-radius:8px;">
@@ -1524,11 +1520,29 @@ function toggleMobile() {
 }
 
 // =============== ROLE-BASED ACCESS ===============
-const USERS_DB = {
-  'admin': { password: 'admin123', role: 'admin', name: 'المدير العام' },
-  'manager': { password: 'manager123', role: 'manager', name: 'المشرف' },
-  'product': { password: 'product123', role: 'product', name: 'مدير المنتجات' },
-  'orders': { password: 'orders123', role: 'orders', name: 'متابع الطلبات' }
+// =============== ADMIN EMAILS CONFIGURATION ===============
+const ADMIN_EMAILS_KEY = 'nokhba_admin_emails';
+
+function getAdminEmails() {
+  const stored = localStorage.getItem(ADMIN_EMAILS_KEY);
+  if (stored) {
+    try { return JSON.parse(stored); } catch(e) {}
+  }
+  // Default admin emails
+  const defaults = ['nokhbanokhba2000@gmail.com', 'emad.hassabo1976@gmail.com'];
+  localStorage.setItem(ADMIN_EMAILS_KEY, JSON.stringify(defaults));
+  return defaults;
+}
+
+function saveAdminEmails(emails) {
+  localStorage.setItem(ADMIN_EMAILS_KEY, JSON.stringify(emails));
+}
+
+const USER_ROLES = {
+  'admin': { role: 'admin', name: 'المدير العام' },
+  'manager': { role: 'manager', name: 'المشرف' },
+  'product': { role: 'product', name: 'مدير المنتجات' },
+  'orders': { role: 'orders', name: 'متابع الطلبات' }
 };
 
 let currentUser = null;
@@ -1633,47 +1647,86 @@ function transferOwnership() {
   config.lastTransfer = transferRecord;
   saveSiteConfig(config);
   
+  // Add new owner to admin emails list
+  const adminEmails = getAdminEmails();
+  if (!adminEmails.includes(newEmail)) {
+    adminEmails.push(newEmail);
+    saveAdminEmails(adminEmails);
+  }
+  
   document.getElementById('transferEmail').value = '';
   renderOwnerEmailSection();
   showToast('✅ تم نقل ملكية الموقع بنجاح');
+  showToast('👤 الآن ' + newEmail + ' هو مالك الموقع الجديد');
 }
 
 function showLoginModal() {
   document.getElementById('loginOverlay').style.display = 'flex';
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginError').style.display = 'none';
 }
 
 function closeLoginModal() {
   document.getElementById('loginOverlay').style.display = 'none';
-  document.getElementById('loginUser').value = '';
-  document.getElementById('loginPass').value = '';
-  document.getElementById('loginRole').value = '';
+  document.getElementById('loginEmail').value = '';
   document.getElementById('loginError').style.display = 'none';
 }
 
 function loginAdmin() {
-  const username = document.getElementById('loginUser').value.trim();
-  const password = document.getElementById('loginPass').value;
-  const role = document.getElementById('loginRole').value;
-  
-  if (!username || !password || !role) {
-    document.getElementById('loginError').textContent = '⚠️ يرجى ملء جميع الحقول';
-    document.getElementById('loginError').style.display = 'block';
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const errorEl = document.getElementById('loginError');
+
+  errorEl.style.display = 'none';
+  errorEl.textContent = '';
+
+  if (!email || !email.includes('@')) {
+    errorEl.textContent = '⚠️ الرجاء إدخال بريد إلكتروني صحيح';
+    errorEl.style.display = 'block';
     return;
   }
-  
-  const user = USERS_DB[username];
-  if (user && user.password === password && user.role === role) {
-    currentUser = { username, role: user.role, name: user.name };
-    localStorage.setItem('nokhba_user', JSON.stringify(currentUser));
-    closeLoginModal();
-    openAdmin();
-    updateUIForRole();
-    showToast(`✅ مرحباً ${user.name}`);
-  } else {
-    document.getElementById('loginError').textContent = '❌ بيانات الدخول غير صحيحة';
-    document.getElementById('loginError').style.display = 'block';
+
+  // Check if email is in admin emails list (owner or supervision)
+  const adminEmails = getAdminEmails();
+  const config = getSiteConfig();
+  const allAllowedEmails = [...new Set([...adminEmails, config.ownerEmail, ...config.supervisionEmails])];
+
+  if (!allAllowedEmails.includes(email)) {
+    errorEl.textContent = '❌ هذا البريد الإلكتروني غير مسجل لديه صلاحية الدخول للإدارة';
+    errorEl.style.display = 'block';
+    return;
   }
+
+  // Determine role based on email and stored role config
+  let role = 'product'; // default role
+  let roleMap = JSON.parse(localStorage.getItem('nokhba_user_roles') || '{}');
+  
+  if (roleMap[email]) {
+    role = roleMap[email];
+  } else if (email === config.ownerEmail) {
+    role = 'admin';
+  } else if (config.supervisionEmails.includes(email)) {
+    role = 'manager';
+  }
+
+  const userDef = USER_ROLES[role];
+  if (!userDef) {
+    role = 'product';
+  }
+
+  // Successful login - store user info with email
+  currentUser = { 
+    email: email, 
+    role: role, 
+    name: email.split('@')[0]
+  };
+  localStorage.setItem('nokhba_user', JSON.stringify(currentUser));
+
+  closeLoginModal();
+  openAdmin();
+  updateUIForRole();
+  showToast('✅ مرحبا بك في لوحة الإدارة');
 }
+
 
 function logoutAdmin() {
   currentUser = null;
@@ -1687,7 +1740,7 @@ function logoutAdmin() {
 function updateUIForRole() {
   if (!currentUser) return;
   
-  // Update header
+  // Update header - hide admin btn, show user badge
   document.getElementById('adminBtn').style.display = 'none';
   document.getElementById('userBadgeContainer').style.display = 'flex';
   document.getElementById('currentUserName').textContent = currentUser.name;
@@ -2283,66 +2336,170 @@ function updateStats() {
 function renderUsersTable() {
   const tbody = document.getElementById('usersTableBody');
   if (!tbody) return;
-  
-  const users = Object.entries(USERS_DB).map(([username, data], idx) => ({
-    username,
-    ...data,
-    id: idx
-  }));
-  
-  tbody.innerHTML = users.map(u => `
+
+  const adminEmails = getAdminEmails();
+  const config = getSiteConfig();
+  const roleMap = JSON.parse(localStorage.getItem('nokhba_user_roles') || '{}');
+
+  const allEmails = [...new Set([...adminEmails, ...config.supervisionEmails, config.ownerEmail])];
+  const users = allEmails.map(email => {
+    let role = roleMap[email] || 'product';
+    if (email === config.ownerEmail && !roleMap[email]) role = 'admin';
+    else if (config.supervisionEmails.includes(email) && !roleMap[email]) role = 'manager';
+    else if (adminEmails.includes(email) && !roleMap[email]) role = 'admin';
+    return { email, role, name: email.split('@')[0] };
+  });
+
+  const isOwner = currentUser && currentUser.email === config.ownerEmail;
+
+  tbody.innerHTML = users.map(u => {
+    const isOwnerUser = u.email === config.ownerEmail;
+    return `
     <tr>
-      <td><strong>${u.username}</strong></td>
+      <td><strong>${u.email}${isOwnerUser ? ' 👑' : ''}</strong></td>
       <td><span class="role-badge role-${u.role}">${getRoleName(u.role)}</span></td>
-      <td>2026-01-01</td>
-      <td>-</td>
+      <td>${isOwnerUser ? 'مالك الموقع' : 'مشرف'}</td>
       <td>
-        <button onclick="editUser('${u.username}')" style="background:#2563eb;color:white;border:none;padding:5px 10px;border-radius:6px;cursor:pointer;font-size:0.8rem;margin-left:5px;">✏️ تعديل</button>
+        ${isOwner && !isOwnerUser ? `<button onclick="changeUserRole('${u.email}', '${u.role}')" style="background:#2563eb;color:white;border:none;padding:5px 10px;border-radius:6px;cursor:pointer;font-size:0.8rem;margin-left:5px;">✏️ تعديل</button>
+        <button onclick="removeUser('${u.email}')" style="background:#dc2626;color:white;border:none;padding:5px 10px;border-radius:6px;cursor:pointer;font-size:0.8rem;margin-left:5px;">🗑️ حذف</button>` : '<span style="color:var(--text-light);font-size:0.8rem;">—</span>'}
       </td>
-    </tr>
-  `).join('');
+    </tr>`;
+  }).join('');
 }
 
-function showAddUserModal() {
-  const username = prompt('اسم المستخدم الجديد:');
-  if (!username) return;
-  if (USERS_DB[username]) {
-    showToast('⚠️ اسم المستخدم موجود بالفعل');
+function addNewUser() {
+  if (!currentUser) { showToast('⚠️ يجب تسجيل الدخول أولاً'); return; }
+  const config = getSiteConfig();
+  if (currentUser.email !== config.ownerEmail) { showToast('⚠️ فقط مالك الموقع يمكنه إضافة مشرفين'); return; }
+
+  const email = prompt('أدخل البريد الإلكتروني للمشرف الجديد:');
+  if (!email || !email.includes('@')) {
+    showToast('⚠️ الرجاء إدخال بريد إلكتروني صحيح');
     return;
   }
-  const password = prompt('كلمة المرور:');
-  if (!password) return;
-  const role = prompt('الصلاحية (admin/manager/product/orders):');
+
+  const role = prompt('اختر الصلاحية (admin/manager/product/orders):');
   if (!role || !['admin', 'manager', 'product', 'orders'].includes(role)) {
     showToast('⚠️ صلاحية غير صحيحة');
     return;
   }
-  
-  USERS_DB[username] = { password, role, name: username };
+
+  if (!config.supervisionEmails.includes(email)) {
+    config.supervisionEmails.push(email);
+  }
+  saveSiteConfig(config);
+
+  let roleMap = JSON.parse(localStorage.getItem('nokhba_user_roles') || '{}');
+  roleMap[email] = role;
+  localStorage.setItem('nokhba_user_roles', JSON.stringify(roleMap));
+
   renderUsersTable();
-  showToast('✅ تم إضافة المستخدم');
+  showToast('✅ تم إضافة المشرف بنجاح');
 }
 
-function editUser(username) {
-  const newRole = prompt('الصلاحية الجديدة (admin/manager/product/orders):', USERS_DB[username]?.role);
-  if (!newRole || !['admin', 'manager', 'product', 'orders'].includes(newRole)) return;
-  const newPassword = prompt('كلمة المرور الجديدة (اترك فارغاُ للابقاء على الحالية):');
-  
-  if (newPassword !== null && newPassword !== '') {
-    USERS_DB[username].password = newPassword;
+function changeUserRole(email, currentRole) {
+  if (!currentUser) { showToast('⚠️ يجب تسجيل الدخول أولاً'); return; }
+  const config = getSiteConfig();
+  if (currentUser.email !== config.ownerEmail) { showToast('⚠️ فقط مالك الموقع يمكنه تغيير الصلاحيات'); return; }
+  if (email === config.ownerEmail) { showToast('⚠️ لا يمكن تغيير صلاحية مالك الموقع'); return; }
+
+  const newRole = prompt('اختر الصلاحية الجديدة (admin/manager/product/orders):', currentRole);
+  if (!newRole || !['admin', 'manager', 'product', 'orders'].includes(newRole)) {
+    showToast('⚠️ صلاحية غير صحيحة');
+    return;
   }
-  USERS_DB[username].role = newRole;
-  
-  // Update current user if editing self
-  if (currentUser && currentUser.username === username) {
-    currentUser.role = newRole;
-    localStorage.setItem('nokhba_user', JSON.stringify(currentUser));
-    updateUIForRole();
-  }
-  
+
+  let roleMap = JSON.parse(localStorage.getItem('nokhba_user_roles') || '{}');
+  roleMap[email] = newRole;
+  localStorage.setItem('nokhba_user_roles', JSON.stringify(roleMap));
+
   renderUsersTable();
-  showToast('✅ تم تحديث بيانات المستخدم');
+  showToast('✅ تم تحديث صلاحية ' + email);
 }
-</script>
+
+function removeUser(email) {
+  if (!currentUser) { showToast('⚠️ يجب تسجيل الدخول أولاً'); return; }
+  const config = getSiteConfig();
+  if (currentUser.email !== config.ownerEmail) { showToast('⚠️ فقط مالك الموقع يمكنه حذف المشرفين'); return; }
+  if (email === config.ownerEmail) { showToast('⚠️ لا يمكن حذف مالك الموقع'); return; }
+
+  if (!confirm(`هل أنت متأكد من حذف صلاحية ${email}؟`)) return;
+
+  const idx = config.supervisionEmails.indexOf(email);
+  if (idx !== -1) config.supervisionEmails.splice(idx, 1);
+  saveSiteConfig(config);
+
+  let roleMap = JSON.parse(localStorage.getItem('nokhba_user_roles') || '{}');
+  delete roleMap[email];
+  localStorage.setItem('nokhba_user_roles', JSON.stringify(roleMap));
+
+  renderUsersTable();
+  showToast('✅ تم حذف المشرف ' + email);
+}
+
+function removeUser(email) {
+  if (!currentUser) { showToast('⚠️ يجب تسجيل الدخول أولاً'); return; }
+  const config = getSiteConfig();
+  if (currentUser.email !== config.ownerEmail) { showToast('⚠️ فقط مالك الموقع يمكنه حذف المشرفين'); return; }
+  if (email === config.ownerEmail) { showToast('⚠️ لا يمكن حذف مالك الموقع'); return; }
+
+  if (!confirm(`هل أنت متأكد من حذف صلاحية ${email}؟`)) return;
+
+  const idx = config.supervisionEmails.indexOf(email);
+  if (idx !== -1) config.supervisionEmails.splice(idx, 1);
+  saveSiteConfig(config);
+
+  let roleMap = JSON.parse(localStorage.getItem('nokhba_user_roles') || '{}');
+  delete roleMap[email];
+  localStorage.setItem('nokhba_user_roles', JSON.stringify(roleMap));
+
+  renderUsersTable();
+  showToast('✅ تم حذف المشرف ' + email);
+}
+
+
+
+function addNewUser() {
+  const email = prompt('أدخل البريد الإلكتروني للمشرف الجديد:');
+  if (!email || !email.includes('@')) {
+    showToast('⚠️ الرجاء إدخال بريد إلكتروني صحيح');
+    return;
+  }
+
+  const role = prompt('اختر الصلاحية (admin/manager/product/orders):');
+  if (!role || !['admin', 'manager', 'product', 'orders'].includes(role)) {
+    showToast('⚠️ صلاحية غير صحيحة');
+    return;
+  }
+
+  const config = getSiteConfig();
+  if (!config.supervisionEmails.includes(email)) {
+    config.supervisionEmails.push(email);
+  }
+  saveSiteConfig(config);
+
+  renderUsersTable();
+  showToast('✅ تم إضافة المشرف بنجاح');
+}
+
+
+
+
+
+
+function changeUserRole(email, currentRole) {
+  const newRole = prompt('اختر الصلاحية الجديدة (admin/manager/product/orders):', currentRole);
+  if (!newRole || !['admin', 'manager', 'product', 'orders'].includes(newRole)) {
+    showToast('⚠️ صلاحية غير صحيحة');
+    return;
+  }
+
+  let roleMap = JSON.parse(localStorage.getItem('nokhba_user_roles') || '{}');
+  roleMap[email] = newRole;
+  localStorage.setItem('nokhba_user_roles', JSON.stringify(roleMap));
+
+  renderUsersTable();
+  showToast('✅ تم تحديث صلاحية ' + email);
+}</script>
 </body>
 </html>
