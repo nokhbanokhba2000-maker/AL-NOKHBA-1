@@ -7,6 +7,9 @@
   <meta name="description" content="نخبة الشرق - خيرات سيوة ومطروح. أفضل زيت زيتون بكر ممتاز، أعشاب طبية، صابون طبيعي، زيوت شعر ومنتجات طبيعية 100% من قلب الواحات البحرية.">
 <meta name="keywords" content="نخبة الشرق, NOKHBA AL-SHARQ, زيت زيتون, سيوة, مطروح, منتجات طبيعية">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🫒</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
   :root {
   --primary: #1a5632;
@@ -30,7 +33,7 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
 body {
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family: 'Tajawal', 'Segoe UI', system-ui, -apple-system, sans-serif;
   color: var(--text);
   background: var(--cream);
   direction: rtl;
@@ -178,52 +181,95 @@ ul { list-style: none; }
 .cat-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
 .cat-card .count { font-size: 0.75rem; color: var(--text-light); }
 
-/* Products */
+/* Products - karimolive.shop style */
 .products-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
-  gap: 24px;
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 20px;
 }
 .best-sellers-grid {
   grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
 }
 .product-card {
-  background: var(--white); border-radius: var(--radius);
-  overflow: hidden; box-shadow: var(--shadow);
-  transition: var(--transition);
+  background: #f5f0e8; border-radius: 16px;
+  overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
   position: relative;
+  display: flex; flex-direction: column;
 }
-.product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,0,0,0.15); }
 .product-badge {
   position: absolute; top: 12px; right: 12px; z-index: 2;
-  background: var(--danger); color: white;
-  padding: 4px 12px; border-radius: 50px;
-  font-size: 0.75rem; font-weight: 700;
+  background: #e53935; color: white;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; font-weight: 800;
+  box-shadow: 0 3px 10px rgba(229,57,53,0.4);
+  border: 2px solid rgba(255,255,255,0.3);
 }
 .product-img {
-  width: 100%; height: 200px; object-fit: cover;
-  background: #f0f0f0;
+  width: 100%; height: 220px; object-fit: cover;
+  background: #fff;
 }
-.product-info { padding: 18px; }
+.product-info {
+  padding: 16px;
+  background: #f5f0e8;
+  display: flex; flex-direction: column; gap: 6px;
+  flex: 1;
+}
 .product-category {
-  display: inline-block; background: var(--cream);
-  color: var(--primary); font-size: 0.7rem; font-weight: 600;
-  padding: 3px 10px; border-radius: 50px; margin-bottom: 8px;
+  display: inline-block;
+  background: rgba(46,125,50,0.1); color: #2e7d32;
+  font-size: 0.7rem; font-weight: 700;
+  padding: 4px 10px; border-radius: 50px;
+  margin-bottom: 2px;
+  width: fit-content;
 }
-.product-info h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
-.product-info .origin { font-size: 0.8rem; color: var(--text-light); margin-bottom: 6px; }
-.product-info .weight { font-size: 0.8rem; color: var(--text-light); margin-bottom: 10px; }
-.product-price { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-.product-price .current { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
-.product-price .old { font-size: 0.9rem; color: var(--text-light); text-decoration: line-through; }
+.product-info h3 {
+  font-size: 0.95rem; font-weight: 700;
+  margin-bottom: 2px;
+  color: #1a1a2e;
+  line-height: 1.4;
+  min-height: 2.6em;
+}
+.product-info .origin {
+  font-size: 0.75rem; color: #888;
+  margin-bottom: 2px;
+}
+.product-rating {
+  display: flex; align-items: center; gap: 3px;
+  font-size: 0.8rem; color: #ffb300;
+  margin-bottom: 4px;
+}
+.product-rating .rating-num {
+  color: #999; font-size: 0.7rem; margin-right: 4px;
+}
+.product-price {
+  display: flex; align-items: baseline; gap: 10px;
+  margin-top: auto; padding-top: 8px;
+}
+.product-price .current {
+  font-size: 1.25rem; font-weight: 800; color: #1b5e20;
+}
+.product-price .old {
+  font-size: 0.85rem; color: #999; text-decoration: line-through;
+}
 .add-btn {
-  width: 100%; padding: 12px; border: none; border-radius: var(--radius-sm);
-  background: var(--primary); color: white; font-weight: 700; font-size: 0.9rem;
-  cursor: pointer; transition: var(--transition);
+  width: 100%; padding: 12px; border: none; border-radius: 10px;
+  background: linear-gradient(135deg, #2e7d32, #43a047);
+  color: white; font-weight: 700; font-size: 0.9rem;
+  cursor: pointer; transition: all 0.3s ease;
   display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 10px;
 }
-.add-btn:hover { background: var(--primary-light); }
-.add-btn:disabled { background: #ccc; cursor: not-allowed; }
-.sold-out { background: #e5e7eb; color: #9ca3af; }
+.add-btn:hover { background: linear-gradient(135deg, #1b5e20, #2e7d32); transform: scale(1.02); }
+.add-btn:disabled { background: #e0e0e0; color: #9e9e9e; cursor: not-allowed; transform: none; }
+.sold-out {
+  background: #ffebee; color: #e53935;
+  font-weight: 700;
+  border: 1px solid #ffcdd2;
+}
+.sold-out:hover { background: #ffebee; transform: none; }
 
 /* Filters */
 .filters { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; }
@@ -481,7 +527,7 @@ ul { list-style: none; }
   .cart-sidebar { width: 100vw; }
   .section { padding: 50px 0; }
   .section-title h2 { font-size: 1.6rem; }
-  .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 14px; }
+  .products-grid { grid-template-columns: repeat(2,1fr); gap: 14px; }
   .features-list { grid-template-columns: 1fr; }
 }
 @media (max-width: 480px) {
@@ -692,8 +738,8 @@ ul { list-style: none; }
     <section class="section" id="products">
   <div class="container">
     <div class="section-title">
-      <h2>🛍️ منتجاتنا الطبيعية</h2>
-      <p>منتجات طبيعية من سيوة ومطروح بأعلى جودة</p>
+      <h2>🛍️ منتجاتنا الطبيعية من سيوة ومطروح</h2>
+      <p>زيت زيتون بكر ممتاز، زيتون مخلل، بهارات عضوية، ومنتجات طبيعية مختارة بعناية لأعلى جودة بأفضل سعر</p>
     </div>
     <div class="filters" id="filters">
       <button class="filter-btn active" onclick="filterProducts('الكل')">الكل</button>
@@ -1178,7 +1224,7 @@ ul { list-style: none; }
                 <th>الصلاحية</th>
                 <th>تاريخ الإنشاء</th>
                 <th>آخر دخول</th>
-                <th>إجراءات</th>
+                <th>إجر��ءات</th>
               </tr>
             </thead>
             <tbody id="usersTableBody">
@@ -1263,15 +1309,17 @@ function renderProducts() {
   }
   grid.innerHTML = filtered.map(p => {
     const inCart = cart.find(c => c.id === p.id);
+    const stars = '★'.repeat(Math.round(p.rating || 4)) + '☆'.repeat(5 - Math.round(p.rating || 4));
+    const ratingNum = p.rating ? ` <span class="rating-num">(${p.rating})</span>` : '';
     if (!p.available) {
       return `<div class="product-card">
         ${p.discount > 0 ? `<div class="product-badge">-${p.discount}%</div>` : ''}
-        <img class="product-img" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect fill=%22%23f0f0f0%22 width=%22200%22 height=%22200%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 font-size=%2230%22>🫒</text></svg>'">
+        <img class="product-img" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect fill=%22%23f5f0e8%22 width=%22200%22 height=%22200%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 font-size=%2230%22>🫒</text></svg>'">
         <div class="product-info">
-          <span class="product-category">${p.category}</span>
+          <span class="product-category">${getCategoryName(p.category)}</span>
           <h3>${p.name}</h3>
           ${p.origin ? `<div class="origin">📍 ${p.origin}</div>` : ''}
-          ${p.weight ? `<div class="weight">��� ${p.weight}</div>` : ''}
+          <div class="product-rating">${stars}${ratingNum}</div>
           <div class="product-price">
             <span class="current">${p.price > 0 ? p.price + ' ج.م' : 'السعر عند الطلب'}</span>
             ${p.oldPrice > 0 ? `<span class="old">${p.oldPrice} ج.م</span>` : ''}
@@ -1282,12 +1330,12 @@ function renderProducts() {
     }
     return `<div class="product-card">
       ${p.discount > 0 ? `<div class="product-badge">-${p.discount}%</div>` : ''}
-      <img class="product-img" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect fill=%22%23f0f0f0%22 width=%22200%22 height=%22200%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 font-size=%2230%22>🫒</text></svg>'">
+      <img class="product-img" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect fill=%22%23f5f0e8%22 width=%22200%22 height=%22200%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 font-size=%2230%22>🫒</text></svg>'">
       <div class="product-info">
-        <span class="product-category">${p.category}</span>
+        <span class="product-category">${getCategoryName(p.category)}</span>
         <h3>${p.name}</h3>
         ${p.origin ? `<div class="origin">📍 ${p.origin}</div>` : ''}
-        ${p.weight ? `<div class="weight">📦 ${p.weight}</div>` : ''}
+        <div class="product-rating">${stars}${ratingNum}</div>
         <div class="product-price">
           <span class="current">${p.price > 0 ? p.price + ' ج.م' : 'السعر عند الطلب'}</span>
           ${p.oldPrice > 0 ? `<span class="old">${p.oldPrice} ج.م</span>` : ''}
@@ -1315,14 +1363,16 @@ function renderBestSellers() {
   }
   grid.innerHTML = bestSellers.map(p => {
     const inCart = cart.find(c => c.id === p.id);
+    const stars = '★'.repeat(Math.round(p.rating || 4)) + '☆'.repeat(5 - Math.round(p.rating || 4));
+    const ratingNum = p.rating ? ` <span class="rating-num">(${p.rating})</span>` : '';
     return `<div class="product-card">
       ${p.discount > 0 ? `<div class="product-badge">-${p.discount}%</div>` : ''}
-      <img class="product-img" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect fill=%22%23f0f0f0%22 width=%22200%22 height=%22200%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 font-size=%2230%22>🫒</text></svg>'">
+      <img class="product-img" src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><rect fill=%22%23f5f0e8%22 width=%22200%22 height=%22200%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dominant-baseline=%22central%22 font-size=%2230%22>🫒</text></svg>'">
       <div class="product-info">
         <span class="product-category">${getCategoryName(p.category)}</span>
         <h3>${p.name}</h3>
         ${p.origin ? `<div class="origin">📍 ${p.origin}</div>` : ''}
-        ${p.weight ? `<div class="weight">📦 ${p.weight}</div>` : ''}
+        <div class="product-rating">${stars}${ratingNum}</div>
         <div class="product-price">
           <span class="current">${p.price > 0 ? p.price + ' ج.م' : 'السعر عند الطلب'}</span>
           ${p.oldPrice > 0 ? `<span class="old">${p.oldPrice} ج.م</span>` : ''}
