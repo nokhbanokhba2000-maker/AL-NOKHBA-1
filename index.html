@@ -709,6 +709,10 @@ ul { list-style: none; }
   background:rgba(255,255,255,0.15); padding:4px 12px; border-radius:50px;
   color:white; font-size:0.75rem; font-weight:600;
 }
+
+/* ===== FORGOT PASSWORD MODAL ===== */
+.forgot-box { max-width:420px; }
+.forgot-box .login-field { margin-bottom:8px; }
 </style>
 </head>
 <body>
@@ -1186,7 +1190,20 @@ ul { list-style: none; }
       <button class="login-btn" onclick="loginAdmin()">🔐 تسجيل الدخول</button>
       <div class="login-error" id="loginError"></div>
       <button class="login-cancel" onclick="closeLoginModal()">إلغاء</button>
+      <a href="#" onclick="showForgotPassword();return false;" style="display:block;text-align:center;margin-top:12px;color:var(--primary);font-size:0.85rem;text-decoration:underline;">🔑 نسيت كلمة المرور؟</a>
       <div class="login-footer">🔒 فقط الأدمن والمشرفون المسجلون يمكنهم الدخول</div>
+    </div>
+  </div>
+
+  <!-- Forgot Password Modal -->
+  <div class="login-overlay" id="forgotPasswordOverlay" style="display:none;">
+    <div class="login-box forgot-box">
+      <h3>🔑 استعادة كلمة المرور</h3>
+      <p class="subtitle">أدخل بريدك الإلكتروني المسجل وسنرسل كلمة مرور جديدة عبر الواتساب</p>
+      <input type="email" class="login-field" id="forgotEmail" placeholder="📧 البريد الإلكتروني" dir="rtl">
+      <div id="forgotStatus" style="margin-bottom:12px;padding:12px;border-radius:8px;display:none;font-size:0.9rem;"></div>
+      <button class="login-btn" onclick="sendNewPassword()" style="background:linear-gradient(135deg,var(--gold),#b8860b);">📲 إرسال عبر واتساب</button>
+      <button class="login-cancel" onclick="closeForgotModal()" style="margin-top:10px;">العودة لتسجيل الدخول</button>
     </div>
   </div>
 
@@ -1696,6 +1713,22 @@ ul { list-style: none; }
               <button onclick="resetLogo()" class="restore-btn">🔄 استعادة اللوجو الافتراضي</button>
             </div>
             <div id="logoUploadStatus" style="margin-top:10px;font-size:0.9rem;color:var(--text-light);"></div>
+          </div>
+        </div>
+
+        <!-- Owner WhatsApp Number -->
+        <div class="settings-section">
+          <h3>📱 رقم واتساب المالك (لإستعادة كلمات المرور)</h3>
+          <div style="background:#f0f9ff;padding:20px;border-radius:12px;border:1px solid rgba(2,132,199,0.15);">
+            <p style="color:var(--text-light);font-size:0.85rem;margin-bottom:12px;">عند نسيان كلمة المرور، سيتم إرسال الرقم الجديد عبر واتساب إلى هذا الرقم</p>
+            <div class="settings-row" style="flex-direction:column;align-items:stretch;gap:10px;">
+              <div>
+                <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;">رقم الواتساب (مع رمز الدولة)</label>
+                <input type="text" id="ownerPhoneInput" placeholder="مثال: 201023696962" dir="ltr" style="width:100%;padding:10px 14px;border:2px solid #e2e8f0;border-radius:8px;font-size:0.9rem;font-family:inherit;">
+              </div>
+              <button onclick="saveOwnerWhatsApp()" style="background:var(--primary);color:white;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-weight:600;align-self:flex-end;">💾 حفظ رقم الواتساب</button>
+            </div>
+            <div id="phoneSaveStatus" style="margin-top:8px;font-size:0.85rem;"></div>
           </div>
         </div>
       </div>
@@ -2468,6 +2501,101 @@ function logoutAdmin() {
   showToast('👋 تم تسجيل الخروج');
 }
 
+// =============== FORGOT PASSWORD / RECOVERY ===============
+const OWNER_PHONE_KEY = 'nokhba_owner_phone';
+
+function getOwnerPhone() {
+  return localStorage.getItem(OWNER_PHONE_KEY) || '201023696962';
+}
+
+function saveOwnerPhone(phone) {
+  localStorage.setItem(OWNER_PHONE_KEY, phone);
+}
+
+function showForgotPassword() {
+  document.getElementById('forgotPasswordOverlay').style.display = 'flex';
+  document.getElementById('forgotEmail').value = '';
+  document.getElementById('forgotStatus').style.display = 'none';
+}
+
+function closeForgotModal() {
+  document.getElementById('forgotPasswordOverlay').style.display = 'none';
+  document.getElementById('forgotEmail').value = '';
+  document.getElementById('forgotStatus').style.display = 'none';
+}
+
+function generateRandomPassword(length = 10) {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$%';
+  let pass = '';
+  for (let i = 0; i < length; i++) {
+    pass += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return pass;
+}
+
+function sendNewPassword() {
+  const email = document.getElementById('forgotEmail').value.trim().toLowerCase();
+  const statusEl = document.getElementById('forgotStatus');
+
+  if (!email || !email.includes('@')) {
+    statusEl.style.display = 'block';
+    statusEl.style.background = '#fef2f2';
+    statusEl.style.color = '#dc2626';
+    statusEl.textContent = '⚠️ الرجاء إدخال بريد إلكتروني صحيح';
+    return;
+  }
+
+  const creds = getCreds();
+  const user = creds[email];
+  if (!user) {
+    statusEl.style.display = 'block';
+    statusEl.style.background = '#fef2f2';
+    statusEl.style.color = '#dc2626';
+    statusEl.textContent = '❌ هذا البريد غير مسجل لدى الإدارة';
+    return;
+  }
+
+  // Generate new random password
+  const newPassword = generateRandomPassword(10);
+  user.password = hashPass(newPassword);
+  saveCreds(creds);
+
+  // Build WhatsApp message
+  const ownerPhone = getOwnerPhone();
+  const userName = user.name || user.username;
+  const role = getRoleName(user.role || 'product');
+  const message = encodeURIComponent(
+    `🔑 *استعادة كلمة مرور*\n\n` +
+    `*الاسم:* ${userName}\n` +
+    `*البريد:* ${email}\n` +
+    `*الدور:* ${role}\n` +
+    `*كلمة المرور الجديدة:* ${newPassword}\n\n` +
+    `يرجى إرسالها للعضو فوراً.`
+  );
+
+  // Show status
+  statusEl.style.display = 'block';
+  statusEl.style.background = '#f0fdf4';
+  statusEl.style.color = '#16a34a';
+  statusEl.innerHTML = `✅ تم توليد كلمة مرور جديدة!<br>سيتم فتح واتساب لإرسالها للمالك (${ownerPhone})`;
+
+  // Open WhatsApp after short delay
+  setTimeout(() => {
+    window.open(`https://wa.me/${ownerPhone}?text=${message}`, '_blank');
+  }, 1500);
+
+  // Also copy password to clipboard
+  try {
+    navigator.clipboard.writeText(newPassword).then(() => {
+      showToast('✅ تم نسخ كلمة المرور الجديدة — افتح واتساب لإرسالها');
+    }).catch(() => {
+      showToast('✅ تم توليد كلمة المرور الجديدة');
+    });
+  } catch(e) {
+    showToast('✅ تم توليد كلمة المرور الجديدة');
+  }
+}
+
 // =============== ADMIN CREDENTIALS MANAGEMENT ===============
 function renderAdminCredsTable() {
   const container = document.getElementById('adminCredsTableContainer');
@@ -2506,7 +2634,7 @@ function editAdminCreds(email) {
     return; // cancelled
   }
   
-  const newPassword = prompt('🔑 كلمة المرور الجديدة (اترك فارغ������ً إن لم ترد التغيير):', '');
+  const newPassword = prompt('🔑 كلمة المرور الجديدة (اترك فارغ��������ً إن لم ترد التغيير):', '');
   if (newPassword && newPassword.trim()) {
     u.password = hashPass(newPassword.trim());
   }
@@ -3342,6 +3470,29 @@ function updateStats() {
   }
 }
 
+// =============== SAVE OWNER WHATSAPP NUMBER ===============
+function saveOwnerWhatsApp() {
+  const phone = document.getElementById('ownerPhoneInput').value.trim();
+  if (!phone) {
+    document.getElementById('phoneSaveStatus').innerHTML = '<span style="color:#dc2626;">⚠️ الرجاء إدخال رقم الواتساب</span>';
+    return;
+  }
+  if (!phone.startsWith('+') && !/^\d{11,15}$/.test(phone)) {
+    document.getElementById('phoneSaveStatus').innerHTML = '<span style="color:#dc2626;">⚠️ الرقم يجب أن يكون 11-15 رقم بدون فواصل</span>';
+    return;
+  }
+  let cleanPhone = phone.replace(/[+\s\-]/g, '');
+  if (cleanPhone.startsWith('0')) {
+    cleanPhone = '2' + cleanPhone.substring(1);
+  }
+  if (!cleanPhone.startsWith('20')) {
+    cleanPhone = '20' + cleanPhone;
+  }
+  saveOwnerPhone(cleanPhone);
+  document.getElementById('phoneSaveStatus').innerHTML = '<span style="color:#16a34a;">✅ تم حفظ رقم واتساب المالك: ' + cleanPhone + '</span>';
+  showToast('✅ تم حفظ رقم الواتساب بنجاح');
+}
+
 // =============== USERS MANAGEMENT ===============
 function renderUsersTable() {
   const tbody = document.getElementById('usersTableBody');
@@ -3932,6 +4083,10 @@ function loadSettings() {
   document.getElementById('heroPreviewImage').src = getHeroImage();
   // Load logo preview
   document.getElementById('logoPreviewImage').src = getLogoImage();
+  // Load owner phone
+  const savedPhone = localStorage.getItem(OWNER_PHONE_KEY) || getOwnerPhone();
+  const phoneInput = document.getElementById('ownerPhoneInput');
+  if (phoneInput) phoneInput.value = savedPhone;
 }
 
 // =============== INIT ENHANCEMENT ===============
