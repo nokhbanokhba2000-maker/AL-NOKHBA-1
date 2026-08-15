@@ -1716,11 +1716,27 @@ ul { list-style: none; }
           </div>
         </div>
 
-        <!-- Owner WhatsApp Number -->
+        <!-- Owner Recovery Email -->
         <div class="settings-section">
-          <h3>📱 رقم واتساب المالك (لإستعادة كلمات المرور)</h3>
+          <h3>📧 البريد الإلكتروني لاستعادة كلمات المرور</h3>
           <div style="background:#f0f9ff;padding:20px;border-radius:12px;border:1px solid rgba(2,132,199,0.15);">
-            <p style="color:var(--text-light);font-size:0.85rem;margin-bottom:12px;">عند نسيان كلمة المرور، سيتم إرسال الرقم الجديد عبر واتساب إلى هذا الرقم</p>
+            <p style="color:var(--text-light);font-size:0.85rem;margin-bottom:12px;">عند نسيان كلمة المرور، سيتم إرسال كلمة المرور الجديدة عبر البريد الإلكتروني إلى هذا العنوان</p>
+            <div class="settings-row" style="flex-direction:column;align-items:stretch;gap:10px;">
+              <div>
+                <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;">البريد الإلكتروني لاستعادة كلمة المرور</label>
+                <input type="email" id="ownerRecoveryEmailInput" placeholder="مثال: owner@example.com" dir="ltr" style="width:100%;padding:10px 14px;border:2px solid #e2e8f0;border-radius:8px;font-size:0.9rem;font-family:inherit;">
+              </div>
+              <button onclick="saveOwnerRecoveryEmailSetting()" style="background:var(--primary);color:white;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-weight:600;align-self:flex-end;">💾 حفظ البريد الإلكتروني</button>
+            </div>
+            <div id="emailRecoverySaveStatus" style="margin-top:8px;font-size:0.85rem;"></div>
+          </div>
+        </div>
+
+        <!-- Owner WhatsApp Number (optional backup) -->
+        <div class="settings-section">
+          <h3>📱 رقم واتساب المالك (احتياطي)</h3>
+          <div style="background:#fff8f0;padding:20px;border-radius:12px;border:1px solid rgba(201,168,76,0.2);">
+            <p style="color:var(--text-light);font-size:0.85rem;margin-bottom:12px;">رقم احتياطي للواتساب — غير مطلوب عند استخدام البريد الإلكتروني</p>
             <div class="settings-row" style="flex-direction:column;align-items:stretch;gap:10px;">
               <div>
                 <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;">رقم الواتساب (مع رمز الدولة)</label>
@@ -2503,6 +2519,16 @@ function logoutAdmin() {
 
 // =============== FORGOT PASSWORD / RECOVERY ===============
 const OWNER_PHONE_KEY = 'nokhba_owner_phone';
+const OWNER_EMAIL_RECOVERY_KEY = 'nokhba_owner_email_recovery';
+
+function getOwnerRecoveryEmail() {
+  const config = getSiteConfig();
+  return localStorage.getItem(OWNER_EMAIL_RECOVERY_KEY) || config.ownerEmail || 'nokhbanokhba2000@gmail.com';
+}
+
+function saveOwnerRecoveryEmail(email) {
+  localStorage.setItem(OWNER_EMAIL_RECOVERY_KEY, email);
+}
 
 function getOwnerPhone() {
   return localStorage.getItem(OWNER_PHONE_KEY) || '201023696962';
@@ -2560,16 +2586,17 @@ function sendNewPassword() {
   user.password = hashPass(newPassword);
   saveCreds(creds);
 
-  // Build WhatsApp message
-  const ownerPhone = getOwnerPhone();
+  // Build email
+  const ownerRecoveryEmail = getOwnerRecoveryEmail();
   const userName = user.name || user.username;
   const role = getRoleName(user.role || 'product');
-  const message = encodeURIComponent(
-    `🔑 *استعادة كلمة مرور*\n\n` +
-    `*الاسم:* ${userName}\n` +
-    `*البريد:* ${email}\n` +
-    `*الدور:* ${role}\n` +
-    `*كلمة المرور الجديدة:* ${newPassword}\n\n` +
+  const subject = encodeURIComponent('🔑 استعادة كلمة مرور - نخبة الشرق');
+  const body = encodeURIComponent(
+    `🔑 استعادة كلمة مرور\n\n` +
+    `الاسم: ${userName}\n` +
+    `البريد: ${email}\n` +
+    `الدور: ${role}\n` +
+    `كلمة المرور الجديدة: ${newPassword}\n\n` +
     `يرجى إرسالها للعضو فوراً.`
   );
 
@@ -2577,17 +2604,17 @@ function sendNewPassword() {
   statusEl.style.display = 'block';
   statusEl.style.background = '#f0fdf4';
   statusEl.style.color = '#16a34a';
-  statusEl.innerHTML = `✅ تم توليد كلمة مرور جديدة!<br>سيتم فتح واتساب لإرسالها للمالك (${ownerPhone})`;
+  statusEl.innerHTML = `✅ تم توليد كلمة مرور جديدة!<br>سيتم فتح البريد الإلكتروني لإرسالها إلى (${ownerRecoveryEmail})`;
 
-  // Open WhatsApp after short delay
+  // Open email client after short delay
   setTimeout(() => {
-    window.open(`https://wa.me/${ownerPhone}?text=${message}`, '_blank');
+    window.open(`mailto:${ownerRecoveryEmail}?subject=${subject}&body=${body}`, '_blank');
   }, 1500);
 
   // Also copy password to clipboard
   try {
     navigator.clipboard.writeText(newPassword).then(() => {
-      showToast('✅ تم نسخ كلمة المرور الجديدة — افتح واتساب لإرسالها');
+      showToast('✅ تم نسخ كلمة المرور الجديدة — تم فتح البريد لإرسالها');
     }).catch(() => {
       showToast('✅ تم توليد كلمة المرور الجديدة');
     });
@@ -3470,6 +3497,18 @@ function updateStats() {
   }
 }
 
+// =============== SAVE OWNER RECOVERY EMAIL ===============
+function saveOwnerRecoveryEmailSetting() {
+  const email = document.getElementById('ownerRecoveryEmailInput').value.trim().toLowerCase();
+  if (!email || !email.includes('@')) {
+    document.getElementById('emailRecoverySaveStatus').innerHTML = '<span style="color:#dc2626;">⚠️ الرجاء إدخال بريد إلكتروني صحيح</span>';
+    return;
+  }
+  saveOwnerRecoveryEmail(email);
+  document.getElementById('emailRecoverySaveStatus').innerHTML = '<span style="color:#16a34a;">✅ تم حفظ البريد الإلكتروني للاستعادة: ' + email + '</span>';
+  showToast('✅ تم حفظ البريد الإلكتروني للاستعادة');
+}
+
 // =============== SAVE OWNER WHATSAPP NUMBER ===============
 function saveOwnerWhatsApp() {
   const phone = document.getElementById('ownerPhoneInput').value.trim();
@@ -4087,6 +4126,10 @@ function loadSettings() {
   const savedPhone = localStorage.getItem(OWNER_PHONE_KEY) || getOwnerPhone();
   const phoneInput = document.getElementById('ownerPhoneInput');
   if (phoneInput) phoneInput.value = savedPhone;
+  // Load owner recovery email
+  const savedRecoveryEmail = localStorage.getItem(OWNER_EMAIL_RECOVERY_KEY) || getOwnerRecoveryEmail();
+  const recoveryInput = document.getElementById('ownerRecoveryEmailInput');
+  if (recoveryInput) recoveryInput.value = savedRecoveryEmail;
 }
 
 // =============== INIT ENHANCEMENT ===============
