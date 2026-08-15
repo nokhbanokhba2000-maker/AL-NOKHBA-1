@@ -564,9 +564,171 @@ ul { list-style: none; }
   .hero-stats { gap: 20px; }
   .hero-stat .num { font-size: 1.5rem; }
 }
-  </style>
+
+/* ===== AUTH SYSTEM (Username + Password) ===== */
+.login-overlay {
+  display:none; position:fixed; inset:0; z-index:9999;
+  background:rgba(0,0,0,0.5); backdrop-filter:blur(6px);
+  align-items:center; justify-content:center;
+}
+.login-box {
+  background:rgba(255,255,255,0.85); backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,0.3);
+  border-radius:20px; padding:40px 32px; width:400px; max-width:90vw;
+  box-shadow:0 20px 60px rgba(0,0,0,0.2);
+  animation:loginFadeIn 0.3s ease;
+}
+@keyframes loginFadeIn {
+  from { opacity:0; transform:translateY(20px) scale(0.95); }
+  to { opacity:1; transform:translateY(0) scale(1); }
+}
+.login-box h3 {
+  font-size:1.4rem; font-weight:800; margin-bottom:6px; text-align:center;
+  background:linear-gradient(135deg,var(--primary),#1565c0);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.login-box .subtitle {
+  color:var(--text-light); font-size:0.85rem; text-align:center; margin-bottom:20px;
+}
+.login-field {
+  width:100%; padding:12px 14px; border:2px solid #e2e8f0; border-radius:10px;
+  font-size:1rem; font-family:inherit; margin-bottom:12px; direction:rtl;
+  transition:var(--transition); background:white; box-sizing:border-box;
+}
+.login-field:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(26,86,50,0.12); }
+.login-field.error { border-color:var(--danger); }
+.login-btn {
+  width:100%; padding:14px; border:none; border-radius:10px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  color:white; font-size:1.05rem; font-weight:700; cursor:pointer;
+  transition:var(--transition); display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.login-btn:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(26,86,50,0.3); }
+.login-btn:active { transform:translateY(0); }
+.login-error {
+  display:none; background:#fef2f2; border:1px solid #fecaca;
+  color:#b91c1c; padding:10px 14px; border-radius:8px; font-size:0.85rem;
+  margin-top:10px; text-align:center;
+}
+.login-cancel {
+  background:none; border:1px solid #d1d5db; color:var(--text-light);
+  margin-top:10px; width:100%; padding:12px; border-radius:10px;
+  cursor:pointer; font-size:0.9rem; font-family:inherit; transition:var(--transition);
+}
+.login-cancel:hover { background:#f9fafb; border-color:#9ca3af; }
+.login-footer {
+  margin-top:16px; font-size:0.75rem; color:#9ca3af; text-align:center;
+}
+.login-remember {
+  display:flex; align-items:center; gap:8px; margin-bottom:12px; font-size:0.85rem; color:var(--text-light);
+}
+.login-remember input { width:16px; height:16px; accent-color:var(--primary); }
+
+/* ===== SUBSCRIBE BAR (Follow Store) ===== */
+.subscribe-bar {
+  background:linear-gradient(135deg, var(--primary-dark), var(--primary));
+  padding:14px 0; position:relative; z-index:100;
+}
+.subscribe-inner {
+  max-width:1200px; margin:0 auto; padding:0 20px;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+}
+.subscribe-text {
+  color:white; font-weight:600; font-size:0.95rem; display:flex; align-items:center; gap:8px;
+}
+.subscribe-form {
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+}
+.subscribe-form input {
+  padding:8px 14px; border:1px solid rgba(255,255,255,0.2); border-radius:8px;
+  background:rgba(255,255,255,0.1); color:white; font-size:0.85rem; font-family:inherit;
+  min-width:200px; direction:rtl;
+}
+.subscribe-form input::placeholder { color:rgba(255,255,255,0.5); }
+.subscribe-form input:focus { outline:none; border-color:var(--gold); background:rgba(255,255,255,0.15); }
+.subscribe-btn {
+  padding:8px 18px; border:none; border-radius:8px;
+  background:var(--gold); color:var(--dark); font-weight:700; font-size:0.85rem;
+  cursor:pointer; transition:var(--transition);
+}
+.subscribe-btn:hover { background:var(--gold-light); transform:translateY(-1px); }
+.subscribe-social {
+  display:flex; align-items:center; gap:10px; color:rgba(255,255,255,0.7); font-size:0.85rem;
+}
+.subscribe-social a {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.1);
+  color:white; font-size:1.1rem; transition:var(--transition); text-decoration:none;
+}
+.subscribe-social a:hover { background:var(--gold); color:var(--dark); transform:translateY(-2px); }
+
+/* ===== ADMIN CREDENTIALS TABLE ===== */
+.creds-table {
+  width:100%; border-collapse:collapse; margin-top:10px;
+}
+.creds-table th {
+  background:var(--primary); color:white; padding:10px 12px; font-size:0.8rem; text-align:right;
+}
+.creds-table th:first-child { border-radius:0 8px 0 0; }
+.creds-table th:last-child { border-radius:8px 0 0 0; }
+.creds-table td {
+  padding:10px 12px; border-bottom:1px solid #f1f5f9; font-size:0.85rem;
+}
+.creds-table tr:hover td { background:#f8fafc; }
+.creds-table .edit-btn {
+  background:none; border:1px solid #d1d5db; padding:4px 10px; border-radius:6px;
+  cursor:pointer; font-size:0.75rem; transition:var(--transition);
+}
+.creds-table .edit-btn:hover { background:var(--primary); color:white; border-color:var(--primary); }
+.creds-table .del-btn {
+  background:none; border:1px solid #fecaca; padding:4px 10px; border-radius:6px;
+  cursor:pointer; font-size:0.75rem; color:var(--danger); transition:var(--transition);
+}
+.creds-table .del-btn:hover { background:var(--danger); color:white; border-color:var(--danger); }
+
+/* ===== PASSWORD SETTINGS ===== */
+.pass-section {
+  background:#f8fafc; padding:20px; border-radius:12px; border:1px solid #e2e8f0; margin-bottom:16px;
+}
+.pass-section h4 { font-size:1rem; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+.pass-field {
+  width:100%; padding:10px 14px; border:2px solid #e2e8f0; border-radius:8px;
+  font-size:0.9rem; font-family:inherit; margin-bottom:8px; direction:rtl; box-sizing:border-box;
+}
+.pass-field:focus { outline:none; border-color:var(--primary); }
+.pass-save {
+  background:var(--primary); color:white; border:none; padding:8px 20px;
+  border-radius:8px; font-weight:600; cursor:pointer; transition:var(--transition);
+}
+.pass-save:hover { background:var(--primary-light); }
+
+/* ===== SUBSCRIBER COUNT BADGE ===== */
+.sub-count-badge {
+  display:inline-flex; align-items:center; gap:4px;
+  background:rgba(255,255,255,0.15); padding:4px 12px; border-radius:50px;
+  color:white; font-size:0.75rem; font-weight:600;
+}
+</style>
 </head>
 <body>
+  <!-- Subscribe Bar -->
+  <div class="subscribe-bar" id="subscribeBar">
+    <div class="subscribe-inner">
+      <div class="subscribe-text">📬 تابع المتجر ليصلك كل جديد والعروض والتحديثات</div>
+      <div class="subscribe-form">
+        <input type="email" id="subscribeEmail" placeholder="أدخل بريدك الإلكتروني" dir="rtl">
+        <button class="subscribe-btn" onclick="subscribeToNewsletter()">اشتراك</button>
+      </div>
+      <div class="subscribe-social">
+        <span>أو تابعنا:</span>
+        <a href="https://wa.me/201023696962?text=مرحباً%20نخبة%20الشرق%20أريد%20متابعة%20المتجر" target="_blank" title="واتساب">💬</a>
+        <a href="https://instagram.com" target="_blank" title="إنستجرام">📷</a>
+        <a href="https://facebook.com" target="_blank" title="فيسبوك">👍</a>
+      </div>
+    </div>
+  </div>
+
   <header class="header" id="home">
   <div class="header-inner">
     <a href="#" class="logo">
@@ -1010,18 +1172,21 @@ ul { list-style: none; }
   <!-- Toast -->
   <div class="toast" id="toast"></div>
 
-  <!-- Login Modal -->
+  <!-- Login Modal (Username + Password) -->
   <div class="login-overlay" id="loginOverlay" style="display:none;">
     <div class="login-box">
       <h3>🔐 تسجيل دخول الإدارة</h3>
-      <p style="color:var(--text-light);margin-bottom:15px;font-size:0.9rem;">أدخل بريدك الإلكتروني المخول للدخول إلى لوحة التحكم</p>
-      <input type="email" id="loginEmail" placeholder="البريد الإلكتروني" autocomplete="email" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:1rem;margin-bottom:12px;box-sizing:border-box;">
-      <button onclick="loginAdmin()" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--primary),#1565c0);color:white;border:none;border-radius:10px;font-size:1.1rem;font-weight:bold;cursor:pointer;">🔐 تسجيل الدخول</button>
-      <div class="login-error" id="loginError" style="display:none;"></div>
-      <p style="margin-top:15px;font-size:0.8rem;color:#6b7280;text-align:center;">
-        ⚠️ فقط أصحاب البريد المسجلين مسموح لهم بالدخول
-      </p>
-      <button onclick="closeLoginModal()" style="background:#6b7280;margin-top:10px;width:100%;padding:12px;color:white;border:none;border-radius:8px;cursor:pointer;">إلغاء</button>
+      <p class="subtitle">أدخل اسم المستخدم وكلمة المرور الخاصة بك</p>
+      <input type="text" class="login-field" id="loginUsername" placeholder="👤 اسم المستخدم" autocomplete="username" dir="rtl">
+      <input type="password" class="login-field" id="loginPassword" placeholder="🔑 كلمة المرور" autocomplete="current-password" dir="rtl">
+      <div class="login-remember">
+        <input type="checkbox" id="loginRemember">
+        <label for="loginRemember">تذكرني</label>
+      </div>
+      <button class="login-btn" onclick="loginAdmin()">🔐 تسجيل الدخول</button>
+      <div class="login-error" id="loginError"></div>
+      <button class="login-cancel" onclick="closeLoginModal()">إلغاء</button>
+      <div class="login-footer">🔒 فقط الأدمن والمشرفون المسجلون يمكنهم الدخول</div>
     </div>
   </div>
 
@@ -1306,10 +1471,53 @@ ul { list-style: none; }
       <!-- Tab: Roles Management -->
       <div class="admin-tab-content" id="adminTabRoles" style="display:none;">
         <div class="admin-actions">
-          <span style="color:var(--text-light);font-size:0.9rem;">🔑 إدارة صلاحيات المشرفين والبريد المسموح له بالدخول</span>
+          <span style="color:var(--text-light);font-size:0.9rem;">🔑 إدارة الحسابات (اسم المستخدم + كلمة المرور) والصلاحيات</span>
         </div>
         <div style="margin-top:20px;">
-          <h4 style="margin-bottom:15px;">📋 البريد المسموح له بالدخول للإدارة</h4>
+          <!-- New Admin Form -->
+          <div style="background:linear-gradient(135deg,#f0fdf4,#ecfdf5);padding:24px;border-radius:12px;border:1px solid rgba(22,163,74,0.15);margin-bottom:20px;">
+            <h4 style="margin-bottom:15px;display:flex;align-items:center;gap:8px;">👤 إضافة أدمن جديد ببيانات دخول كاملة</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div>
+                <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;">البريد الإلكتروني *</label>
+                <input type="email" id="newCredEmail" placeholder="admin@example.com" class="pass-field" style="margin-bottom:0;">
+              </div>
+              <div>
+                <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;">اسم المستخدم *</label>
+                <input type="text" id="newCredUsername" placeholder="اسم الدخول" class="pass-field" style="margin-bottom:0;">
+              </div>
+              <div>
+                <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;">كلمة المرور *</label>
+                <input type="password" id="newCredPassword" placeholder="كلمة السر" class="pass-field" style="margin-bottom:0;">
+              </div>
+              <div>
+                <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;">الاسم الظاهر</label>
+                <input type="text" id="newCredName" placeholder="الاسم في لوحة التحكم" class="pass-field" style="margin-bottom:0;">
+              </div>
+              <div style="grid-column:1/-1;">
+                <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;">الصلاحية *</label>
+                <select id="newCredRole" class="pass-field" style="margin-bottom:0;">
+                  <option value="product">مدير منتجات</option>
+                  <option value="shipping">مسؤول شحن</option>
+                  <option value="orders">متابع طلبات</option>
+                  <option value="manager">مشرف</option>
+                  <option value="admin">مدير عام</option>
+                </select>
+              </div>
+            </div>
+            <button onclick="addAdminWithCreds()" style="margin-top:15px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:white;border:none;padding:12px 28px;border-radius:10px;font-weight:700;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:8px;">
+              ➕ إضافة الحساب
+            </button>
+          </div>
+
+          <!-- Credentials Table -->
+          <h4 style="margin-bottom:10px;">📋 جميع الحسابات المسجلة</h4>
+          <div id="adminCredsTableContainer" style="background:white;padding:16px;border-radius:12px;border:1px solid #e2e8f0;overflow-x:auto;margin-bottom:20px;">
+            <p style="color:var(--text-light);text-align:center;padding:20px;">جاري التحميل...</p>
+          </div>
+
+          <!-- Old email system (backward compat) -->
+          <h4 style="margin-bottom:15px;margin-top:30px;">📧 البريد المسموح له بالدخول (نظام قديم)</h4>
           <div style="background:#f8fafc;padding:20px;border-radius:12px;margin-bottom:20px;">
             <div id="adminEmailsList" style="margin-bottom:15px;"></div>
             <div style="display:flex;gap:10px;flex-wrap:wrap;">
@@ -1387,7 +1595,53 @@ ul { list-style: none; }
       <!-- Tab: Settings -->
       <div class="admin-tab-content" id="adminTabSettings" style="display:none;">
         <div class="admin-actions">
-          <span style="color:var(--text-light);font-size:0.9rem;">⚙️ الإعدادات العامة - تغيير صورة الصفحة الرئيسية واللوجو</span>
+          <span style="color:var(--text-light);font-size:0.9rem;">⚙️ الإعدادات العامة - تغيير كلمة المرور، صورة الصفحة الرئيسية واللوجو</span>
+        </div>
+
+        <!-- Personal Password Change -->
+        <div class="settings-section" style="margin-top:20px;">
+          <h3>🔑 تغيير كلمة المرور الشخصية</h3>
+          <div class="pass-section">
+            <h4>👤 <span id="pwChangeUserName"></span></h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div>
+                <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;">كلمة المرور الحالية</label>
+                <input type="password" id="myOldPassword" placeholder="كلمة المرور الحالية" class="pass-field" style="margin-bottom:0;">
+              </div>
+              <div>
+                <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;">كلمة المرور الجديدة</label>
+                <input type="password" id="myNewPassword" placeholder="كلمة المرور الجديدة" class="pass-field" style="margin-bottom:0;">
+              </div>
+              <div>
+                <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:4px;">تأكيد كلمة المرور</label>
+                <input type="password" id="myConfirmPassword" placeholder="تأكيد كلمة المرور" class="pass-field" style="margin-bottom:0;">
+              </div>
+              <div style="display:flex;align-items:flex-end;">
+                <button onclick="changeMyPassword()" class="pass-save">💾 حفظ كلمة المرور</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subscribers Management -->
+        <div class="settings-section">
+          <h3>📬 المشتركون في النشرة البريدية</h3>
+          <div style="background:#f0fdf4;padding:20px;border-radius:12px;border:1px solid rgba(22,163,74,0.15);margin-bottom:16px;">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+              <span style="font-size:2rem;">📬</span>
+              <div>
+                <div style="font-weight:700;font-size:1.1rem;">إجمالي المشتركين: <span id="subscribeCount" style="color:var(--primary);font-size:1.3rem;">0</span></div>
+                <div style="font-size:0.8rem;color:var(--text-light);">العملاء الذين اشتركوا ليصلكهم العروض والتحديثات</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+              <button onclick="renderSubscribersList()" class="admin-submit" style="grid-column:unset;padding:10px 20px;width:auto;">📋 عرض المشتركين</button>
+              <button onclick="exportSubscribers()" style="background:#198754;color:white;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:600;">📊 تصدير CSV</button>
+            </div>
+          </div>
+          <div id="subscribersListContainer" style="background:white;padding:16px;border-radius:12px;border:1px solid #e2e8f0;overflow-x:auto;">
+            <p style="color:var(--text-light);text-align:center;padding:20px;">اضغط "عرض المشتركين" للتحميل</p>
+          </div>
         </div>
 
         <!-- Hero Image Upload -->
@@ -2055,81 +2309,153 @@ function transferOwnership() {
   showToast('👤 الآن ' + newEmail + ' هو مالك الموقع الجديد');
 }
 
+// =============== AUTH SYSTEM (Username + Password) ===============
+const CREDS_KEY = 'nokhba_users_creds';
+const SUBSCRIBERS_KEY = 'nokhba_subscribers';
+
+function getCreds() {
+  try { return JSON.parse(localStorage.getItem(CREDS_KEY)) || {}; } catch(e) { return {}; }
+}
+
+function saveCreds(creds) {
+  localStorage.setItem(CREDS_KEY, JSON.stringify(creds));
+}
+
+function hashPass(pw) {
+  return btoa(pw);
+}
+
+function unhashPass(hash) {
+  try { return atob(hash); } catch(e) { return ''; }
+}
+
+// Ensure default admin owner exists
+function ensureDefaultAdmin() {
+  const creds = getCreds();
+  const config = getSiteConfig();
+  const ownerEmail = config.ownerEmail || 'admin@nokhba.com';
+  let hasOwner = false;
+  Object.keys(creds).forEach(email => {
+    if (email === ownerEmail) hasOwner = true;
+  });
+  if (!hasOwner) {
+    creds[ownerEmail] = {
+      username: 'admin',
+      password: hashPass('admin123'),
+      role: 'admin',
+      name: 'المالك',
+      createdAt: new Date().toISOString()
+    };
+    saveCreds(creds);
+  }
+  // Also sync existing admin emails that don't have creds yet
+  const adminEmails = getAdminEmails();
+  adminEmails.forEach(email => {
+    if (!creds[email]) {
+      creds[email] = {
+        username: email.split('@')[0],
+        password: hashPass('nokhba123'),
+        role: 'product',
+        name: email.split('@')[0],
+        createdAt: new Date().toISOString()
+      };
+    }
+  });
+  saveCreds(creds);
+}
+
 function showLoginModal() {
+  ensureDefaultAdmin();
   document.getElementById('loginOverlay').style.display = 'flex';
-  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginUsername').value = '';
+  document.getElementById('loginPassword').value = '';
   document.getElementById('loginError').style.display = 'none';
+  document.getElementById('loginError').textContent = '';
 }
 
 function closeLoginModal() {
   document.getElementById('loginOverlay').style.display = 'none';
-  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginUsername').value = '';
+  document.getElementById('loginPassword').value = '';
   document.getElementById('loginError').style.display = 'none';
+  document.getElementById('loginError').textContent = '';
 }
 
 function loginAdmin() {
-  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
+  const remember = document.getElementById('loginRemember').checked;
   const errorEl = document.getElementById('loginError');
 
   errorEl.style.display = 'none';
   errorEl.textContent = '';
 
-  if (!email || !email.includes('@')) {
-    errorEl.textContent = '⚠️ الرجاء إدخال بريد إلكتروني صحيح';
+  if (!username) {
+    errorEl.textContent = '⚠️ الرجاء إدخال اسم المستخدم';
+    errorEl.style.display = 'block';
+    return;
+  }
+  if (!password) {
+    errorEl.textContent = '⚠️ الرجاء إدخال كلمة المرور';
     errorEl.style.display = 'block';
     return;
   }
 
-  // ❌ Blocked emails — these accounts are permanently banned from admin access
-  const BLOCKED_EMAILS = [];
-  if (BLOCKED_EMAILS.includes(email)) {
-    errorEl.textContent = '❌ هذا البريد الإلكتروني محظور من الدخول للإدارة';
+  const creds = getCreds();
+  let foundUser = null;
+  let foundEmail = null;
+
+  // Search by username
+  Object.keys(creds).forEach(email => {
+    const u = creds[email];
+    if (u.username === username) {
+      foundUser = u;
+      foundEmail = email;
+    }
+  });
+
+  if (!foundUser) {
+    errorEl.textContent = '❌ اسم المستخدم غير موجود';
     errorEl.style.display = 'block';
     return;
   }
 
-  // Check if email is in admin emails list (owner or supervision)
-  const adminEmails = getAdminEmails();
+  // Verify password
+  const enteredHash = hashPass(password);
+  if (foundUser.password !== enteredHash) {
+    errorEl.textContent = '❌ كلمة المرور غير صحيحة';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  // Determine role
+  let role = foundUser.role || 'product';
   const config = getSiteConfig();
-  const allAllowedEmails = [...new Set([...adminEmails, config.ownerEmail, ...config.supervisionEmails])];
-
-  if (!allAllowedEmails.includes(email)) {
-    errorEl.textContent = '❌ هذا البريد الإلكتروني غير مسجل لديه صلاحية الدخول للإدارة';
-    errorEl.style.display = 'block';
-    return;
-  }
-
-  // Determine role based on email and stored role config
-  let role = 'product'; // default role
-  let roleMap = JSON.parse(localStorage.getItem('nokhba_user_roles') || '{}');
-  
-  if (roleMap[email]) {
-    role = roleMap[email];
-  } else if (email === config.ownerEmail) {
+  if (foundEmail === config.ownerEmail) {
     role = 'admin';
-  } else if (config.supervisionEmails.includes(email)) {
-    role = 'manager';
   }
 
-  const userDef = USER_ROLES[role];
-  if (!userDef) {
-    role = 'product';
-  }
-
-  // Successful login - store user info with email
-  currentUser = { 
-    email: email, 
-    role: role, 
-    name: email.split('@')[0]
+  // Successful login
+  currentUser = {
+    email: foundEmail,
+    username: foundUser.username,
+    role: role,
+    name: foundUser.name || foundUser.username
   };
+
   localStorage.setItem('nokhba_user', JSON.stringify(currentUser));
+  if (remember) {
+    localStorage.setItem('nokhba_remember_username', username);
+  } else {
+    localStorage.removeItem('nokhba_remember_username');
+  }
 
   closeLoginModal();
   openAdmin();
   updateUIForRole();
-  showToast('✅ مرحبا بك في لوحة الإدارة');
+  showToast('✅ مرحباً بك يا ' + currentUser.name);
+  addNotification('🔐', 'تسجيل دخول', 'دخل ' + currentUser.name + ' إلى لوحة الإدارة');
 }
-
 
 function logoutAdmin() {
   currentUser = null;
@@ -2140,6 +2466,264 @@ function logoutAdmin() {
   document.getElementById('footerAdminBtn').style.display = 'block';
   document.getElementById('userBadgeContainer').style.display = 'none';
   showToast('👋 تم تسجيل الخروج');
+}
+
+// =============== ADMIN CREDENTIALS MANAGEMENT ===============
+function renderAdminCredsTable() {
+  const container = document.getElementById('adminCredsTableContainer');
+  if (!container) return;
+  const creds = getCreds();
+  const config = getSiteConfig();
+  const ownerEmail = config.ownerEmail || 'admin@nokhba.com';
+  let html = '<table class="creds-table"><thead><tr><th>اسم المستخدم</th><th>البريد الإلكتروني</th><th>الاسم الظاهر</th><th>الصلاحية</th><th>الإجراءات</th></tr></thead><tbody>';
+  Object.keys(creds).forEach(email => {
+    const u = creds[email];
+    const isOwner = email === ownerEmail;
+    html += `<tr>
+      <td><strong>${u.username}</strong></td>
+      <td style="direction:ltr;text-align:left;font-size:0.8rem;">${email}</td>
+      <td>${u.name || u.username}</td>
+      <td><span class="role-badge role-${u.role}" style="padding:2px 10px;border-radius:50px;font-size:0.75rem;">${getRoleName(u.role)}</span></td>
+      <td>
+        <button class="edit-btn" onclick="editAdminCreds('${email}')">✏️ تعديل</button>
+        ${isOwner ? '<span style="font-size:0.7rem;color:var(--gold);margin-right:4px;">👑 المالك</span>' : `<button class="del-btn" onclick="deleteAdminCreds('${email}')">🗑️ حذف</button>`}
+      </td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+function editAdminCreds(email) {
+  const creds = getCreds();
+  const u = creds[email];
+  if (!u) { showToast('⚠️ الحساب غير موجود'); return; }
+  
+  const newUsername = prompt('✏️ اسم المستخدم الجديد:', u.username);
+  if (newUsername && newUsername.trim()) {
+    u.username = newUsername.trim();
+  } else if (newUsername === '') {
+    return; // cancelled
+  }
+  
+  const newPassword = prompt('🔑 كلمة المرور الجديدة (اترك فارغ������ً إن لم ترد التغيير):', '');
+  if (newPassword && newPassword.trim()) {
+    u.password = hashPass(newPassword.trim());
+  }
+  
+  const newName = prompt('📛 الاسم الظاهر الجديد:', u.name || u.username);
+  if (newName && newName.trim()) {
+    u.name = newName.trim();
+  } else if (newName === '') {
+    return;
+  }
+  
+  const newRole = prompt('🔑 الصلاحية الجديدة (admin / manager / product / orders / shipping):', u.role);
+  if (newRole && ['admin','manager','product','orders','shipping'].includes(newRole.trim())) {
+    u.role = newRole.trim();
+  } else if (newRole === '') {
+    return;
+  }
+  
+  saveCreds(creds);
+  renderAdminCredsTable();
+  showToast('✅ تم تحديث بيانات الحساب');
+  addNotification('✏️', 'تعديل حساب', 'تم تعديل بيانات حساب ' + u.username);
+}
+
+function deleteAdminCreds(email) {
+  const creds = getCreds();
+  const config = getSiteConfig();
+  if (email === config.ownerEmail) {
+    showToast('⚠️ لا يمكن حذف حساب المالك');
+    return;
+  }
+  if (!confirm('هل أنت متأكد من حذف الحساب: ' + (creds[email]?.username || email) + '؟')) return;
+  delete creds[email];
+  saveCreds(creds);
+  renderAdminCredsTable();
+  // Also remove from admin emails list
+  const adminEmails = getAdminEmails();
+  const idx = adminEmails.indexOf(email);
+  if (idx > -1) {
+    adminEmails.splice(idx, 1);
+    saveAdminEmails(adminEmails);
+  }
+  showToast('🗑️ تم حذف الحساب');
+  addNotification('🗑️', 'حذف حساب', 'تم حذف حساب ' + email);
+}
+
+function addAdminWithCreds() {
+  const email = document.getElementById('newCredEmail').value.trim().toLowerCase();
+  const username = document.getElementById('newCredUsername').value.trim();
+  const password = document.getElementById('newCredPassword').value.trim();
+  const name = document.getElementById('newCredName').value.trim();
+  const role = document.getElementById('newCredRole').value;
+
+  if (!email || !email.includes('@')) {
+    showToast('⚠️ الرجاء إدخال بريد إلكتروني صحيح');
+    return;
+  }
+  if (!username) {
+    showToast('⚠️ الرجاء إدخال اسم المستخدم');
+    return;
+  }
+  if (!password || password.length < 4) {
+    showToast('⚠️ كلمة المرور يجب أن تكون 4 أحرف على الأقل');
+    return;
+  }
+
+  const creds = getCreds();
+  
+  // Check if username already exists
+  let usernameExists = false;
+  Object.keys(creds).forEach(e => {
+    if (creds[e].username === username) usernameExists = true;
+  });
+  if (usernameExists) {
+    showToast('⚠️ اسم المستخدم موجود بالفعل');
+    return;
+  }
+
+  creds[email] = {
+    username: username,
+    password: hashPass(password),
+    role: role,
+    name: name || username,
+    createdAt: new Date().toISOString()
+  };
+  saveCreds(creds);
+  
+  // Also add to admin emails list
+  const adminEmails = getAdminEmails();
+  if (!adminEmails.includes(email)) {
+    adminEmails.push(email);
+    saveAdminEmails(adminEmails);
+  }
+  
+  // Also update role map
+  let roleMap = JSON.parse(localStorage.getItem('nokhba_user_roles') || '{}');
+  roleMap[email] = role;
+  localStorage.setItem('nokhba_user_roles', JSON.stringify(roleMap));
+
+  document.getElementById('newCredEmail').value = '';
+  document.getElementById('newCredUsername').value = '';
+  document.getElementById('newCredPassword').value = '';
+  document.getElementById('newCredName').value = '';
+  
+  renderAdminCredsTable();
+  renderAdminEmailsList();
+  showToast('✅ تم إضافة الحساب بنجاح');
+  addNotification('👤', 'إضافة أدمن', 'تم إضافة أدمن جديد: ' + username + ' (' + getRoleName(role) + ')');
+}
+
+// =============== PASSWORD CHANGE (Personal Settings) ===============
+function changeMyPassword() {
+  const oldPass = document.getElementById('myOldPassword').value.trim();
+  const newPass = document.getElementById('myNewPassword').value.trim();
+  const confirmPass = document.getElementById('myConfirmPassword').value.trim();
+  
+  if (!currentUser) { showToast('⚠️ يجب تسجيل الدخول أولاً'); return; }
+  if (!oldPass) { showToast('⚠️ الرجاء إدخال كلمة المرور الحالية'); return; }
+  if (!newPass || newPass.length < 4) { showToast('⚠️ كلمة المرور الجديدة يجب أن تكون 4 أحرف على الأقل'); return; }
+  if (newPass !== confirmPass) { showToast('⚠️ كلمة المرور الجديدة غير متطابقة'); return; }
+  
+  const creds = getCreds();
+  const userCred = creds[currentUser.email];
+  if (!userCred) { showToast('⚠️ الحساب غير موجود'); return; }
+  if (userCred.password !== hashPass(oldPass)) { showToast('⚠️ كلمة المرور الحالية غير صحيحة'); return; }
+  
+  userCred.password = hashPass(newPass);
+  saveCreds(creds);
+  
+  document.getElementById('myOldPassword').value = '';
+  document.getElementById('myNewPassword').value = '';
+  document.getElementById('myConfirmPassword').value = '';
+  
+  showToast('✅ تم تغيير كلمة المرور بنجاح');
+  addNotification('🔑', 'تغيير كلمة مرور', 'قام ' + currentUser.name + ' بتغيير كلمة المرور');
+}
+
+// =============== SUBSCRIBE / NEWSLETTER ===============
+function getSubscribers() {
+  try { return JSON.parse(localStorage.getItem(SUBSCRIBERS_KEY)) || []; } catch(e) { return []; }
+}
+
+function saveSubscribers(list) {
+  localStorage.setItem(SUBSCRIBERS_KEY, JSON.stringify(list));
+}
+
+function subscribeToNewsletter() {
+  const email = document.getElementById('subscribeEmail').value.trim().toLowerCase();
+  if (!email || !email.includes('@')) {
+    showToast('⚠️ الرجاء إدخال بريد إلكتروني صحيح');
+    document.getElementById('subscribeEmail').focus();
+    return;
+  }
+  
+  const subscribers = getSubscribers();
+  if (subscribers.find(s => s.email === email)) {
+    showToast('✅ أنت مشترك بالفعل! شكراً لك');
+    document.getElementById('subscribeEmail').value = '';
+    return;
+  }
+  
+  subscribers.push({
+    email: email,
+    date: new Date().toISOString(),
+    source: 'subscribe_bar'
+  });
+  saveSubscribers(subscribers);
+  
+  document.getElementById('subscribeEmail').value = '';
+  showToast('✅ تم الاشتراك بنجاح! شكراً لاهتمامك');
+  updateSubscribeCount();
+  addNotification('📬', 'مشترك جديد', 'اشترك عميل جديد: ' + email);
+}
+
+function updateSubscribeCount() {
+  const el = document.getElementById('subscribeCount');
+  if (el) {
+    const subs = getSubscribers();
+    el.textContent = subs.length;
+  }
+}
+
+function renderSubscribersList() {
+  const container = document.getElementById('subscribersListContainer');
+  if (!container) return;
+  const subs = getSubscribers();
+  if (subs.length === 0) {
+    container.innerHTML = '<p style="color:var(--text-light);text-align:center;padding:20px;">📭 لا يوجد مشتركون بعد</p>';
+    return;
+  }
+  let html = '<table class="creds-table"><thead><tr><th>#</th><th>البريد الإلكتروني</th><th>تاريخ الاشتراك</th></tr></thead><tbody>';
+  subs.slice().reverse().forEach((s, i) => {
+    html += `<tr>
+      <td>${i + 1}</td>
+      <td style="direction:ltr;text-align:left;font-size:0.8rem;">${s.email}</td>
+      <td>${new Date(s.date).toLocaleDateString('ar-EG')}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+function exportSubscribers() {
+  const subs = getSubscribers();
+  if (subs.length === 0) { showToast('⚠️ لا يوجد مشتركون للتصدير'); return; }
+  let csv = 'البريد الإلكتروني,تاريخ الاشتراك\n';
+  subs.forEach(s => {
+    csv += `${s.email},${new Date(s.date).toLocaleDateString('ar-EG')}\n`;
+  });
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'nokhba-subscribers.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✅ تم تصدير المشتركين');
 }
 
 function updateUIForRole() {
@@ -2583,6 +3167,10 @@ document.addEventListener('DOMContentLoaded', function() {
   updateCategoryCounts();
   updateAdminStats();
   
+  // Initialize auth system
+  ensureDefaultAdmin();
+  updateSubscribeCount();
+  
   // Check for existing login session
   const savedUser = localStorage.getItem('nokhba_user');
   if (savedUser) {
@@ -2591,7 +3179,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('headerAdminBtn').style.display = 'none';
     document.getElementById('footerAdminBtn').style.display = 'none';
     document.getElementById('userBadgeContainer').style.display = 'flex';
-    document.getElementById('currentUserName').textContent = currentUser.name;
+    document.getElementById('currentUserName').textContent = currentUser.name || currentUser.username;
     const badge = document.getElementById('currentUserRole');
     badge.textContent = getRoleName(currentUser.role);
     badge.className = 'role-badge role-' + currentUser.role;
@@ -2607,6 +3195,16 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('adminBtn').style.display = 'none';
     document.getElementById('headerAdminBtn').style.display = 'none';
     document.getElementById('footerAdminBtn').style.display = 'block';
+  }
+  
+  // Restore remembered username
+  const remembered = localStorage.getItem('nokhba_remember_username');
+  if (remembered) {
+    const usernameField = document.getElementById('loginUsername');
+    if (usernameField) {
+      usernameField.value = remembered;
+      document.getElementById('loginRemember').checked = true;
+    }
   }
   
   // Close cart on overlay click
@@ -3297,7 +3895,8 @@ function switchAdminTab(tab) {
     roles: 'Roles',
     invite: 'Invite',
     settings: 'Settings',
-    shipping: 'Shipping'
+    shipping: 'Shipping',
+    notifications: 'Notifications'
   };
   
   document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.add('active');
@@ -3311,9 +3910,19 @@ function switchAdminTab(tab) {
   if (tab === 'stats') updateStats();
   if (tab === 'users') renderUsersTable();
   if (tab === 'ownership') renderOwnerEmailSection();
-  if (tab === 'roles') renderAdminEmailsList();
+  if (tab === 'roles') {
+    renderAdminEmailsList();
+    ensureDefaultAdmin();
+    renderAdminCredsTable();
+  }
   if (tab === 'invite') renderInvitesList();
-  if (tab === 'settings') loadSettings();
+  if (tab === 'settings') {
+    loadSettings();
+    updateSubscribeCount();
+    if (currentUser) {
+      document.getElementById('pwChangeUserName').textContent = currentUser.name || currentUser.username;
+    }
+  }
   if (tab === 'shipping') { renderShippingOrders(); renderCompletedShipping(); }
   if (tab === 'notifications') renderNotifications();
 }
