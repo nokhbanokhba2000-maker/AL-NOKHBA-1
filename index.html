@@ -1718,7 +1718,7 @@ function renderAdminEmailsList() {
   if (!container) return;
   const adminEmails = getAdminEmails();
   let roleMap = JSON.parse(localStorage.getItem('nokhba_user_roles') || '{}');
-  const BLOCKED_EMAILS = ['nokhbanokhba2000@gmail.com'];
+  const BLOCKED_EMAILS = [];
   
   if (adminEmails.length === 0) {
     container.innerHTML = '<p style="color:var(--text-light);padding:10px;">لا يوجد بريد مسجل بعد</p>';
@@ -1768,7 +1768,7 @@ function changeAdminRole(idx, newRole) {
 function addAdminEmailWithRole() {
   const email = document.getElementById('newAdminEmailInput').value.trim().toLowerCase();
   const role = document.getElementById('newAdminRoleSelect').value;
-  const BLOCKED_EMAILS = ['nokhbanokhba2000@gmail.com'];
+  const BLOCKED_EMAILS = [];
   
   if (!email || !email.includes('@')) {
     showToast('⚠️ الرجاء إدخال بريد إلكتروني صحيح');
@@ -1874,7 +1874,7 @@ function loginAdmin() {
   }
 
   // ❌ Blocked emails — these accounts are permanently banned from admin access
-  const BLOCKED_EMAILS = ['nokhbanokhba2000@gmail.com'];
+  const BLOCKED_EMAILS = [];
   if (BLOCKED_EMAILS.includes(email)) {
     errorEl.textContent = '❌ هذا البريد الإلكتروني محظور من الدخول للإدارة';
     errorEl.style.display = 'block';
