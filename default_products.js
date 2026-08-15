@@ -1,4 +1,4 @@
-const defaultProducts = [[
+const defaultProducts = [
   {
     "id": "1",
     "name": "عرض 1 كيلو زيت زيتون + ربع هدية",
@@ -2924,4 +2924,4 @@ const defaultProducts = [[
     "origin": "",
     "rating": 4.6
   }
-]];
+];
