@@ -3346,10 +3346,17 @@ document.addEventListener('DOMContentLoaded', function() {
       tab.style.display = allowedRoles.includes('all') || allowedRoles.includes(currentUser.role) ? 'block' : 'none';
     });
   } else {
-    // No user logged in — only show the small 🔐 button in the footer
+    // No user logged in — show visible admin login button in footer
     document.getElementById('adminBtn').style.display = 'none';
     document.getElementById('headerAdminBtn').style.display = 'none';
-    document.getElementById('footerAdminBtn').style.display = 'block';
+    const footerBtn = document.getElementById('footerAdminBtn');
+    if (footerBtn) {
+      footerBtn.style.display = 'flex';
+      footerBtn.style.background = 'rgba(255,215,0,0.2)';
+      footerBtn.style.color = '#e8d48b';
+      footerBtn.style.borderColor = 'rgba(255,215,0,0.3)';
+      footerBtn.textContent = '🔐 دخول الإدارة';
+    }
   }
   
   // Restore remembered username
