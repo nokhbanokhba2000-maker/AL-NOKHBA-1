@@ -754,8 +754,8 @@ ul { list-style: none; }
         <span id="currentUserRole" class="role-badge role-admin" style="padding:4px 12px;border-radius:20px;font-size:0.8rem;"></span>
         <button onclick="logoutAdmin()" style="background:#dc2626;color:white;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:bold;">خروج</button>
       </div>
-      <button class="admin-btn" onclick="showLoginModal()" id="adminBtn" style="display:flex;align-items:center;gap:6px;background:rgba(255,215,0,0.2);color:#e8d48b;border:1px solid rgba(255,215,0,0.4);padding:8px 16px;border-radius:8px;font-weight:bold;font-size:0.9rem;">🔐 لوحة الإدارة</button>
-      <button class="admin-btn" onclick="showLoginModal()" id="headerAdminBtn" style="display:flex;align-items:center;justify-content:center;background:rgba(255,215,0,0.2);color:#e8d48b;border:1px solid rgba(255,215,0,0.4);width:36px;height:36px;border-radius:8px;font-size:1.1rem;">🔐</button>
+      <button class="admin-btn" onclick="showLoginModal()" id="adminBtn" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--gold),#b8860b);color:var(--dark);border:none;padding:8px 18px;border-radius:8px;font-weight:bold;font-size:0.9rem;cursor:pointer;box-shadow:0 2px 8px rgba(201,168,76,0.3);">🔐 لوحة الإدارة</button>
+      <button class="admin-btn" onclick="showLoginModal()" id="headerAdminBtn" style="display:none;align-items:center;justify-content:center;background:rgba(255,215,0,0.2);color:#e8d48b;border:1px solid rgba(255,215,0,0.4);width:36px;height:36px;border-radius:8px;font-size:1.1rem;">🔐</button>
       <button class="cart-btn" onclick="toggleCart()">
         🛒 السلة <span class="cart-count" id="cartCount">0</span>
       </button>
@@ -1177,7 +1177,7 @@ ul { list-style: none; }
   <div class="toast" id="toast"></div>
 
   <!-- Login Modal (Username + Password) -->
-  <div class="login-overlay" id="loginOverlay" style="display:none;">
+  <div class="login-overlay" id="loginOverlay" style="display:none;position:fixed;z-index:5000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;">
     <div class="login-box">
       <h3>🔐 تسجيل دخول الإدارة</h3>
       <p class="subtitle">أدخل اسم المستخدم وكلمة المرور الخاصة بك</p>
@@ -3346,15 +3346,21 @@ document.addEventListener('DOMContentLoaded', function() {
       tab.style.display = allowedRoles.includes('all') || allowedRoles.includes(currentUser.role) ? 'block' : 'none';
     });
   } else {
-    // No user logged in — show visible admin login button in footer
-    document.getElementById('adminBtn').style.display = 'none';
+    // No user logged in — show visible admin login button in footer and header
+    document.getElementById('adminBtn').style.display = 'inline-flex';
     document.getElementById('headerAdminBtn').style.display = 'none';
     const footerBtn = document.getElementById('footerAdminBtn');
     if (footerBtn) {
-      footerBtn.style.display = 'flex';
-      footerBtn.style.background = 'rgba(255,215,0,0.2)';
-      footerBtn.style.color = '#e8d48b';
-      footerBtn.style.borderColor = 'rgba(255,215,0,0.3)';
+      footerBtn.style.display = 'inline-flex';
+      footerBtn.style.background = 'linear-gradient(135deg, var(--gold), #b8860b)';
+      footerBtn.style.color = '#1a1a2e';
+      footerBtn.style.border = 'none';
+      footerBtn.style.padding = '10px 20px';
+      footerBtn.style.borderRadius = '8px';
+      footerBtn.style.fontSize = '0.9rem';
+      footerBtn.style.fontWeight = 'bold';
+      footerBtn.style.cursor = 'pointer';
+      footerBtn.style.margin = '10px auto 0';
       footerBtn.textContent = '🔐 دخول الإدارة';
     }
   }
@@ -4185,9 +4191,22 @@ document.addEventListener('DOMContentLoaded', function() {
       tab.style.display = allowedRoles.includes('all') || allowedRoles.includes(currentUser.role) ? 'block' : 'none';
     });
   } else {
-    document.getElementById('adminBtn').style.display = 'none';
+    document.getElementById('adminBtn').style.display = 'inline-flex';
     document.getElementById('headerAdminBtn').style.display = 'none';
-    document.getElementById('footerAdminBtn').style.display = 'block';
+    const footerBtn = document.getElementById('footerAdminBtn');
+    if (footerBtn) {
+      footerBtn.style.display = 'inline-flex';
+      footerBtn.style.background = 'linear-gradient(135deg, var(--gold), #b8860b)';
+      footerBtn.style.color = '#1a1a2e';
+      footerBtn.style.border = 'none';
+      footerBtn.style.padding = '10px 20px';
+      footerBtn.style.borderRadius = '8px';
+      footerBtn.style.fontSize = '0.9rem';
+      footerBtn.style.fontWeight = 'bold';
+      footerBtn.style.cursor = 'pointer';
+      footerBtn.style.margin = '10px auto 0';
+      footerBtn.textContent = '🔐 دخول الإدارة';
+    }
   }
   
   // Close cart on overlay click
