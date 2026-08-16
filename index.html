@@ -754,8 +754,8 @@ ul { list-style: none; }
         <span id="currentUserRole" class="role-badge role-admin" style="padding:4px 12px;border-radius:20px;font-size:0.8rem;"></span>
         <button onclick="logoutAdmin()" style="background:#dc2626;color:white;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:0.85rem;font-weight:bold;">خروج</button>
       </div>
-      <button class="admin-btn" onclick="showLoginModal()" id="adminBtn" style="display:none;">🔐 الإدارة</button>
-      <button class="admin-btn" onclick="showLoginModal()" id="headerAdminBtn" style="display:none;">🔐</button>
+      <button class="admin-btn" onclick="showLoginModal()" id="adminBtn" style="display:flex;align-items:center;gap:6px;background:rgba(255,215,0,0.2);color:#e8d48b;border:1px solid rgba(255,215,0,0.4);padding:8px 16px;border-radius:8px;font-weight:bold;font-size:0.9rem;">🔐 لوحة الإدارة</button>
+      <button class="admin-btn" onclick="showLoginModal()" id="headerAdminBtn" style="display:flex;align-items:center;justify-content:center;background:rgba(255,215,0,0.2);color:#e8d48b;border:1px solid rgba(255,215,0,0.4);width:36px;height:36px;border-radius:8px;font-size:1.1rem;">🔐</button>
       <button class="cart-btn" onclick="toggleCart()">
         🛒 السلة <span class="cart-count" id="cartCount">0</span>
       </button>
